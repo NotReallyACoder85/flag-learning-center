@@ -1,6 +1,6 @@
 /* App styles: tabs, field stage, controls, panels, cards. Tokens live in base.css. */
 .tabs{display:flex;gap:2px;padding:4px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--edge)}
-.tab{border:0;background:transparent;padding:8px 16px;border-radius:999px;font:600 .8rem var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:.2s}
+.tab{min-height:44px;border:0;background:transparent;padding:8px 16px;border-radius:999px;font:600 .8rem var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:.2s}
 .tab[aria-selected="true"]{background:#fff;color:#07102B}
 .app{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
 @media(min-width:960px){.app{grid-template-columns:minmax(0,1.12fr) minmax(0,.9fr)}}
@@ -40,9 +40,12 @@
 .deck{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:999px}
 .pbtn{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:var(--gold);color:#0A1230;display:grid;place-items:center;box-shadow:0 0 0 5px rgba(255,210,31,.18),0 10px 24px -8px rgba(255,210,31,.6);transition:transform .15s}
 .pbtn:active{transform:scale(.94)}
-#scrub{-webkit-appearance:none;appearance:none;flex:1 1 80px;min-width:0;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--gold) var(--p,0%),rgba(255,255,255,.14) var(--p,0%));outline-offset:6px}
-#scrub::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
-#scrub::-moz-range-thumb{width:16px;height:16px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
+#scrub{-webkit-appearance:none;appearance:none;flex:1 1 80px;min-width:0;height:44px;margin:0;background:transparent;outline-offset:2px}
+#scrub::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:linear-gradient(90deg,var(--gold) var(--p,0%),rgba(255,255,255,.14) var(--p,0%))}
+#scrub::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
+#scrub::-moz-range-track{height:6px;border-radius:99px;background:rgba(255,255,255,.14)}
+#scrub::-moz-range-progress{height:6px;border-radius:99px;background:var(--gold)}
+#scrub::-moz-range-thumb{width:22px;height:22px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
 .opt{flex:none;border:1px solid var(--edge);background:rgba(255,255,255,.05);border-radius:999px;padding:7px 12px;font:600 .72rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .opt[aria-pressed="true"]{color:var(--gold);border-color:rgba(255,210,31,.55)}
 .opt:disabled{opacity:.35;cursor:default}
@@ -123,7 +126,7 @@
 .err{color:var(--bad);font-size:.85rem;min-height:1.2em}
 .train{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .tc{padding:18px;border-radius:18px;display:flex;flex-direction:column;gap:8px;min-height:150px;position:relative;overflow:hidden}
-.tc h3{margin:0;font:900 1.5rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.tc h2{margin:0;font:900 1.5rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
 .tc p{margin:0;color:var(--muted);font-size:.9rem}
 .tc .soon{align-self:flex-start;font:700 .64rem var(--f-cond);letter-spacing:.2em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,210,31,.14);color:var(--gold)}
 .tc .big{position:absolute;right:-6px;bottom:-22px;font:900 6.5rem/1 var(--f-disp);color:rgba(255,255,255,.05)}
@@ -153,6 +156,7 @@
 .macts .xbtn{flex:1;min-width:84px;min-height:44px}
 .xbtn.del:hover{color:var(--bad);border-color:rgba(255,123,110,.5)}
 .pill,.opt,.key,.fcard,.cta{min-height:44px}
+.pill,.opt{min-width:44px}
 .mine{grid-template-columns:minmax(0,210px) auto;align-items:start;justify-content:start;gap:10px}
 
 /* Receiver ring while building */

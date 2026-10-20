@@ -1,7 +1,7 @@
 /* Design tokens and page chrome. "Broadcast film room": dark ink, glass panels, gold = live/selected. */
 :root{
   color-scheme:dark;
-  --ink:#030612; --night:#07102B; --fg:#EEF3FF; --muted:#8FA0D0; --dim:#5C6C9C;
+  --ink:#030612; --night:#07102B; --fg:#EEF3FF; --muted:#A9B7E0; --dim:#8E9DC9;
   --blue:#3170FF; --royal:#0B3AC2; --gold:#FFD21F; --good:#52E08E; --bad:#FF7B6E;
   --glass:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
   --edge:rgba(170,195,255,.16); --edge2:rgba(170,195,255,.3);
@@ -35,6 +35,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 18px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .logo{width:40px;height:40px;border-radius:10px;display:block}
-.brand .rm{font:900 1.6rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.brand .rm{margin:0;font:900 1.6rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

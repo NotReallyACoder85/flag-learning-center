@@ -17,6 +17,7 @@ function setTab(t) {
   TABS.forEach((k) => {
     $('#p-' + k).hidden = k !== t;
     $('#tab-' + k).setAttribute('aria-selected', k === t);
+    $('#tab-' + k).tabIndex = k === t ? 0 : -1; // only the current tab is in the Tab order; arrows move between tabs
   });
   renderTiles();
   renderPlaybook();
@@ -40,6 +41,14 @@ export function start() {
   setTab('play');
 
   document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab)));
+  $('.tabs').addEventListener('keydown', (e) => {
+    const i = TABS.indexOf(S.tab);
+    const next = { ArrowRight: (i + 1) % TABS.length, ArrowLeft: (i + TABS.length - 1) % TABS.length, Home: 0, End: TABS.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    setTab(TABS[next]);
+    $('#tab-' + TABS[next]).focus();
+  });
   $('#playBtn').addEventListener('click', togglePlay);
   $('#slowBtn').addEventListener('click', (e) => {
     S.slow = !S.slow;

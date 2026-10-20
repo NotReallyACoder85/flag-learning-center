@@ -97,14 +97,10 @@ export function drawScene() {
     const g = el('g', { class: 'off' }, G.off);
     drawPlayer(g, l);
     if (pickHandler) {
+      // Touch/mouse shortcut only. Keyboard and screen-reader users use the receiver buttons, so no tab stop here.
       g.classList.add('pick');
-      g.setAttribute('tabindex', 0);
-      g.setAttribute('role', 'button');
-      g.setAttribute('aria-label', 'Receiver ' + l);
+      el('circle', { r: 22, fill: 'transparent' }, g);
       g.addEventListener('click', () => pickHandler(l));
-      g.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickHandler(l); }
-      });
     }
     offEls[l] = g;
   });

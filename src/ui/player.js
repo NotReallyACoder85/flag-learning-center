@@ -1,7 +1,7 @@
 // Playback loop and scene refresh. Everything that changes the play goes through refresh().
 import { $ } from './dom.js';
 import { S, ctx } from './state.js';
-import { buildScene, parseCall, clamp as clampN } from '../engine/index.js';
+import { buildScene, parseCall, callText, LET, ROUTES, DEF_NAME, clamp as clampN } from '../engine/index.js';
 import { drawScene, renderField } from './field.js';
 import { renderLower, resetLower } from './lower.js';
 import { renderHead, renderTiles, renderCov, renderLegend, renderPlaybook } from './panels.js';
@@ -66,6 +66,14 @@ export function replay() {
 
 export const togglePlay = () => (S.playing ? stop() : play());
 
+/** Text version of the diagram for screen readers. */
+function describeField() {
+  const routes = LET.map((l, i) => `${l} ${ROUTES[S.digits[i]] ? ROUTES[S.digits[i]].name : 'no route'}`).join(', ');
+  const motion = S.motion ? ` ${S.motion.who} goes in motion (${S.motion.tag}).` : '';
+  const def = S.def === 'none' ? 'No defense.' : `Against ${DEF_NAME[S.def]}.`;
+  $('#field').setAttribute('aria-label', `${callText(S)}. ${def}${motion} Routes: ${routes}.`);
+}
+
 /** Rebuild the scene from S and redraw everything. keepT keeps the current time. */
 export function refresh(keepT = false) {
   const focusKey = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fk;
@@ -80,6 +88,7 @@ export function refresh(keepT = false) {
   zb.textContent = S.def === 'man' ? 'Matchups' : 'Zones';
   zb.disabled = S.def === 'none';
   zb.setAttribute('aria-pressed', S.zones);
+  describeField();
   afterRefresh();
   if (focusKey) {
     const again = document.querySelector(`[data-fk="${focusKey}"]`);
