@@ -1,6 +1,6 @@
 [
   { "id": 0, "name": "Comeback",  "kind": "out",  "points": [[0, 12], [2, 9]] },
-  { "id": 1, "name": "Speed Out", "kind": "out",  "points": [[0, 4], [8, 4.5]] },
+  { "id": 1, "name": "Speed Out", "kind": "out",  "points": [[0, 2], [8, 2.5]] },
   { "id": 2, "name": "Slant",     "kind": "in",   "points": [[0, 1.5], [-6, 7]] },
   { "id": 3, "name": "Whip",      "kind": "out",  "points": [[0, 5], [-2, 6], [6, 5.5]] },
   { "id": 4, "name": "Jerk",      "kind": "in",   "points": [[0, 5], [2, 6], [-7, 5.5]] },
