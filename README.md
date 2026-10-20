@@ -2,7 +2,7 @@
 
 Phone-first web app that teaches our 5th-grade flag football offense: formations, routes, play calls, and how plays beat Cover 3, Cover 2 and Man. Built for the Lake Nona Rams.
 
-**Live app:** https://notreallycoder85.github.io/flag-learning-center/
+**Live app:** https://notreallyacoder85.github.io/flag-learning-center/
 
 Requirements: [docs/BRD.md](docs/BRD.md). Review list for the coach: [docs/REVIEW-CHECKLIST.md](docs/REVIEW-CHECKLIST.md). Visual/behavior reference: [docs/reference/prototype-v2.html](docs/reference/prototype-v2.html).
 

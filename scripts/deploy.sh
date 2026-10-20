@@ -27,4 +27,4 @@ touch .deploy/.nojekyll
   if git diff --cached --quiet; then echo "Nothing new to deploy."; else git commit -q -m "Deploy $SHA" && git push origin gh-pages; fi
 )
 git worktree remove --force .deploy
-echo "Deployed $SHA. Live in a minute or two: https://notreallycoder85.github.io/flag-learning-center/"
+echo "Deployed $SHA. Live in a minute or two: https://notreallyacoder85.github.io/flag-learning-center/"
