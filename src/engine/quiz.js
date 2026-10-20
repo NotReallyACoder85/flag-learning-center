@@ -1,5 +1,5 @@
 // Question builders and grading for the Train modes. Pure functions, seeded so they are testable.
-import { formations, settings } from '../data/index.js';
+import { formations, routes, settings } from '../data/index.js';
 import { SKILL, MOTION_TAGS } from './constants.js';
 import { parseCall, callText } from './parseCall.js';
 import { routeFor } from './routes.js';
@@ -89,4 +89,37 @@ export function gradePlay(play, def, thresholds = settings.beat.thresholds) {
   const t = thresholds[def];
   const stars = r.sep >= t[2] ? 3 : r.sep >= t[1] ? 2 : r.sep >= t[0] ? 1 : 0;
   return { complete: true, passed: stars > 0, stars, open: r.open, sep: r.sep, why: r.why, tight: r.tight };
+}
+
+/**
+ * Route quiz round. Even questions: see the route, pick its number (all ten keys).
+ * Odd questions: see the number, pick the route shape (four choices, one of them the same kind of route).
+ */
+export function routeRound(rng, n, routeList = routes) {
+  const ids = routeList.map((r) => r.id);
+  const order = rng.shuffle(ids);
+  return Array.from({ length: n }, (_, i) => {
+    const id = order[i % order.length];
+    if (i % 2 === 0) return { kind: 'routeNumber', route: id, options: ids.slice(), answer: id };
+    const kind = routeList.find((r) => r.id === id).kind;
+    const sameKind = rng.shuffle(routeList.filter((r) => r.id !== id && r.kind === kind).map((r) => r.id));
+    const rest = rng.shuffle(ids.filter((x) => x !== id && !sameKind.includes(x)));
+    const picks = [...sameKind.slice(0, 1), ...rest].slice(0, 3);
+    return { kind: 'routeShape', route: id, options: rng.shuffle([id, ...picks]), answer: id };
+  });
+}
+
+/**
+ * Formation quiz round. Even questions: see the formation, pick its name (all five names, always in the same order).
+ * Odd questions: see the name, pick the formation (four pictures).
+ */
+export function formationRound(rng, n) {
+  const keys = Object.keys(formations);
+  const order = rng.shuffle(keys);
+  return Array.from({ length: n }, (_, i) => {
+    const form = order[i % order.length];
+    if (i % 2 === 0) return { kind: 'formName', form, options: keys.slice(), answer: form };
+    const others = rng.shuffle(keys.filter((k) => k !== form)).slice(0, 3);
+    return { kind: 'formPicture', form, options: rng.shuffle([form, ...others]), answer: form };
+  });
 }

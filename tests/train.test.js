@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
   makeRng, callRound, callQuestion, readRound, mutatePlay, explainDiff, gradePlay, rankFor, answerXp, starXp, roundStars,
-  parseCall, callText, describePlay, buildScene, LET,
+  parseCall, callText, describePlay, buildScene, LET, routeRound, formationRound,
 } from '../src/engine/index.js';
-import { plays, settings, concepts, formations } from '../src/data/index.js';
+import { plays, settings, concepts, formations, routes, copy } from '../src/data/index.js';
 
 const library = plays.map((p) => p.call);
 
@@ -163,5 +163,58 @@ describe('concept cards', () => {
   });
   it('uses the receiver letters A B Y Z C only', () => {
     expect(LET).toEqual(['A', 'B', 'Y', 'Z', 'C']);
+  });
+});
+
+describe('route quiz', () => {
+  it('alternates number and shape questions, and the answer is always among the options', () => {
+    for (let seed = 1; seed <= 60; seed++) {
+      const r = routeRound(makeRng(seed), 5);
+      expect(r.map((q) => q.kind)).toEqual(['routeNumber', 'routeShape', 'routeNumber', 'routeShape', 'routeNumber']);
+      expect(new Set(r.map((q) => q.route)).size).toBe(5);
+      r.forEach((q) => {
+        expect(q.options).toContain(q.answer);
+        expect(new Set(q.options).size).toBe(q.options.length);
+        expect(q.options).toHaveLength(q.kind === 'routeNumber' ? 10 : 4);
+      });
+    }
+  });
+  it('shape questions include a look-alike (same kind of route) when one exists', () => {
+    const kinds = Object.fromEntries(routes.map((r) => [r.id, r.kind]));
+    routeRound(makeRng(5), 10).filter((q) => q.kind === 'routeShape').forEach((q) => {
+      expect(q.options.filter((o) => o !== q.answer && kinds[o] === kinds[q.answer]).length).toBeGreaterThanOrEqual(1);
+    });
+  });
+  it('every route has a plain-English blurb', () => {
+    routes.forEach((r) => expect(r.blurb.length).toBeGreaterThan(15));
+  });
+});
+
+describe('formation quiz', () => {
+  it('alternates picture-to-name and name-to-picture, with the right answer present', () => {
+    for (let seed = 1; seed <= 60; seed++) {
+      const r = formationRound(makeRng(seed), 5);
+      expect(r.map((q) => q.kind)).toEqual(['formName', 'formPicture', 'formName', 'formPicture', 'formName']);
+      expect(new Set(r.map((q) => q.form)).size).toBe(5); // all five formations come up
+      r.forEach((q) => {
+        expect(q.options).toContain(q.answer);
+        expect(new Set(q.options).size).toBe(q.options.length);
+        expect(q.options).toHaveLength(q.kind === 'formName' ? 5 : 4);
+      });
+    }
+  });
+  it('name questions always list the formations in the same order', () => {
+    const a = formationRound(makeRng(1), 5)[0].options, b = formationRound(makeRng(2), 5)[0].options;
+    expect(a).toEqual(b);
+  });
+});
+
+describe('coach notes on man coverage', () => {
+  it('the Beating Man card and the Man tell both carry the two teaching points', () => {
+    const card = concepts.cards.find((c) => c.id === 'man');
+    expect(card.how.join(' ')).toMatch(/man-beater/i);
+    expect(card.how.join(' ')).toMatch(/QB/);
+    expect(copy.tell.man.text).toMatch(/man-beater/i);
+    expect(copy.tell.man.text).toMatch(/matchup/i);
   });
 });

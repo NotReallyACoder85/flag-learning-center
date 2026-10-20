@@ -111,6 +111,24 @@
       "look": "Watch the bunch cross. The center runs a dig behind them."
     },
     {
+      "id": "man",
+      "title": "Beating Man",
+      "tagline": "Against man, it is all about your man-beater routes and the matchup.",
+      "how": [
+        "Know your man-beater routes: crossers, mesh and bunch cross.",
+        "Man means one-on-one. Every receiver has a matchup.",
+        "QB: read the matchups and throw to the best one."
+      ],
+      "goodVs": [
+        "Man"
+      ],
+      "watch": {
+        "call": "Dubs 90683",
+        "def": "man"
+      },
+      "look": "Each receiver has his own defender. Who wins his matchup?"
+    },
+    {
       "id": "tell",
       "title": "Motion Tell",
       "tagline": "Motion shows you if the defense is man or zone.",

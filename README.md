@@ -34,6 +34,8 @@ npm run build    # production build into dist/
 - How far zone defenses lean toward the strong side (Trips, Quads, or motion that makes trips): `overload` in `src/data/settings.json` (`pxPerReceiver`, `maxPx`). Set both to 0 to turn it off.
 - Wording of the tell and result callouts, and the quiz cheers: `src/data/copy.json`.
 - Concept cards (Train tab): `src/data/concepts.json`. These are a first draft for the coach to edit.
+- Route descriptions (shown after a route quiz answer): the `blurb` on each route in `src/data/routes.json`.
+- Coach teaching points to keep in the app: [docs/COACH-NOTES.md](docs/COACH-NOTES.md).
 - Ranks, XP per answer, and how hard Beat the Coverage is (`beat.thresholds`, in yards of separation): `src/data/settings.json`.
 
 ## Install and offline

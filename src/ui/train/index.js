@@ -5,6 +5,8 @@ import { refresh } from '../player.js';
 import { rankFor } from '../../engine/index.js';
 import { getProgress, resetProgress } from '../progress.js';
 import { syncView } from '../view.js';
+import { startRouteQuiz } from './routeQuiz.js';
+import { startFormationQuiz } from './formationQuiz.js';
 import { startCallQuiz } from './callQuiz.js';
 import { startReadDefense } from './readDefense.js';
 import { showConcepts } from './concepts.js';
@@ -38,6 +40,8 @@ export function initTrain({ setTab, watch, startBeat }) {
 }
 
 const MODES = [
+  { id: 'routes', big: '0-9', start: true, title: 'Route numbers', text: 'See a route and pick its number. Learn the whole route tree.' },
+  { id: 'forms', big: '2x2', start: true, title: 'Formations', text: 'Match each formation to its name.' },
   { id: 'call', big: '21', title: 'Call quiz', text: 'See a play and pick the call, or read a call and pick the picture.' },
   { id: 'read', big: '?', title: 'Read the defense', text: 'Watch the motion. Did a defender go with him? Man or zone?' },
   { id: 'beat', big: 'W', title: 'Beat the coverage', text: 'Build a play that gets someone open against the defense.' },
@@ -54,13 +58,13 @@ export function showHub() {
       <div class="bar" role="progressbar" aria-label="Progress to the next rank" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.pct}"><i style="width:${r.pct}%"></i></div>
       <div class="rk-streak">${p.best > 1 ? `Best streak: ${p.best} in a row` : 'Get answers right in a row for bonus XP.'}</div>
     </div>
-    <div class="train">${MODES.map((m) => `<button class="tc glass" data-act="mode" data-mode="${m.id}" type="button"><h2>${m.title}</h2><p>${m.text}</p><span class="big" aria-hidden="true">${m.big}</span></button>`).join('')}</div>
+    <div class="train">${MODES.map((m) => `<button class="tc glass" data-act="mode" data-mode="${m.id}" type="button">${m.start ? '<span class="soon">Start here</span>' : ''}<h2>${m.title}</h2><p>${m.text}</p><span class="big" aria-hidden="true">${m.big}</span></button>`).join('')}</div>
     <button class="linkbtn" data-act="reset" type="button">Reset my progress</button>`;
   handler = (act, b) => {
     if (act === 'reset') {
       if (window.confirm('Reset your rank and XP on this device?')) { resetProgress(); showHub(); }
     } else if (act === 'mode') {
-      ({ call: () => startCallQuiz(api), read: () => startReadDefense(api), beat: () => api.startBeat(), concepts: () => showConcepts(api) })[b.dataset.mode]();
+      ({ routes: () => startRouteQuiz(api), forms: () => startFormationQuiz(api), call: () => startCallQuiz(api), read: () => startReadDefense(api), beat: () => api.startBeat(), concepts: () => showConcepts(api) })[b.dataset.mode]();
     }
   };
 }

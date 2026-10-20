@@ -1,12 +1,12 @@
 [
-  { "id": 0, "name": "Comeback",  "kind": "out",  "points": [[0, 12], [2, 9]] },
-  { "id": 1, "name": "Speed Out", "kind": "out",  "points": [[0, 2], [8, 2.5]] },
-  { "id": 2, "name": "Slant",     "kind": "in",   "points": [[0, 1.5], [-6, 7]] },
-  { "id": 3, "name": "Whip",      "kind": "out",  "points": [[0, 5], [-2, 6], [6, 5.5]] },
-  { "id": 4, "name": "Jerk",      "kind": "in",   "points": [[0, 5], [2, 6], [-7, 5.5]] },
-  { "id": 5, "name": "Out",       "kind": "out",  "points": [[0, 11], [7, 11]] },
-  { "id": 6, "name": "Dig",       "kind": "in",   "points": [[0, 12], [-9, 12]] },
-  { "id": 7, "name": "Corner",    "kind": "vert", "points": [[0, 10], [7, 17]] },
-  { "id": 8, "name": "Post",      "kind": "in",   "points": [[0, 10], [-6, 17]] },
-  { "id": 9, "name": "Fade/Go",   "kind": "vert", "points": [[0, 6], [1.5, 18]] }
+  {"id": 0, "name": "Comeback", "kind": "out", "points": [[0, 12], [2, 9]], "blurb": "Run deep, then turn back toward the quarterback."},
+  {"id": 1, "name": "Speed Out", "kind": "out", "points": [[0, 2], [8, 2.5]], "blurb": "A very short run, then a quick cut to the sideline."},
+  {"id": 2, "name": "Slant", "kind": "in", "points": [[0, 1.5], [-6, 7]], "blurb": "A quick cut to the inside right off the line."},
+  {"id": 3, "name": "Whip", "kind": "out", "points": [[0, 5], [-2, 6], [6, 5.5]], "blurb": "Step inside to fake, then whip back out to the sideline."},
+  {"id": 4, "name": "Jerk", "kind": "in", "points": [[0, 5], [2, 6], [-7, 5.5]], "blurb": "Step outside to fake, then jerk back inside."},
+  {"id": 5, "name": "Out", "kind": "out", "points": [[0, 11], [7, 11]], "blurb": "Run 10 to 12 yards, then cut to the sideline."},
+  {"id": 6, "name": "Dig", "kind": "in", "points": [[0, 12], [-9, 12]], "blurb": "Run 12 yards, then cut flat across the middle."},
+  {"id": 7, "name": "Corner", "kind": "vert", "points": [[0, 10], [7, 17]], "blurb": "Run 10 yards, then angle to the back corner."},
+  {"id": 8, "name": "Post", "kind": "in", "points": [[0, 10], [-6, 17]], "blurb": "Run 10 yards, then angle toward the goalpost in the middle."},
+  {"id": 9, "name": "Fade/Go", "kind": "vert", "points": [[0, 6], [1.5, 18]], "blurb": "Run straight down the field, drifting a little toward the sideline."}
 ]

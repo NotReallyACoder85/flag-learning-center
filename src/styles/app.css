@@ -284,3 +284,19 @@ body[data-quiz="field"] .head,body[data-quiz="field"] .tiles,body[data-quiz="fie
 .shake{animation:shake .4s}
 @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 @media(prefers-reduced-motion:reduce){.confetti{display:none}}
+
+/* route and formation quizzes */
+.rdiag,.fdiag{border-radius:16px;border:1px solid var(--edge2);background:linear-gradient(180deg,#0A2B6E,#061744);padding:8px}
+.rdiag svg{display:block;width:100%;max-width:320px;margin-inline:auto}
+.fdiag svg{display:block;width:100%}
+.rd-t{font:700 9px var(--f-cond);letter-spacing:.14em;fill:#fff;opacity:.55;text-transform:uppercase}
+.fd-l{font:800 13px var(--f-body);fill:#06102A;text-anchor:middle;dominant-baseline:central}
+.keypad10{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.numkey{min-height:56px;border:1px solid var(--edge2);border-radius:14px;background:var(--glass);font:900 1.8rem var(--f-disp)}
+.numkey.right{border-color:var(--good);box-shadow:0 0 0 1px var(--good);background:rgba(82,224,142,.14)}
+.numkey.wrong{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad);background:rgba(255,123,110,.14)}
+.numkey:disabled{cursor:default}
+.bignum{font:900 5rem/1 var(--f-disp);text-align:center;color:var(--gold)}
+.rth svg,.fth svg{display:block;width:100%;height:auto}
+.rpics .rth{padding:6px;background:linear-gradient(180deg,#0A2B6E,#061744)}
+button.tc .soon{position:absolute;top:14px;right:14px;z-index:1}

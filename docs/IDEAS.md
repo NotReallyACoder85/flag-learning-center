@@ -55,6 +55,9 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 
 ---
 
+## Added at the coach's request (Phase 6)
+- **Route numbers quiz** and **Formations quiz** are the first two quizzes on the Train tab, with the route tree and formation names as the base level. See [COACH-NOTES.md](COACH-NOTES.md).
+
 ## Not done yet from my top picks
 - **B6 film-room thought bubbles.** Left for after Phase 7 so we can write the lines with your input (what each defender is thinking).
 - **A7 badges.** Ranks and streaks are in, badges are the next small step.
