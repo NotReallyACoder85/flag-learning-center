@@ -19,6 +19,10 @@ export function renderTiles() {
     const n = S.digits[i];
     return `<button class="tile" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${glyph(n)}<span class="num">${n}</span><span class="rn">${esc(ROUTES[n].name)}</span></button>`;
   }).join('');
+  $('#chips').innerHTML = LET.map((l, i) => {
+    const n = S.digits[i];
+    return `<button class="chip" data-l="${l}" data-fk="chip:${l}" style="--c:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}. Tap to change."><span class="cl ${l === 'C' ? 'sq' : ''}">${l}</span><b>${n}</b></button>`;
+  }).join('');
 }
 
 export function renderCov() {

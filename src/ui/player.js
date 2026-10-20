@@ -59,6 +59,12 @@ export function play() {
   raf = requestAnimationFrame(loop);
 }
 
+export function replay() {
+  stop();
+  S.t = 0;
+  play();
+}
+
 export const togglePlay = () => (S.playing ? stop() : play());
 export const playSoon = (ms = 300) => { clearTimeout(autoTimer); autoTimer = setTimeout(play, ms); };
 

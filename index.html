@@ -31,7 +31,10 @@
           <div class="hr"><div class="pname" id="callName"></div><div id="mChip"></div></div>
         </div>
         <div class="tiles" id="tiles" role="group" aria-label="Routes by receiver"></div>
-        <div class="pitchwrap" id="pitchwrap"><div class="pitch"><svg id="field" viewBox="0 0 360 400" role="img" aria-label="Formation, routes and defenders on the field"></svg></div></div>
+        <div class="pitchwrap" id="pitchwrap"><div class="pitch"><svg id="field" viewBox="0 0 360 400" role="img" aria-label="Formation, routes and defenders on the field"></svg></div>
+          <div class="miniread" id="miniRead" aria-hidden="true"></div>
+          <div class="minibar"><div class="chips" id="chips" role="group" aria-label="Choose a receiver"></div><button class="chip replay" id="miniPlay" type="button">Replay</button></div>
+        </div>
         <div class="deck glass">
           <button class="pbtn" id="playBtn" aria-label="Play"><svg id="playIco" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg></button>
           <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub through the play">

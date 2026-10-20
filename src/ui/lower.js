@@ -38,6 +38,10 @@ export function renderLower(t) {
     }
     if (!n) html = `<div class="l3 idle">${sc.mover ? copy.idle.motion : copy.idle.play}</div>`;
   }
+  $('#miniRead').textContent =
+    S.def === 'none' ? 'Defense is off'
+    : showRes ? (sc.result.tight ? 'Covered on every route' : `Open: ${sc.result.open} · ${ROUTES[S.digits[LET.indexOf(sc.result.open)]].name} · ${sc.result.sep.toFixed(1)} yds`)
+    : 'Watching the play…';
   const L = $('#lower');
   L.className = 'lower' + (n === 2 ? ' two' : '');
   L.innerHTML = html;

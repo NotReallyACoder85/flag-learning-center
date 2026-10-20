@@ -110,6 +110,12 @@ export function drawScene() {
   const q = el('g', { class: 'off', transform: `translate(${QB[0]},${QB[1]})` }, G.off);
   drawPlayer(q, 'Q');
   ballEl = el('ellipse', { rx: 6, ry: 4, fill: '#B65A22', stroke: '#fff', 'stroke-width': 1.4, visibility: 'hidden' }, G.ball);
+  markSelected();
+}
+
+/** Ring the receiver the keypad is editing (Draw Up only). */
+export function markSelected() {
+  Object.entries(offEls).forEach(([l, g]) => g.classList.toggle('sel', S.tab === 'build' && S.sel === l));
 }
 
 /** Pulse the open receiver (or clear all pulses with null). */

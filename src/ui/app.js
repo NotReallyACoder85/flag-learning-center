@@ -3,16 +3,17 @@ import { $ } from './dom.js';
 import { S } from './state.js';
 import { plays } from '../data/index.js';
 import { drawStatic } from './field.js';
-import { refresh, loadCall, togglePlay, play, seek, playSoon, reduceMotion } from './player.js';
+import { refresh, loadCall, togglePlay, play, replay, seek, playSoon, reduceMotion } from './player.js';
 import { renderTiles, renderPlaybook } from './panels.js';
 import { renderBuilder, initBuilder } from './builder.js';
-import { setPickHandler } from './field.js';
+import { setPickHandler, markSelected } from './field.js';
 import { onRefresh } from './player.js';
 
 const TABS = ['play', 'build', 'train'];
 
 function setTab(t) {
   S.tab = t;
+  document.body.dataset.tab = t;
   TABS.forEach((k) => {
     $('#p-' + k).hidden = k !== t;
     $('#tab-' + k).setAttribute('aria-selected', k === t);
@@ -20,13 +21,14 @@ function setTab(t) {
   renderTiles();
   renderPlaybook();
   renderBuilder();
+  markSelected();
 }
 
 /** Choose which receiver the route keypad edits. */
 function pickRecv(l) {
   S.sel = l;
   if (S.tab !== 'build') setTab('build');
-  else { renderTiles(); renderBuilder(); }
+  else { renderTiles(); renderBuilder(); markSelected(); }
 }
 
 export function start() {
@@ -59,10 +61,13 @@ export function start() {
     playSoon(300);
   });
   $('#scrub').addEventListener('input', (e) => seek(e.target.value / 1000));
-  $('#tiles').addEventListener('click', (e) => {
-    const b = e.target.closest('.tile');
-    if (b) pickRecv(b.dataset.l);
-  });
+  [$('#tiles'), $('#chips')].forEach((box) =>
+    box.addEventListener('click', (e) => {
+      const b = e.target.closest('.tile, .chip');
+      if (b) pickRecv(b.dataset.l);
+    })
+  );
+  $('#miniPlay').addEventListener('click', replay);
   $('#plays').addEventListener('click', (e) => {
     const b = e.target.closest('.card');
     if (!b) return;

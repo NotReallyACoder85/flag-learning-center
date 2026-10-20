@@ -154,3 +154,33 @@
 .xbtn.del:hover{color:var(--bad);border-color:rgba(255,123,110,.5)}
 .pill,.opt,.key,.fcard,.cta{min-height:44px}
 .mine{grid-template-columns:minmax(0,210px) auto;align-items:start;justify-content:start;gap:10px}
+
+/* Receiver ring while building */
+.off.sel .halo{opacity:1}
+.hot .halo{opacity:1}
+
+/* Phone Draw Up: keep the field pinned while the builder scrolls underneath */
+.miniread,.minibar{display:none}
+.chips{display:flex;gap:6px;flex:1 1 auto;min-width:0}
+.chip{flex:1 1 0;min-width:44px;min-height:44px;border:1px solid var(--edge);border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;gap:6px;padding:0 4px}
+.chip .cl{width:20px;height:20px;border-radius:50%;background:var(--c);color:#06102A;font:800 .7rem/20px var(--f-body);text-align:center}
+.chip .cl.sq{border-radius:5px}
+.chip b{font:900 1.3rem/1 var(--f-disp);color:var(--fg)}
+.chip[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.chip[aria-pressed="true"] b{color:var(--gold)}
+.chip.replay{flex:0 0 auto;padding:0 14px;border:0;background:var(--gold);color:#0A1230;font:700 .8rem var(--f-cond);letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:959px){
+  body[data-tab="build"] .app{gap:14px}
+  body[data-tab="build"] .stage,body[data-tab="build"] .side{display:contents}
+  body[data-tab="build"] .head{order:0}
+  body[data-tab="build"] .tiles{order:1}
+  body[data-tab="build"] .pitchwrap{order:2;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;width:auto;max-width:none;margin:0 -16px;padding:6px 16px 8px;display:flex;flex-direction:column;gap:6px;background:rgba(3,6,18,.97);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 18px -8px rgba(0,0,0,.7)}
+  body[data-tab="build"] .pitch{width:100%;max-width:min(100%,28vh);margin-inline:auto;transform:none;-webkit-mask-image:none;mask-image:none}
+  body[data-tab="build"] .miniread{display:block;text-align:center;font:600 .85rem var(--f-cond);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  body[data-tab="build"] .minibar{display:flex;gap:8px;align-items:stretch}
+  body[data-tab="build"] .panel{order:3}
+  body[data-tab="build"] .deck{order:4}
+  body[data-tab="build"] .cov{order:5}
+  body[data-tab="build"] .legend{order:6}
+  body[data-tab="build"] .lower{order:7}
+}
