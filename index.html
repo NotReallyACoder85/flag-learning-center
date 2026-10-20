@@ -13,6 +13,21 @@
   <meta name="apple-mobile-web-app-title" content="Flag Center">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="Learn our plays, routes and concepts, and watch them run against different defenses.">
+  <script>
+    // Safety net: if the app code fails to load (for example a stale offline copy), clear it and reload once.
+    window.addEventListener('error', function (e) {
+      var t = e.target;
+      if (!t || t.tagName !== 'SCRIPT' || !/\/assets\/index-/.test(t.src || '')) return;
+      try { if (sessionStorage.getItem('flc-recovered')) return; sessionStorage.setItem('flc-recovered', '1'); } catch (err) { return; }
+      var done = function () { location.reload(); };
+      if (!('serviceWorker' in navigator)) return done();
+      navigator.serviceWorker.getRegistrations()
+        .then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); })
+        .then(function () { return caches.keys(); })
+        .then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })
+        .then(done, done);
+    }, true);
+  </script>
   <script type="module" crossorigin src="/flag-learning-center/assets/index-2furWRmg.js"></script>
   <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-B_1e04yl.css">
 </head>
