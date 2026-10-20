@@ -2,7 +2,7 @@
 import { $, esc } from './dom.js';
 import { S, ctx } from './state.js';
 import { setHot } from './field.js';
-import { ROUTES, LET, DEF_NAME } from '../engine/index.js';
+import { ROUTES, LET, DEF_NAME, callouts } from '../engine/index.js';
 import { copy } from '../data/index.js';
 
 let lastKey = '';
@@ -12,8 +12,8 @@ export const resetLower = () => { lastKey = ''; };
 
 export function renderLower(t) {
   const sc = ctx.sc;
-  const showTell = !!sc.mover && S.def !== 'none' && t >= sc.tm;
-  const showRes = !!sc.result && t >= sc.end - 0.05;
+  const { tell: tellKind, result } = callouts(sc, S, t);
+  const showTell = !!tellKind, showRes = !!result;
   const key = showTell + '|' + showRes;
   if (key === lastKey) return;
   lastKey = key;
@@ -23,7 +23,7 @@ export function renderLower(t) {
   else {
     if (showTell) {
       n++;
-      const tell = copy.tell[S.def === 'man' ? 'man' : 'zone'];
+      const tell = copy.tell[tellKind];
       html += `<div class="l3 tell"><span class="k">Tell</span><div><b>${tell.title}</b><span class="tx">${fill(tell.text, { who: S.motion.who })}</span></div></div>`;
     }
     if (showRes) {

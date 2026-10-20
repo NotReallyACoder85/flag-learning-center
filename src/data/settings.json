@@ -1,4 +1,5 @@
 {
   "appName": "Flag Learning Center",
-  "quizLength": 5
+  "quizLength": 5,
+  "overload": { "pxPerReceiver": 12, "maxPx": 36 }
 }

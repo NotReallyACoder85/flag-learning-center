@@ -13,11 +13,11 @@
   "tell": {
     "man": {
       "title": "Man coverage",
-      "text": "A defender ran with {who} across the formation. A defender following the motion man means man coverage. Attack with crossers and picks."
+      "text": "A defender went with {who} when he moved. A defender following the motion man means man coverage. Attack with crossers and picks."
     },
     "zone": {
       "title": "Zone coverage",
-      "text": "Nobody followed {who}. The defense shifted instead. No follower means zone, so find the soft spot."
+      "text": "Nobody followed {who}. The defense stayed in its zones and adjusted. No follower means zone, so find the soft spot."
     }
   },
   "idle": {

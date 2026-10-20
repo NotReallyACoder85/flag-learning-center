@@ -31,6 +31,8 @@ npm run build    # production build into dist/
 - Tune a route: edit its `points` in `src/data/routes.json` (lateral yards, depth yards).
 - Move a formation: edit `src/data/formations.json`.
 - Quiz length and app name: `src/data/settings.json`.
+- How far zone defenses lean toward the strong side (Trips, Quads, or motion that makes trips): `overload` in `src/data/settings.json` (`pxPerReceiver`, `maxPx`). Set both to 0 to turn it off.
+- Wording of the tell and result callouts: `src/data/copy.json`.
 
 ## Notes
 
