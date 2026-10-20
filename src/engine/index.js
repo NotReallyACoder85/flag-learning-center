@@ -1,0 +1,8 @@
+// Public surface of the engine. No DOM access anywhere in this folder.
+export * from './constants.js';
+export * from './math.js';
+export { parseCall, checkCall, callText, CALL_EXAMPLE } from './parseCall.js';
+export { ROUTES, routeFor } from './routes.js';
+export { motionDest, sides } from './motion.js';
+export { buildScene } from './scene.js';
+export { evaluate, whyText } from './evaluate.js';
