@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#030612">
+  <title>Flag Learning Center</title>
+  <link rel="icon" type="image/png" href="/flag-learning-center/icons/favicon.png">
+  <link rel="apple-touch-icon" href="/flag-learning-center/icons/icon-180.png">
+  <link rel="manifest" href="/flag-learning-center/manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Flag Center">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Learn our plays, routes and concepts, and watch them run against different defenses.">
+  <script type="module" crossorigin src="/flag-learning-center/assets/index-BH6f2U9U.js"></script>
+  <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-B_1e04yl.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="lines" aria-hidden="true"></div>
+  <div class="wrap">
+    <header class="nav">
+      <div class="brand">
+        <img class="logo" src="/flag-learning-center/icons/icon-192.png" alt="" width="40" height="40">
+        <h1 class="rm">Flag Learning Center</h1>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" id="tab-play" data-tab="play" aria-controls="p-play" aria-selected="true">Playbook</button>
+        <button class="tab" role="tab" id="tab-build" data-tab="build" aria-controls="p-build" aria-selected="false">Draw Up</button>
+        <button class="tab" role="tab" id="tab-train" data-tab="train" aria-controls="p-train" aria-selected="false">Train</button>
+      </nav>
+    </header>
+
+    <main class="app">
+      <section class="stage" aria-label="Field">
+        <div class="head">
+          <div><div class="eyebrow">Formation</div><div class="fmname" id="fmName"></div></div>
+          <div class="hr"><div class="pname" id="callName"></div><div id="mChip"></div></div>
+        </div>
+        <div class="tiles" id="tiles" role="group" aria-label="Routes by receiver"></div>
+        <div class="pitchwrap" id="pitchwrap"><div class="pitch"><svg id="field" viewBox="0 0 360 400" role="img" aria-label="Formation, routes and defenders on the field"></svg></div>
+          <div class="miniread" id="miniRead" aria-hidden="true"></div>
+          <div class="minibar"><div class="chips" id="chips" role="group" aria-label="Choose a receiver"></div><button class="chip replay" id="miniPlay" type="button">Replay</button></div>
+        </div>
+        <div class="deck glass">
+          <button class="pbtn" id="playBtn" aria-label="Play"><svg id="playIco" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg></button>
+          <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub through the play">
+          <div class="opts">
+            <button class="opt" id="slowBtn" aria-pressed="false">Slow</button>
+            <button class="opt" id="zoneBtn" aria-pressed="true">Zones</button>
+            <button class="opt" id="viewBtn" aria-pressed="true">3D</button>
+          </div>
+        </div>
+        <div class="cov" id="covSeg" role="group" aria-label="Defense"></div>
+        <div class="legend" id="legend"></div>
+        <div class="lower" id="lower" aria-live="polite"></div>
+      </section>
+
+      <section class="side">
+        <div class="panel" id="p-play" role="tabpanel" aria-labelledby="tab-play">
+          <div class="sec"><div class="lbl">How to read a call</div><div class="anat" id="anat"></div></div>
+          <div class="sec"><div class="lbl">Starter plays</div><div class="cards" id="plays"></div></div>
+        </div>
+
+        <div class="panel" id="p-build" role="tabpanel" aria-labelledby="tab-build" hidden>
+          <div id="challenge"></div>
+          <div class="sec"><div class="lbl">1 · Formation</div><div class="formrow" id="formRow"></div></div>
+          <div class="sec"><div class="lbl" id="keyLbl">2 · Route</div><div class="keys" id="keys"></div><div class="hint">Tap a receiver above the field to choose who gets the route.</div></div>
+          <div class="sec"><div class="lbl">3 · Motion</div><div class="pills" id="mWho"></div><div class="pills" id="mTag"></div></div>
+          <div class="sec"><div class="lbl">Call code</div>
+            <form class="codein" id="codeForm"><input id="codeIn" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type a play call, like Dubs 21129 Y Cross"><button class="cta" type="submit">Draw</button></form>
+            <div class="err" id="codeErr" role="status"></div>
+            <div class="row"><button class="cta" id="saveBtn" type="button">Save play</button><button class="cta ghost" id="resetBtn" type="button">Clear routes</button></div>
+          </div>
+          <div class="sec"><div class="lbl">My plays · saved on this device</div><div id="mine" class="minelist"></div></div>
+        </div>
+
+        <div class="panel" id="p-train" role="tabpanel" aria-labelledby="tab-train" hidden>
+          <div id="trainRoot"></div>
+        </div>
+      </section>
+    </main>
+    <footer class="installtip">Add this to your home screen to use it like an app, even with no internet. <b>iPhone:</b> tap Share, then Add to Home Screen. <b>Android:</b> tap the menu, then Install app.</footer>
+  </div>
+</body>
+</html>
