@@ -184,3 +184,8 @@
   body[data-tab="build"] .legend{order:6}
   body[data-tab="build"] .lower{order:7}
 }
+
+/* Install tip */
+.installtip{margin-top:28px;padding:14px 16px;border-radius:14px;border:1px dashed var(--edge);color:var(--muted);font-size:.85rem;line-height:1.45}
+.installtip b{color:var(--fg);font-weight:600}
+@media (display-mode:standalone){.installtip{display:none}}
