@@ -1,6 +1,7 @@
 node_modules
 node_modules.nosync
 dist
+.deploy
 .DS_Store
 .claude/
 # iCloud Drive sync-conflict copies ("name 2.ext")
