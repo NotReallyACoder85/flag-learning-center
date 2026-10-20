@@ -7,6 +7,7 @@ import { glyph, formThumb } from './glyphs.js';
 import { cardHTML } from './panels.js';
 import { refresh, loadCall } from './player.js';
 import { loadMine, saveMine, MAX_NAME } from './storage.js';
+import { touched } from './beat.js';
 
 let mine = loadMine();
 
@@ -21,6 +22,7 @@ function change(fn) {
   fn();
   S.name = 'My play';
   say('');
+  touched();
   refresh(false);
 }
 

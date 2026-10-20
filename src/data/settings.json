@@ -1,5 +1,16 @@
 {
   "appName": "Flag Learning Center",
   "quizLength": 5,
-  "overload": { "pxPerReceiver": 12, "maxPx": 36 }
+  "overload": { "pxPerReceiver": 12, "maxPx": 36 },
+  "ranks": [
+    { "name": "Rookie", "xp": 0 },
+    { "name": "Starter", "xp": 100 },
+    { "name": "Captain", "xp": 300 },
+    { "name": "All-Pro", "xp": 600 }
+  ],
+  "xp": { "correct": 10, "streakBonus": 2, "streakBonusCap": 5, "perStar": 15 },
+  "beat": {
+    "order": ["c3", "c2", "man"],
+    "thresholds": { "c3": [5, 6.2, 7], "c2": [5, 7.8, 9.5], "man": [2.6, 2.8, 2.9] }
+  }
 }

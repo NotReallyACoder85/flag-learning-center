@@ -26,5 +26,16 @@
     "motion": "Watch the motion. Does a defender follow?",
     "play": "Watch the play. The read shows up at the end."
   },
+  "train": {
+    "cheers": ["Nice read!", "You got it!", "Big play!", "That's a first down!", "Coach would be proud!", "Right on the money!"],
+    "oops": ["Close! Check what is different.", "Not this time. Look again.", "Almost! Here is the difference."],
+    "readQuestion": "A receiver goes in motion. Did a defender go with him? Man or zone?",
+    "manHint": "Man: each defender covers one player.",
+    "zoneHint": "Zone: each defender covers an area.",
+    "beatIntro": "Build a play that gets a receiver open. Give every receiver a route, then tap Grade my play.",
+    "beatNotComplete": "Give every receiver a route first.",
+    "beatCovered": "Covered! No one was open enough. Change a route or add motion and grade it again.",
+    "summary": { "3": "Perfect round!", "2": "Strong round!", "1": "Good start. Run it again!", "0": "Keep practicing. You will get it!" }
+  },
   "covered": "{defense} has a defender within {sep} yards of every receiver. Change a route or add motion to make space."
 }

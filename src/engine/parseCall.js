@@ -1,9 +1,9 @@
 import { formations } from '../data/index.js';
+import { routeFor } from './routes.js';
+import { cap } from './text.js';
 
 const CALL_RE = /^(dubs[\s-]?tight|dubs|chiefs|trips|quads)[\s-]*(\d{5})(?:[\s-]+([abyz])[\s-]*(cross|enter|exit))?$/;
 export const CALL_EXAMPLE = 'Dubs 21129 Y Cross';
-
-const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
 /** Parse a play call. Returns { form, digits, motion } or null. Case-insensitive; tolerant of spaces and hyphens. */
 export function parseCall(input) {
@@ -36,6 +36,12 @@ export function checkCall(input) {
 
 /** Route digits as text. A receiver with no route shows as _ (so a half-built play reads "Dubs 2_1_9"). */
 export const digitsText = (digits) => digits.map((d) => (d == null ? '_' : d)).join('');
+
+/** A play in words: "A Slant, B Speed Out, ... Y goes in motion (cross)." Used for screen readers. */
+export function describePlay(p) {
+  const routes = p.digits.map((d, i) => `${'ABYZC'[i]} ${routeFor(d) ? routeFor(d).name : 'no route'}`).join(', ');
+  return `${formations[p.form].name}. ${routes}.${p.motion ? ` ${p.motion.who} goes in motion (${p.motion.tag}).` : ''}`;
+}
 
 /** Canonical text for a play, e.g. "Dubs 21129 Y Cross". */
 export function callText(p) {

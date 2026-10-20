@@ -32,7 +32,9 @@ npm run build    # production build into dist/
 - Move a formation: edit `src/data/formations.json`.
 - Quiz length and app name: `src/data/settings.json`.
 - How far zone defenses lean toward the strong side (Trips, Quads, or motion that makes trips): `overload` in `src/data/settings.json` (`pxPerReceiver`, `maxPx`). Set both to 0 to turn it off.
-- Wording of the tell and result callouts: `src/data/copy.json`.
+- Wording of the tell and result callouts, and the quiz cheers: `src/data/copy.json`.
+- Concept cards (Train tab): `src/data/concepts.json`. These are a first draft for the coach to edit.
+- Ranks, XP per answer, and how hard Beat the Coverage is (`beat.thresholds`, in yards of separation): `src/data/settings.json`.
 
 ## Install and offline
 

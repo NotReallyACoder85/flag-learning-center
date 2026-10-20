@@ -14,6 +14,8 @@ const ICO = {
 export const reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 let raf = null, lastTs = 0;
+/** Optional stop time (seconds). Used by Read the Defense to show only the motion. */
+const limit = () => (S.limit == null ? ctx.sc.end : S.limit);
 let afterRefresh = () => {};
 /** Let other modules (the builder) re-render when the scene changes. */
 export function onRefresh(fn) { afterRefresh = fn; }
@@ -43,9 +45,9 @@ export function stop() {
 function loop(ts) {
   const dt = Math.min(0.05, (ts - lastTs) / 1000);
   lastTs = ts;
-  S.t = Math.min(ctx.sc.end, S.t + dt);
+  S.t = Math.min(limit(), S.t + dt);
   tick(S.t);
-  if (S.t >= ctx.sc.end) stop();
+  if (S.t >= limit()) stop();
   else raf = requestAnimationFrame(loop);
 }
 
@@ -58,6 +60,15 @@ export function play() {
   raf = requestAnimationFrame(loop);
 }
 
+/** Play from the start and stop at time t. */
+export function playUntil(t) {
+  stop();
+  S.limit = t;
+  S.t = 0;
+  if (reduceMotion) { S.t = t; tick(t); return; }
+  play();
+}
+
 export function replay() {
   stop();
   S.t = 0;
@@ -68,6 +79,7 @@ export const togglePlay = () => (S.playing ? stop() : play());
 
 /** Text version of the diagram for screen readers. */
 function describeField() {
+  if (S.quiz) return $('#field').setAttribute('aria-label', 'Quiz diagram. Use the button below to watch it.');
   const routes = LET.map((l, i) => `${l} ${ROUTES[S.digits[i]] ? ROUTES[S.digits[i]].name : 'no route'}`).join(', ');
   const motion = S.motion ? ` ${S.motion.who} goes in motion (${S.motion.tag}).` : '';
   const def = S.def === 'none' ? 'No defense.' : `Against ${DEF_NAME[S.def]}.`;
@@ -81,7 +93,8 @@ export function refresh(keepT = false) {
   resetLower();
   ctx.sc = buildScene(S);
   // Plays only run when the player presses Play. Reduced-motion users see the finished play.
-  S.t = reduceMotion ? ctx.sc.end : keepT ? clampN(S.t, 0, ctx.sc.end) : 0;
+  S.limit = undefined;
+  S.t = reduceMotion && !S.quiz ? ctx.sc.end : keepT ? clampN(S.t, 0, ctx.sc.end) : 0;
   drawScene();
   renderHead(); renderTiles(); renderCov(); renderLegend(); renderPlaybook();
   const zb = $('#zoneBtn');

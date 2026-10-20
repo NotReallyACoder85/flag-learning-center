@@ -1,0 +1,150 @@
+{
+  "_note": "DRAFT written by the assistant at a 5th-grade reading level. Coach: edit freely. 'watch' is the play and defense the Watch it button runs. Only pairings where the app's own read agrees are used.",
+  "cards": [
+    {
+      "id": "smash",
+      "title": "Smash",
+      "tagline": "A short route under a deep route. The defender has to pick one.",
+      "how": [
+        "Two receivers on the same side.",
+        "One runs short (a comeback). One runs deep (a corner).",
+        "The defender in between cannot cover both."
+      ],
+      "goodVs": [
+        "Cover 2",
+        "Cover 3"
+      ],
+      "watch": {
+        "call": "Trips 07294",
+        "def": "c3"
+      },
+      "look": "B runs the corner. A turns back on the comeback. Who does the callout say is open?"
+    },
+    {
+      "id": "mesh",
+      "title": "Mesh",
+      "tagline": "Two receivers cross at different depths and tangle up the defenders.",
+      "how": [
+        "The two slot receivers run past each other.",
+        "Man defenders chasing them bump into each other.",
+        "That bump gives your receiver room to catch."
+      ],
+      "goodVs": [
+        "Man"
+      ],
+      "watch": {
+        "call": "Dubs 94699",
+        "def": "man"
+      },
+      "look": "Watch B and Y cross in the middle. See the defenders follow them?"
+    },
+    {
+      "id": "flood",
+      "title": "Flood",
+      "tagline": "Three receivers on one side at three depths: deep, middle and short.",
+      "how": [
+        "Three receivers run to the same side.",
+        "One goes deep, one in the middle, one short.",
+        "One defender cannot cover three levels."
+      ],
+      "goodVs": [
+        "Cover 3"
+      ],
+      "watch": {
+        "call": "Dubs 93591",
+        "def": "c3"
+      },
+      "look": "Z goes deep, Y runs the out, and C is short. Who is open?"
+    },
+    {
+      "id": "verticals",
+      "title": "Four Verticals",
+      "tagline": "Everyone runs deep. Defenders run out of room.",
+      "how": [
+        "Every receiver runs straight down the field.",
+        "Cover 3 only has three deep defenders.",
+        "With more runners than defenders, someone gets open."
+      ],
+      "goodVs": [
+        "Cover 3"
+      ],
+      "watch": {
+        "call": "Dubs 99999",
+        "def": "c3"
+      },
+      "look": "Count the runners. Count the deep defenders. Who is left alone?"
+    },
+    {
+      "id": "slants",
+      "title": "Quick Slants",
+      "tagline": "Fast routes. Catch it and go before the defense can react.",
+      "how": [
+        "Every receiver cuts inside right away.",
+        "The ball comes out fast.",
+        "Great when defenders are playing deep and giving space."
+      ],
+      "goodVs": [
+        "Cover 3"
+      ],
+      "watch": {
+        "call": "Dubs Tight 22222",
+        "def": "c3"
+      },
+      "look": "The ball is out quickly. Who finds the open space?"
+    },
+    {
+      "id": "bunch",
+      "title": "Bunch Cross",
+      "tagline": "Three receivers start close together, then cross.",
+      "how": [
+        "Starting close together makes the defenders crowd up.",
+        "The receivers cross in different directions.",
+        "Man defenders cannot stay with them."
+      ],
+      "goodVs": [
+        "Man"
+      ],
+      "watch": {
+        "call": "Chiefs 93496",
+        "def": "man"
+      },
+      "look": "Watch the bunch cross. The center runs a dig behind them."
+    },
+    {
+      "id": "tell",
+      "title": "Motion Tell",
+      "tagline": "Motion shows you if the defense is man or zone.",
+      "how": [
+        "Send one receiver in motion.",
+        "If a defender runs with him, it is man.",
+        "If nobody follows, it is zone."
+      ],
+      "goodVs": [
+        "Reading the defense"
+      ],
+      "watch": {
+        "call": "Dubs 21129 Y Cross",
+        "def": "man"
+      },
+      "look": "Y crosses the field. Who goes with him? Then try it against Cover 3."
+    },
+    {
+      "id": "safeties",
+      "title": "Count the Safeties",
+      "tagline": "Before the snap, count how many safeties are deep.",
+      "how": [
+        "One safety deep in the middle: Cover 3 or Man.",
+        "Two safeties deep, splitting the field: Cover 2.",
+        "Then use motion to tell Cover 3 from Man."
+      ],
+      "goodVs": [
+        "Reading the defense"
+      ],
+      "watch": {
+        "call": "Dubs 21129",
+        "def": "c2"
+      },
+      "look": "Two safeties split the deep field. Now switch to Cover 3 and compare."
+    }
+  ]
+}

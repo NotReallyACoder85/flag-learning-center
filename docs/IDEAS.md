@@ -10,9 +10,9 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 
 | # | Idea | Fun | Effort | Notes |
 |---|---|---|---|---|
-| A1 | **Celebrations.** Confetti or a "flag pull" burst on a right answer, a shake on a wrong one, with a short "Nice read!" line. | ★★★ | S | Pure visuals, no accounts needed. |
-| A2 | **Streaks and ranks.** Rookie, Starter, Captain, All-Pro. XP for each right answer, streak counter (🔥 x5). Saved on the device only. | ★★★ | M | BRD already wants simple stars. Ranks are a cheap upgrade of that. |
-| A3 | **Beat the Coverage levels.** Level 1 is Cover 3 only, then Cover 2, then Man, then "mystery defense". Hint button costs a star. | ★★★ | M | Uses the engine we already have to grade the play. |
+| A1 | ✅ **Done (Phase 6).** **Celebrations.** Confetti or a "flag pull" burst on a right answer, a shake on a wrong one, with a short "Nice read!" line. | ★★★ | S | Pure visuals, no accounts needed. |
+| A2 | ✅ **Done (Phase 6).** **Streaks and ranks.** Rookie, Starter, Captain, All-Pro. XP for each right answer, streak counter (🔥 x5). Saved on the device only. | ★★★ | M | BRD already wants simple stars. Ranks are a cheap upgrade of that. |
+| A3 | 🟡 **Started (Phase 6):** challenges rotate Cover 3, Cover 2, Man with 1 to 3 stars; no hints or mystery defense yet. **Beat the Coverage levels.** Level 1 is Cover 3 only, then Cover 2, then Man, then "mystery defense". Hint button costs a star. | ★★★ | M | Uses the engine we already have to grade the play. |
 | A4 | **Play of the Day.** One featured play on the home screen, picked by the coach (a flag in `plays.json`). Opening it and running it earns bonus XP. | ★★ | S | Gives a reason to open the app every practice day. |
 | A5 | **Beat the clock huddle drill.** App shows a play, you have 10 seconds to pick the call, like calling it in the huddle. | ★★★ | M | Trains the exact skill we need on game day. |
 | A6 | **Draw the route with your finger.** A route is shown by name, kid traces it, app scores how close. | ★★★ | L | Great for learning shapes, but tracing on small screens needs testing. |
@@ -23,7 +23,7 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 
 | # | Idea | Fun | Effort | Notes |
 |---|---|---|---|---|
-| B1 | **Spotlight on the open receiver.** When the read appears, dim everything else, ring him, and slow the last second. | ★★★ | S | Makes "why he is open" obvious, which is the main lesson. |
+| B1 | ✅ **Done (Phase 6).** **Spotlight on the open receiver.** When the read appears, dim everything else, ring him, and slow the last second. | ★★★ | S | Makes "why he is open" obvious, which is the main lesson. |
 | B2 | **Comet trails and speed lines** behind runners, a spinning ball, a little dust puff on cuts. | ★★ | S | Mostly CSS and SVG. |
 | B3 | **Jersey-number players** instead of plain dots, with helmet shapes and the flag belt. | ★★ | M | Cosmetic, but kids will love it. Keep letters A/B/Y/Z visible. |
 | B4 | **Camera modes.** QB view (first person behind the center), and a broadcast zoom that follows the ball. | ★★★ | L | We already have a tilted 3D field, so the base is there. |
@@ -54,6 +54,10 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 | D6 | **"You are the Y today."** A kid picks his own position and the app highlights him throughout. | S | Very personal for kids. Keep any names on the device only (see risks). |
 
 ---
+
+## Not done yet from my top picks
+- **B6 film-room thought bubbles.** Left for after Phase 7 so we can write the lines with your input (what each defender is thinking).
+- **A7 badges.** Ranks and streaks are in, badges are the next small step.
 
 ## My suggested picks, in order
 1. **B1 spotlight** and **B6 film-room thought bubbles**. Together they teach the main lesson (why a receiver is open and what the tell means) better than any text.

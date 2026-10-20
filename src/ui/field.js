@@ -51,6 +51,9 @@ function drawPlayer(parent, l) {
   else el('circle', { r: 12.5, fill: l === 'Q' ? 'var(--cQ)' : COL[l], stroke: '#fff', 'stroke-opacity': 0.5, 'stroke-width': 1.5 }, parent);
   el('circle', { cx: -4, cy: -4.5, r: 4.5, fill: '#fff', 'fill-opacity': 0.28 }, parent);
   el('text', {}, parent).textContent = l;
+  const tag = el('g', { class: 'opentag', transform: 'translate(0,-27)' }, parent);
+  el('rect', { x: -21, y: -8, width: 42, height: 16, rx: 8, fill: '#FFD21F' }, tag);
+  el('text', {}, tag).textContent = 'OPEN';
 }
 
 /** Rebuild routes, defenders and players for the current scene. */
@@ -59,7 +62,7 @@ export function drawScene() {
   LAYERS.forEach((k) => (G[k].innerHTML = ''));
   offEls = {}; defEls = {}; matchEls = []; trails = {}; lens = {};
 
-  if (S.zones && (S.def === 'c3' || S.def === 'c2')) {
+  if (!S.quiz && S.zones && (S.def === 'c3' || S.def === 'c2')) {
     sc.defs.forEach((d) => {
       const z = d.zone, c = CLS_COL[d.cls];
       el('rect', { x: z[0], y: z[1], width: z[2], height: z[3], rx: 10, fill: c, 'fill-opacity': 0.1, stroke: c, 'stroke-opacity': 0.55, 'stroke-dasharray': '3 4' }, G.zones);
@@ -83,14 +86,15 @@ export function drawScene() {
     el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#fff', 'stroke-width': 2.4, 'stroke-dasharray': '1 6', 'stroke-linecap': 'round', 'stroke-opacity': 0.9 }, G.routes);
     arrowAt(b, angle(a, b), 9, { fill: '#fff' }, G.routes);
   }
-  if (S.def === 'man' && S.zones) {
+  if (!S.quiz && S.def === 'man' && S.zones) {
     LET.forEach((l) => matchEls.push([l, el('line', { stroke: '#fff', 'stroke-opacity': 0.3, 'stroke-dasharray': '3 4', 'stroke-width': 1.4 }, G.match)]));
   }
   sc.defs.forEach((d) => {
-    const g = el('g', {}, G.def), c = CLS_COL[d.cls];
+    // In quizzes every defender looks the same, so colors and labels do not give the answer away.
+    const g = el('g', {}, G.def), c = S.quiz ? '#C5D2F7' : CLS_COL[d.cls];
     el('circle', { r: 19, fill: c, 'fill-opacity': 0.13 }, g);
     el('circle', { r: 12.5, fill: '#040A1E', stroke: c, 'stroke-width': 2.6 }, g);
-    el('text', { fill: c, class: 'dt' }, g).textContent = d.label;
+    el('text', { fill: c, class: 'dt' }, g).textContent = S.quiz ? 'D' : d.label;
     defEls[d.id] = g;
   });
   LET.forEach((l) => {
@@ -118,6 +122,12 @@ export function markSelected() {
 /** Pulse the open receiver (or clear all pulses with null). */
 export function setHot(letter) {
   Object.entries(offEls).forEach(([l, g]) => g.classList.toggle('hot', l === letter));
+  svg.classList.toggle('spot', !!letter); // spotlight: everyone else dims
+}
+
+/** Ring one defender (the one who followed the motion man), or clear with null. */
+export function markDefender(id) {
+  Object.entries(defEls).forEach(([k, g]) => g.classList.toggle('follow', k === id));
 }
 
 /** Move everything to time t and draw the route trails up to that point. */

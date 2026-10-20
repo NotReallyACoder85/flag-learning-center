@@ -4,5 +4,6 @@ import routes from './routes.json';
 import plays from './plays.json';
 import settings from './settings.json';
 import copy from './copy.json';
+import concepts from './concepts.json';
 
-export { formations, routes, plays, settings, copy };
+export { formations, routes, plays, settings, copy, concepts };

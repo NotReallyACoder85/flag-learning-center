@@ -2,18 +2,21 @@
 import { $ } from './dom.js';
 import { S } from './state.js';
 import { plays } from '../data/index.js';
-import { drawStatic } from './field.js';
-import { refresh, loadCall, togglePlay, replay, seek } from './player.js';
+import { drawStatic, setPickHandler, markSelected } from './field.js';
+import { refresh, loadCall, togglePlay, play, replay, seek, onRefresh } from './player.js';
 import { renderTiles, renderPlaybook } from './panels.js';
 import { renderBuilder, initBuilder } from './builder.js';
-import { setPickHandler, markSelected } from './field.js';
-import { onRefresh } from './player.js';
+import { syncView } from './view.js';
+import { initTrain, showHub, exitTrain } from './train/index.js';
+import { initBeat, startChallenge } from './beat.js';
 
 const TABS = ['play', 'build', 'train'];
 
 function setTab(t) {
+  if (S.tab === 'train' && t !== 'train') exitTrain();
   S.tab = t;
   document.body.dataset.tab = t;
+  syncView();
   TABS.forEach((k) => {
     $('#p-' + k).hidden = k !== t;
     $('#tab-' + k).setAttribute('aria-selected', k === t);
@@ -23,6 +26,7 @@ function setTab(t) {
   renderPlaybook();
   renderBuilder();
   markSelected();
+  if (t === 'train') showHub();
 }
 
 /** Choose which receiver the route keypad edits. */
@@ -37,6 +41,13 @@ export function start() {
   setPickHandler(pickRecv);
   onRefresh(renderBuilder);
   initBuilder();
+  initBeat();
+  initTrain({
+    setTab,
+    startBeat: () => startChallenge(setTab),
+    // "Watch it" on a concept card: show the play against its defense and run it
+    watch: (call, name, def) => { S.def = def; setTab('play'); loadCall(call, name); play(); },
+  });
   refresh(false);
   setTab('play');
 

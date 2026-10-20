@@ -1,7 +1,10 @@
 // Public surface of the engine. No DOM access anywhere in this folder.
 export * from './constants.js';
 export * from './math.js';
-export { parseCall, checkCall, callText, digitsText, CALL_EXAMPLE } from './parseCall.js';
+export { parseCall, checkCall, callText, digitsText, describePlay, CALL_EXAMPLE } from './parseCall.js';
+export { makeRng } from './rng.js';
+export { rankFor, answerXp, starXp, roundStars } from './progress.js';
+export { mutatePlay, explainDiff, callQuestion, callRound, readRound, gradePlay } from './quiz.js';
 export { ROUTES, routeFor, hasRoute } from './routes.js';
 export { motionDest, sides } from './motion.js';
 export { buildScene } from './scene.js';
