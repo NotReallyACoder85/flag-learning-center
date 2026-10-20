@@ -17,6 +17,8 @@ describe('parseCall', () => {
     expect(parseCall('Dubs Tight 22222').form).toBe('dubstight');
     expect(parseCall('Trips07294')).toBeTruthy();
     expect(parseCall('Dubs 21129 YCross').motion.who).toBe('Y');
+    expect(parseCall('trips-07294 b-exit')).toEqual({ form: 'trips', digits: [0, 7, 2, 9, 4], motion: { who: 'B', tag: 'exit' } });
+    expect(parseCall('Dubs-Tight-22222').form).toBe('dubstight');
   });
   it('rejects bad input without throwing', () => {
     ['', 'Dubs', 'Dubs 2112', 'Dubs 211299', 'Dubs 2112a', 'Foo 21129', 'Dubs 21129 C Cross', 'Dubs 21129 Y Spin', 'Dubs 21129 Y', null, undefined, 42].forEach((s) =>

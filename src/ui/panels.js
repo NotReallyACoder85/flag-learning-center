@@ -17,7 +17,7 @@ export function renderHead() {
 export function renderTiles() {
   $('#tiles').innerHTML = LET.map((l, i) => {
     const n = S.digits[i];
-    return `<div class="tile" role="listitem" style="--c:${HEX[l]};color:${HEX[l]}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}"><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${glyph(n)}<span class="num">${n}</span><span class="rn">${esc(ROUTES[n].name)}</span></div>`;
+    return `<button class="tile" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${glyph(n)}<span class="num">${n}</span><span class="rn">${esc(ROUTES[n].name)}</span></button>`;
   }).join('');
 }
 
@@ -53,5 +53,5 @@ export function renderPlaybook() {
     `<div class="seg3"><b>${S.digits.join('')}</b><span>Routes left to right: A, B, Y, Z, then the center C.</span></div>` +
     (S.motion ? `<div class="seg3 m"><b>${S.motion.who} ${cap(S.motion.tag)}</b><span>Motion. ${S.motion.who} ${copy.motionDesc[S.motion.tag]}.</span></div>` : '') +
     (entry ? `<div class="note glass" style="flex-basis:100%">${esc(entry.note)}</div>` : '');
-  $('#plays').innerHTML = plays.map((p, i) => cardHTML(p.call, p.name, `data-i="${i}"`, p.call.toLowerCase() === cur)).join('');
+  $('#plays').innerHTML = plays.map((p, i) => cardHTML(p.call, p.name, `data-i="${i}" data-fk="card:${i}"`, p.call.toLowerCase() === cur)).join('');
 }

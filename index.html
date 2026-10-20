@@ -30,7 +30,7 @@
           <div><div class="eyebrow">Formation</div><div class="fmname" id="fmName"></div></div>
           <div class="hr"><div class="pname" id="callName"></div><div id="mChip"></div></div>
         </div>
-        <div class="tiles" id="tiles" role="list" aria-label="Routes by receiver"></div>
+        <div class="tiles" id="tiles" role="group" aria-label="Routes by receiver"></div>
         <div class="pitchwrap" id="pitchwrap"><div class="pitch"><svg id="field" viewBox="0 0 360 400" role="img" aria-label="Formation, routes and defenders on the field"></svg></div></div>
         <div class="deck glass">
           <button class="pbtn" id="playBtn" aria-label="Play"><svg id="playIco" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg></button>
@@ -53,8 +53,15 @@
         </div>
 
         <div class="panel" id="p-build" role="tabpanel" aria-labelledby="tab-build" hidden>
-          <div class="lbl">Draw Up</div>
-          <div class="note glass">Build your own play here: pick a formation, give each receiver a route, add motion, and run it. Coming in the next update.</div>
+          <div class="sec"><div class="lbl">1 · Formation</div><div class="formrow" id="formRow"></div></div>
+          <div class="sec"><div class="lbl" id="keyLbl">2 · Route</div><div class="keys" id="keys"></div><div class="hint">Tap a receiver above the field to choose who gets the route.</div></div>
+          <div class="sec"><div class="lbl">3 · Motion</div><div class="pills" id="mWho"></div><div class="pills" id="mTag"></div></div>
+          <div class="sec"><div class="lbl">Call code</div>
+            <form class="codein" id="codeForm"><input id="codeIn" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type a play call, like Dubs 21129 Y Cross"><button class="cta" type="submit">Draw</button></form>
+            <div class="err" id="codeErr" role="status"></div>
+            <div class="row"><button class="cta" id="saveBtn" type="button">Save play</button><button class="cta ghost" id="resetBtn" type="button">Clear routes</button></div>
+          </div>
+          <div class="sec"><div class="lbl">My plays · saved on this device</div><div id="mine" class="minelist"></div></div>
         </div>
 
         <div class="panel" id="p-train" role="tabpanel" aria-labelledby="tab-train" hidden>

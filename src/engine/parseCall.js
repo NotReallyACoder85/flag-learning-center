@@ -1,6 +1,6 @@
 import { formations } from '../data/index.js';
 
-const CALL_RE = /^(dubs[\s-]?tight|dubs|chiefs|trips|quads)\s*(\d{5})(?:\s+([abyz])\s*(cross|enter|exit))?$/;
+const CALL_RE = /^(dubs[\s-]?tight|dubs|chiefs|trips|quads)[\s-]*(\d{5})(?:[\s-]+([abyz])[\s-]*(cross|enter|exit))?$/;
 export const CALL_EXAMPLE = 'Dubs 21129 Y Cross';
 
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
@@ -23,7 +23,7 @@ export function checkCall(input) {
   const play = parseCall(raw);
   if (play) return { play };
   const s = raw.toLowerCase();
-  const fm = s.match(/^(dubs[\s-]?tight|dubs|chiefs|trips|quads)\s*(.*)$/);
+  const fm = s.match(/^(dubs[\s-]?tight|dubs|chiefs|trips|quads)[\s-]*(.*)$/);
   if (!fm) return { error: `Start with a formation: Dubs, Dubs Tight, Chiefs, Trips or Quads. Example: ${CALL_EXAMPLE}.` };
   const rest = fm[2];
   const dm = rest.match(/^(\S*)\s*(.*)$/);

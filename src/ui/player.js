@@ -64,6 +64,7 @@ export const playSoon = (ms = 300) => { clearTimeout(autoTimer); autoTimer = set
 
 /** Rebuild the scene from S and redraw everything. keepT keeps the current time. */
 export function refresh(keepT = false) {
+  const focusKey = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fk;
   stop();
   clearTimeout(autoTimer);
   resetLower();
@@ -76,6 +77,10 @@ export function refresh(keepT = false) {
   zb.disabled = S.def === 'none';
   zb.setAttribute('aria-pressed', S.zones);
   afterRefresh();
+  if (focusKey) {
+    const again = document.querySelector(`[data-fk="${focusKey}"]`);
+    if (again && again !== document.activeElement) again.focus({ preventScroll: true });
+  }
   tick(S.t);
   stop();
 }
