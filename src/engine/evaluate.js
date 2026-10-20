@@ -6,7 +6,8 @@ export function evaluate(sc, play) {
   if (!sc.defs.length) return null;
   const st = sc.stateAt(sc.end);
   let best = null;
-  LET.forEach((l) => {
+  LET.forEach((l, i) => {
+    if (play.digits[i] == null) return; // no route, nobody is throwing to him
     const p = st.off[l];
     let md = Infinity, who = '';
     sc.defs.forEach((d) => {
@@ -17,6 +18,7 @@ export function evaluate(sc, play) {
     const sep = md / PX;
     if (!best || sep > best.sep) best = { l, sep, p, who };
   });
+  if (!best) return null; // no routes drawn yet
   return {
     open: best.l,
     sep: best.sep,

@@ -34,7 +34,10 @@ export function checkCall(input) {
   return { error: `Not a valid call. Example: ${CALL_EXAMPLE}.` };
 }
 
+/** Route digits as text. A receiver with no route shows as _ (so a half-built play reads "Dubs 2_1_9"). */
+export const digitsText = (digits) => digits.map((d) => (d == null ? '_' : d)).join('');
+
 /** Canonical text for a play, e.g. "Dubs 21129 Y Cross". */
 export function callText(p) {
-  return `${formations[p.form].name} ${p.digits.join('')}${p.motion ? ` ${p.motion.who} ${cap(p.motion.tag)}` : ''}`;
+  return `${formations[p.form].name} ${digitsText(p.digits)}${p.motion ? ` ${p.motion.who} ${cap(p.motion.tag)}` : ''}`;
 }

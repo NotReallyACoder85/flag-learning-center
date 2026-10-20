@@ -80,7 +80,8 @@ export function zoneTargets(defs, E) {
 export function targets2(P, E, digits, defs) {
   const { L, R } = sides(P);
   const t = {};
-  const kind = (l) => routeFor(digits[LET.indexOf(l)]).kind;
+  // a receiver with no route is treated like an in-breaker, so the defense stays home
+  const kind = (l) => (routeFor(digits[LET.indexOf(l)]) || { kind: 'in' }).kind;
   const def = zoneTargets(defs, E);
   [['L', L, 1], ['R', R, -1]].forEach(([sd, arr, inD]) => {
     const r1 = arr[0], r2 = arr[1];

@@ -19,6 +19,7 @@ export function renderLower(t) {
   lastKey = key;
 
   let html = '', n = 0;
+  const noRoutes = S.digits.every((d) => d == null);
   if (S.def === 'none') html = `<div class="l3 idle">${copy.idle.noDefense}</div>`;
   else {
     if (showTell) {
@@ -36,10 +37,11 @@ export function renderLower(t) {
         html += `<div class="l3 res"><span class="k">Open</span><div><b>${r.open} on the ${esc(route)}, ${r.sep.toFixed(1)} yds of space</b><span class="tx">${esc(r.why)}</span></div></div>`;
       }
     }
-    if (!n) html = `<div class="l3 idle">${sc.mover ? copy.idle.motion : copy.idle.play}</div>`;
+    if (!n) html = `<div class="l3 idle">${noRoutes ? copy.idle.noRoutes : sc.mover ? copy.idle.motion : copy.idle.play}</div>`;
   }
   $('#miniRead').textContent =
     S.def === 'none' ? 'Defense is off'
+    : noRoutes ? 'Pick a route for each receiver'
     : showRes ? (sc.result.tight ? 'Covered on every route' : `Open: ${sc.result.open} · ${ROUTES[S.digits[LET.indexOf(sc.result.open)]].name} · ${sc.result.sep.toFixed(1)} yds`)
     : 'Watching the play…';
   const L = $('#lower');

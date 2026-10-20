@@ -3,7 +3,7 @@ import { $ } from './dom.js';
 import { S } from './state.js';
 import { plays } from '../data/index.js';
 import { drawStatic } from './field.js';
-import { refresh, loadCall, togglePlay, play, replay, seek, playSoon, reduceMotion } from './player.js';
+import { refresh, loadCall, togglePlay, replay, seek } from './player.js';
 import { renderTiles, renderPlaybook } from './panels.js';
 import { renderBuilder, initBuilder } from './builder.js';
 import { setPickHandler, markSelected } from './field.js';
@@ -58,7 +58,6 @@ export function start() {
     if (!b) return;
     S.def = b.dataset.def;
     refresh(false);
-    playSoon(300);
   });
   $('#scrub').addEventListener('input', (e) => seek(e.target.value / 1000));
   [$('#tiles'), $('#chips')].forEach((box) =>
@@ -83,5 +82,4 @@ export function start() {
     togglePlay();
   });
 
-  if (reduceMotion) { play(); } else playSoon(700);
 }

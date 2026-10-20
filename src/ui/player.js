@@ -13,7 +13,7 @@ const ICO = {
 };
 export const reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-let raf = null, lastTs = 0, autoTimer = null;
+let raf = null, lastTs = 0;
 let afterRefresh = () => {};
 /** Let other modules (the builder) re-render when the scene changes. */
 export function onRefresh(fn) { afterRefresh = fn; }
@@ -50,7 +50,6 @@ function loop(ts) {
 }
 
 export function play() {
-  clearTimeout(autoTimer);
   if (reduceMotion) { S.t = ctx.sc.end; tick(S.t); stop(); return; }
   if (S.t >= ctx.sc.end - 0.01) S.t = 0;
   S.playing = true;
@@ -66,16 +65,15 @@ export function replay() {
 }
 
 export const togglePlay = () => (S.playing ? stop() : play());
-export const playSoon = (ms = 300) => { clearTimeout(autoTimer); autoTimer = setTimeout(play, ms); };
 
 /** Rebuild the scene from S and redraw everything. keepT keeps the current time. */
 export function refresh(keepT = false) {
   const focusKey = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.fk;
   stop();
-  clearTimeout(autoTimer);
   resetLower();
   ctx.sc = buildScene(S);
-  S.t = keepT ? clampN(S.t, 0, ctx.sc.end) : 0;
+  // Plays only run when the player presses Play. Reduced-motion users see the finished play.
+  S.t = reduceMotion ? ctx.sc.end : keepT ? clampN(S.t, 0, ctx.sc.end) : 0;
   drawScene();
   renderHead(); renderTiles(); renderCov(); renderLegend(); renderPlaybook();
   const zb = $('#zoneBtn');
@@ -98,11 +96,10 @@ export function seek(frac) {
 }
 
 /** Load a call string. Returns false if it does not parse. */
-export function loadCall(code, name, autoplay = true) {
+export function loadCall(code, name) {
   const p = parseCall(code);
   if (!p) return false;
   S.form = p.form; S.digits = p.digits; S.motion = p.motion; S.name = name || '';
   refresh(false);
-  if (autoplay) playSoon(450);
   return true;
 }

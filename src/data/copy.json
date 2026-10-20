@@ -22,6 +22,7 @@
   },
   "idle": {
     "noDefense": "Turn on a defense to see how it reacts to this play and where the open window is.",
+    "noRoutes": "No routes yet. Tap a receiver, then pick a route.",
     "motion": "Watch the motion. Does a defender follow?",
     "play": "Watch the play. The read shows up at the end."
   },

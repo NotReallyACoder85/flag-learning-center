@@ -1,10 +1,10 @@
 // Pure helpers for editing a play in the builder. Nothing here touches the DOM.
 import { MOTION_TAGS } from './constants.js';
 
-/** All fades, no motion (the "Clear routes" state). */
-export const erasedPlay = () => ({ digits: [9, 9, 9, 9, 9], motion: null });
+/** No routes at all, no motion (the "Clear routes" state). Receivers with no route stand still. */
+export const erasedPlay = () => ({ digits: [null, null, null, null, null], motion: null });
 
-/** New digits with route n for receiver index i (0 = A ... 4 = C). */
+/** New digits with route n (0-9, or null for none) for receiver index i (0 = A ... 4 = C). */
 export function setRoute(digits, i, n) {
   const next = digits.slice();
   next[i] = n;

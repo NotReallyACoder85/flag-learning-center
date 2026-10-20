@@ -31,7 +31,8 @@ export function buildScene(play) {
   LET.forEach((l, i) => {
     const [x0, y0] = post[l];
     const inD = l === 'C' ? cIn : x0 < 180 ? 1 : -1;
-    const pts = [[x0, y0]].concat(routeFor(play.digits[i]).points.map(([lat, d]) => [clamp(x0 - inD * lat * PX, 10, 350), LOS - d * PX]));
+    const route = routeFor(play.digits[i]); // undefined = no route: he stands still
+    const pts = [[x0, y0]].concat(route ? route.points.map(([lat, d]) => [clamp(x0 - inD * lat * PX, 10, 350), LOS - d * PX]) : []);
     path[l] = pts;
     E[l] = pts[pts.length - 1];
   });

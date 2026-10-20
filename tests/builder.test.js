@@ -19,8 +19,11 @@ describe('edit helpers', () => {
     expect(setMotionTag(null, 'enter')).toBeNull();
     expect(setMotionTag({ who: 'Y', tag: 'cross' }, 'spin')).toEqual({ who: 'Y', tag: 'cross' });
   });
-  it('erasedPlay is all fades, no motion', () => {
-    expect(erasedPlay()).toEqual({ digits: [9, 9, 9, 9, 9], motion: null });
+  it('erasedPlay has no routes at all and no motion', () => {
+    expect(erasedPlay()).toEqual({ digits: [null, null, null, null, null], motion: null });
+  });
+  it('a route can be assigned to a receiver who has none', () => {
+    expect(setRoute(erasedPlay().digits, 3, 7)).toEqual([null, null, null, 7, null]);
   });
 });
 

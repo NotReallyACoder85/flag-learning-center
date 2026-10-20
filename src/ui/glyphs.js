@@ -23,6 +23,7 @@ export function thumb(p) {
   let g = '<svg viewBox="0 66 360 304" aria-hidden="true"><line x1="0" x2="360" y1="300" y2="300" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>';
   LET.forEach((l) => {
     const pts = s2.path[l];
+    if (pts.length < 2) return;
     g += `<polyline points="${pts.map((q) => q[0].toFixed(0) + ',' + q[1].toFixed(0)).join(' ')}" fill="none" stroke="${HEX[l]}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/><g fill="${HEX[l]}">${arrowPath(pts[pts.length - 2], pts[pts.length - 1], 13)}</g>`;
   });
   if (s2.mover) {

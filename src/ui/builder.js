@@ -5,7 +5,7 @@ import { LET, ROUTES, checkCall, callText, erasedPlay, setRoute, setMotionWho, s
 import { formations } from '../data/index.js';
 import { glyph, formThumb } from './glyphs.js';
 import { cardHTML } from './panels.js';
-import { refresh, loadCall, playSoon } from './player.js';
+import { refresh, loadCall } from './player.js';
 import { loadMine, saveMine, MAX_NAME } from './storage.js';
 
 let mine = loadMine();
@@ -22,7 +22,6 @@ function change(fn) {
   S.name = 'My play';
   say('');
   refresh(false);
-  playSoon(250);
 }
 
 export function renderBuilder() {
@@ -50,6 +49,7 @@ export function renderBuilder() {
 }
 
 function save() {
+  if (S.digits.some((d) => d == null)) return say('Give every receiver a route before saving.');
   const code = callText(S);
   if (mine.some((p) => p.code.toLowerCase() === code.toLowerCase())) return say('That play is already saved.');
   mine.unshift({ code, name: 'My play ' + (mine.length + 1) });

@@ -69,6 +69,7 @@ export function drawScene() {
   LET.forEach((l) => {
     const pts = sc.path[l];
     lens[l] = polyLen(pts);
+    if (pts.length < 2) return; // no route to draw
     const s = pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
     el('polyline', { points: s, fill: 'none', stroke: COL[l], 'stroke-width': 2, 'stroke-opacity': 0.42, 'stroke-dasharray': '2 5', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, G.routes);
     const a = pts[pts.length - 2], b = pts[pts.length - 1];
@@ -137,6 +138,7 @@ export function renderField(t) {
   });
   const u = clamp((t - sc.ts) / sc.routeDur, 0, 1);
   LET.forEach((l) => {
+    if (!trails[l]) return;
     const d = `${(u * lens[l]).toFixed(1)} ${(lens[l] + 20).toFixed(1)}`;
     trails[l].forEach((p) => p.setAttribute('stroke-dasharray', u <= 0 ? '0 9999' : d));
   });

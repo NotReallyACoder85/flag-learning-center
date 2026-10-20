@@ -1,7 +1,7 @@
 // HTML renderers for the head, receiver tiles, defense picker, legend and Playbook panel.
 import { $, cap, esc } from './dom.js';
 import { S } from './state.js';
-import { LET, ROUTES, callText, parseCall } from '../engine/index.js';
+import { LET, ROUTES, callText, digitsText, parseCall } from '../engine/index.js';
 import { formations, plays, copy } from '../data/index.js';
 import { glyph, thumb, COV_ICON } from './glyphs.js';
 import { HEX } from './theme.js';
@@ -16,12 +16,12 @@ export function renderHead() {
 
 export function renderTiles() {
   $('#tiles').innerHTML = LET.map((l, i) => {
-    const n = S.digits[i];
-    return `<button class="tile" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${glyph(n)}<span class="num">${n}</span><span class="rn">${esc(ROUTES[n].name)}</span></button>`;
+    const n = S.digits[i], r = ROUTES[n]; // r is undefined when the receiver has no route
+    return `<button class="tile" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: ${r ? `route ${n}, ${esc(r.name)}` : 'no route'}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${r ? glyph(n) : '<svg viewBox="0 0 40 44" aria-hidden="true"></svg>'}<span class="num">${r ? n : '–'}</span><span class="rn">${r ? esc(r.name) : 'No route'}</span></button>`;
   }).join('');
   $('#chips').innerHTML = LET.map((l, i) => {
-    const n = S.digits[i];
-    return `<button class="chip" data-l="${l}" data-fk="chip:${l}" style="--c:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: route ${n}, ${esc(ROUTES[n].name)}. Tap to change."><span class="cl ${l === 'C' ? 'sq' : ''}">${l}</span><b>${n}</b></button>`;
+    const n = S.digits[i], r = ROUTES[n];
+    return `<button class="chip" data-l="${l}" data-fk="chip:${l}" style="--c:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: ${r ? `route ${n}, ${esc(r.name)}` : 'no route'}. Tap to change."><span class="cl ${l === 'C' ? 'sq' : ''}">${l}</span><b>${r ? n : '–'}</b></button>`;
   }).join('');
 }
 
@@ -54,7 +54,7 @@ export function renderPlaybook() {
   const entry = plays.find((p) => p.call.toLowerCase() === cur);
   $('#anat').innerHTML =
     `<div class="seg3"><b>${formations[S.form].name}</b><span>Formation. ${formations[S.form].desc}</span></div>` +
-    `<div class="seg3"><b>${S.digits.join('')}</b><span>Routes left to right: A, B, Y, Z, then the center C.</span></div>` +
+    `<div class="seg3"><b>${digitsText(S.digits)}</b><span>Routes left to right: A, B, Y, Z, then the center C.</span></div>` +
     (S.motion ? `<div class="seg3 m"><b>${S.motion.who} ${cap(S.motion.tag)}</b><span>Motion. ${S.motion.who} ${copy.motionDesc[S.motion.tag]}.</span></div>` : '') +
     (entry ? `<div class="note glass" style="flex-basis:100%">${esc(entry.note)}</div>` : '');
   $('#plays').innerHTML = plays.map((p, i) => cardHTML(p.call, p.name, `data-i="${i}" data-fk="card:${i}"`, p.call.toLowerCase() === cur)).join('');
