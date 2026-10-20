@@ -1,0 +1,15 @@
+[
+  { "call": "Dubs 21129",          "name": "Slant / Speed",         "note": "Quick game. Slants inside, speed outs outside, and the center runs the fade to hold the deep middle.", "tags": ["quick game"] },
+  { "call": "Dubs 21129 Y Cross",  "name": "Slant / Speed, Y Cross", "note": "Same routes. Y crosses to give a trips-left look. Watch who follows him.", "tags": ["quick game", "motion"] },
+  { "call": "Dubs 99999",          "name": "Five Verticals",        "note": "Everyone goes. Stretches every deep zone.", "tags": ["deep"] },
+  { "call": "Dubs 93591",          "name": "Flood Right",           "note": "Three levels to the right: fade, out and the center in the flat.", "tags": ["flood"] },
+  { "call": "Dubs 94699",          "name": "Mesh",                  "note": "The slots cross at different depths while both outside men and the center clear deep.", "tags": ["crossers"] },
+  { "call": "Dubs 91963",          "name": "Dagger",                "note": "Y clears the seam, Z digs behind it, center sits underneath.", "tags": ["deep"] },
+  { "call": "Dubs 90683",          "name": "Mills",                 "note": "Z post with Y dig underneath attacks the deep middle.", "tags": ["deep"] },
+  { "call": "Trips 07294",         "name": "Trips Smash",           "note": "Comeback with a corner over the top on the three-receiver side.", "tags": ["smash"] },
+  { "call": "Chiefs 93496",        "name": "Bunch Cross",           "note": "Whip and jerk from the bunch cross, with the center on a dig.", "tags": ["crossers", "bunch"] },
+  { "call": "Chiefs 93496 B Exit", "name": "Bunch Cross, B Exit",   "note": "B motions out to the sideline before the snap.", "tags": ["bunch", "motion"] },
+  { "call": "Quads 98641",         "name": "Quads Layers",          "note": "Four routes stacked at different depths on one side.", "tags": ["layers"] },
+  { "call": "Dubs Tight 22222",    "name": "Tight Slants",          "note": "Five slants from a compressed set.", "tags": ["quick game"] },
+  { "call": "Dubs 99999 Z Enter",  "name": "Verticals, Z Enter",    "note": "Z motions in toward the center before the snap.", "tags": ["deep", "motion"] }
+]

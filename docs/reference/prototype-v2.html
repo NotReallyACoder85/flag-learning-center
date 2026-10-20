@@ -1,0 +1,771 @@
+<title>Rams Playbook Pro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Concept: broadcast film room. Stadium-night ink, glass panels, a tilted field that fades into the dark, routes that draw as players run, and a call ticker with a route glyph per receiver. Gold is reserved for the live/selected state. Single dark look by design. */
+:root{
+  color-scheme:dark;
+  --ink:#030612; --night:#07102B; --fg:#EEF3FF; --muted:#8FA0D0; --dim:#5C6C9C;
+  --blue:#3170FF; --royal:#0B3AC2; --gold:#FFD21F; --good:#52E08E; --bad:#FF7B6E;
+  --glass:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  --edge:rgba(170,195,255,.16); --edge2:rgba(170,195,255,.3);
+  --cA:#F59A3C; --cB:#4C8DFF; --cY:#27D3B2; --cZ:#C060F2; --cC:#B7C2DB; --cQ:#F0484B;
+  --d-deep:#6EA2FF; --d-flat:#FFD21F; --d-hook:#FFFFFF;
+  --f-disp:'Big Shoulders Display','Barlow Condensed',Impact,'Arial Narrow',sans-serif;
+  --f-cond:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;
+  --f-body:'Barlow',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --tilt:18deg;
+}
+*{box-sizing:border-box}
+html{background:var(--ink)}
+body{margin:0;background:var(--ink);color:var(--fg);font:16px/1.5 var(--f-body);min-height:100vh;
+  background-image:
+   radial-gradient(1100px 620px at 88% -8%,rgba(49,112,255,.42),transparent 62%),
+   radial-gradient(800px 520px at -8% 26%,rgba(255,210,31,.09),transparent 62%),
+   radial-gradient(900px 700px at 50% 120%,rgba(11,58,194,.35),transparent 60%),
+   linear-gradient(180deg,#060D26 0%,#030612 70%)}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>")}
+.lines{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background:repeating-linear-gradient(0deg,transparent 0 119px,rgba(170,195,255,.05) 119px 120px);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+.wrap{position:relative;z-index:1;max-width:1180px;margin-inline:auto;padding-block:max(14px,env(safe-area-inset-top,0px)) 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.glass{background:var(--glass);border:1px solid var(--edge);border-radius:20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 24px 60px -28px rgba(0,0,0,.9)}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 18px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand .rm{font:900 1.9rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.brand .pb{font:600 .78rem var(--f-cond);letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.tabs{display:flex;gap:2px;padding:4px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--edge)}
+.tab{border:0;background:transparent;padding:8px 16px;border-radius:999px;font:600 .8rem var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:.2s}
+.tab[aria-selected="true"]{background:#fff;color:#07102B}
+.app{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+@media(min-width:960px){.app{grid-template-columns:minmax(0,1.12fr) minmax(0,.9fr)}}
+@media(min-width:960px) and (min-height:1080px){.stage{position:sticky;top:16px}}
+.stage,.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* call head */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 16px}
+.eyebrow{font:600 .72rem var(--f-cond);letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.fmname{font:900 clamp(2.6rem,9vw,4.4rem)/.88 var(--f-disp);letter-spacing:.01em;text-transform:uppercase;background:linear-gradient(180deg,#fff 30%,#9DB6FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hr{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
+.pname{font:600 1rem var(--f-body);color:#C5D2F7}
+.mchip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;background:var(--gold);color:#0A1230;font:700 .78rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase}
+.mchip.none{background:rgba(255,255,255,.08);color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.tile{position:relative;border:1px solid var(--edge);border-radius:16px;padding:12px 4px 9px;background:var(--glass);display:flex;flex-direction:column;align-items:center;gap:2px;overflow:hidden;transition:.2s;min-width:0}
+.tile::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--c)}
+.tile:hover{border-color:var(--edge2)}
+.tile .let{position:absolute;top:8px;left:8px;width:18px;height:18px;border-radius:50%;background:var(--c);color:#06102A;font:800 .65rem/18px var(--f-body);text-align:center}
+.tile .let.sq{border-radius:5px}
+.tile svg{width:34px;height:40px;margin-top:6px;overflow:visible}
+.tile .num{font:900 2.5rem/1 var(--f-disp);color:#fff}
+.tile .rn{font:600 .66rem var(--f-cond);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tile[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 28px -4px rgba(255,210,31,.45)}
+.tile[aria-pressed="true"] .num{color:var(--gold)}
+
+/* pitch */
+.pitchwrap{perspective:1400px;perspective-origin:50% 100%;max-width:560px;width:100%;margin:-7% auto 0}
+@media(max-width:700px){.pitchwrap{margin-top:-3%}}
+.pitch{transform-origin:50% 100%;transform:rotateX(var(--tilt)) scale(1.02);transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  -webkit-mask-image:linear-gradient(0deg,#000 86%,transparent 100%);mask-image:linear-gradient(0deg,#000 86%,transparent 100%);
+  filter:drop-shadow(0 30px 40px rgba(0,0,0,.55))}
+.flat .pitch{transform:none}
+#field{width:100%;height:auto;display:block;border-radius:18px;border:1px solid var(--edge2)}
+
+/* deck */
+.deck{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:999px}
+.pbtn{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:var(--gold);color:#0A1230;display:grid;place-items:center;box-shadow:0 0 0 5px rgba(255,210,31,.18),0 10px 24px -8px rgba(255,210,31,.6);transition:transform .15s}
+.pbtn:active{transform:scale(.94)}
+#scrub{-webkit-appearance:none;appearance:none;flex:1 1 80px;min-width:0;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--gold) var(--p,0%),rgba(255,255,255,.14) var(--p,0%));outline-offset:6px}
+#scrub::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
+#scrub::-moz-range-thumb{width:16px;height:16px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,210,31,.35)}
+.opt{flex:none;border:1px solid var(--edge);background:rgba(255,255,255,.05);border-radius:999px;padding:7px 12px;font:600 .72rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.opt[aria-pressed="true"]{color:var(--gold);border-color:rgba(255,210,31,.55)}
+.opt:disabled{opacity:.35;cursor:default}
+@media(max-width:560px){.deck{flex-wrap:wrap;border-radius:22px;padding:12px}.deck #scrub{order:3;flex-basis:100%}.deck .pbtn{order:0}.deck .opts{order:1;margin-left:auto}}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+
+/* coverage */
+.cov{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.cv{border:1px solid var(--edge);border-radius:16px;padding:10px 6px 9px;background:var(--glass);display:flex;flex-direction:column;align-items:center;gap:6px;transition:.2s;min-width:0}
+.cv svg{width:44px;height:28px}
+.cv b{font:700 .95rem var(--f-cond);letter-spacing:.1em;text-transform:uppercase}
+.cv span{font:500 .66rem var(--f-body);color:var(--dim);margin-top:-4px;text-align:center}
+.cv[aria-pressed="true"]{border-color:#fff;background:linear-gradient(180deg,rgba(49,112,255,.5),rgba(49,112,255,.16));box-shadow:0 0 30px -8px rgba(49,112,255,.8)}
+.cv[aria-pressed="true"] span{color:#C9D8FF}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font:500 .8rem var(--f-body);color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2.5px solid}
+
+/* lower third */
+.lower{display:grid;gap:8px;min-height:92px}
+@media(min-width:560px){.lower.two{grid-template-columns:1fr 1fr}}
+.l3{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;border:1px solid var(--edge);background:var(--glass);animation:rise .45s cubic-bezier(.2,.8,.2,1)}
+.l3 .k{flex:none;padding:3px 9px;border-radius:6px;font:700 .72rem var(--f-cond);letter-spacing:.16em;text-transform:uppercase}
+.l3.tell .k{background:var(--gold);color:#0A1230}
+.l3.res .k{background:var(--good);color:#04200F}
+.l3.res.tight .k{background:var(--bad);color:#2A0804}
+.l3 b{display:block;font:700 1.02rem/1.25 var(--f-body)}
+.l3 span.tx{display:block;font-size:.88rem;color:#BFCBEE;line-height:1.4;margin-top:2px}
+.l3.idle{color:var(--dim);font-size:.9rem;align-items:center}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* side panels */
+.panel{display:flex;flex-direction:column;gap:18px}
+.panel[hidden]{display:none!important}
+.sec{display:flex;flex-direction:column;gap:10px}
+.lbl{font:600 .72rem var(--f-cond);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:1180px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{text-align:left;border:1px solid var(--edge);border-radius:18px;background:var(--glass);padding:0;overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:.2s}
+.card:hover{border-color:var(--edge2);transform:translateY(-2px)}
+.card[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 30px -6px rgba(255,210,31,.4)}
+.card .th{background:linear-gradient(180deg,#0B2A66,#071A45);line-height:0}
+.card .th svg{width:100%;height:auto}
+.card .bd{padding:9px 12px 11px;display:flex;flex-direction:column;gap:1px}
+.card .cd{font:800 1.15rem/1.1 var(--f-disp);letter-spacing:.07em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}
+.card .cd small{font:600 .66rem var(--f-cond);letter-spacing:.14em;color:var(--muted)}
+.card .cd i{font:700 .6rem var(--f-cond);letter-spacing:.12em;font-style:normal;background:var(--gold);color:#0A1230;border-radius:5px;padding:1px 6px}
+.card .cn{font-size:.8rem;color:var(--muted)}
+.mine{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch}
+.xbtn{border:1px solid var(--edge);border-radius:14px;background:rgba(255,255,255,.04);padding:0 12px;font:600 .7rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.xbtn:hover{color:var(--bad);border-color:rgba(255,123,110,.5)}
+.anat{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.seg3{flex:1 1 110px;border:1px solid var(--edge);border-radius:14px;padding:10px 12px;background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:2px;min-width:0}
+.seg3 b{font:900 1.7rem/1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase}
+.seg3 span{font:500 .78rem var(--f-body);color:var(--muted)}
+.seg3.m b{color:var(--gold)}
+.note{padding:14px 16px;border-radius:16px;color:#C5D2F7;font-size:.95rem}
+.formrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.fcard{border:1px solid var(--edge);border-radius:14px;background:var(--glass);padding:8px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.fcard svg{width:100%;height:auto}
+.fcard b{font:700 .68rem var(--f-cond);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.fcard[aria-pressed="true"]{border-color:#fff;background:linear-gradient(180deg,rgba(49,112,255,.5),rgba(49,112,255,.14))}
+.keys{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.key{color:var(--fg);border:1px solid var(--edge);border-radius:14px;background:var(--glass);padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:0;min-width:0;transition:.15s}
+.key svg{width:30px;height:36px;overflow:visible}
+.key b{font:900 1.35rem/1.1 var(--f-disp)}
+.key span{font:600 .6rem var(--f-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.key:hover{border-color:var(--edge2)}
+.key[aria-pressed="true"]{color:var(--gold);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.key[aria-pressed="true"] b{color:var(--gold)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{border:1px solid var(--edge);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 14px;font:600 .78rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase}
+.pill[aria-pressed="true"]{background:#fff;color:#07102B;border-color:#fff}
+.pill:disabled{opacity:.35;cursor:default}
+.codein{display:flex;gap:8px}
+.codein input{flex:1 1 auto;min-width:0;padding:12px 16px;border-radius:14px;border:1px solid var(--edge2);background:rgba(3,6,18,.6);color:#fff;font:800 1.15rem var(--f-disp);letter-spacing:.12em;text-transform:uppercase}
+.cta{border:0;border-radius:14px;padding:12px 18px;background:var(--gold);color:#0A1230;font:700 .85rem var(--f-cond);letter-spacing:.14em;text-transform:uppercase}
+.cta.ghost{background:rgba(255,255,255,.07);color:var(--fg);border:1px solid var(--edge)}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.err{color:var(--bad);font-size:.85rem;min-height:1.2em}
+.train{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.tc{padding:18px;border-radius:18px;display:flex;flex-direction:column;gap:8px;min-height:150px;position:relative;overflow:hidden}
+.tc h3{margin:0;font:900 1.5rem/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.tc p{margin:0;color:var(--muted);font-size:.9rem}
+.tc .soon{align-self:flex-start;font:700 .64rem var(--f-cond);letter-spacing:.2em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(255,210,31,.14);color:var(--gold)}
+.tc .big{position:absolute;right:-6px;bottom:-22px;font:900 6.5rem/1 var(--f-disp);color:rgba(255,255,255,.05)}
+/* svg */
+.off{cursor:pointer}
+.off text{font:800 12px var(--f-body);fill:#06102A;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.dt{font:800 10px var(--f-body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.zl{font:700 7.5px var(--f-cond);letter-spacing:.14em;text-transform:uppercase;text-anchor:middle;fill:#fff;opacity:.65}
+.yl{font:700 8.5px var(--f-cond);fill:#fff;opacity:.4;letter-spacing:.18em}
+.yn{font:900 34px var(--f-disp);fill:#fff;opacity:.07;text-anchor:middle}
+.halo{fill:none;stroke:var(--gold);stroke-width:2.5;opacity:0}
+.hot .halo{opacity:1;animation:pulse 1.2s ease-out infinite}
+@keyframes pulse{0%{r:14;opacity:.95}100%{r:27;opacity:0}}
+@media(max-width:700px){:root{--tilt:12deg}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.pitch{transform:none}}
+</style>
+<div class="grain" aria-hidden="true"></div><div class="lines" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="nav">
+    <div class="brand"><span class="rm">Rams</span><span class="pb">Playbook</span></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-play" data-tab="play" aria-selected="true">Plays</button>
+      <button class="tab" role="tab" id="tab-build" data-tab="build" aria-selected="false">Builder</button>
+      <button class="tab" role="tab" id="tab-train" data-tab="train" aria-selected="false">Train</button>
+    </nav>
+  </header>
+
+  <main class="app">
+    <section class="stage" aria-label="Field">
+      <div class="head">
+        <div><div class="eyebrow" id="eyebrow">Formation</div><div class="fmname" id="fmName"></div></div>
+        <div class="hr"><div class="pname" id="callName"></div><div id="mChip"></div></div>
+      </div>
+      <div class="tiles" id="tiles" role="group" aria-label="Routes by receiver"></div>
+      <div class="pitchwrap" id="pitchwrap"><div class="pitch"><svg id="field" viewBox="0 0 360 400" role="img" aria-label="Formation, routes and defenders on the field"></svg></div></div>
+      <div class="deck glass">
+        <button class="pbtn" id="playBtn" aria-label="Play"><svg id="playIco" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3l12 7-12 7z" fill="currentColor"/></svg></button>
+        <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub through the play">
+        <div class="opts">
+          <button class="opt" id="slowBtn" aria-pressed="false">Slow</button>
+          <button class="opt" id="zoneBtn" aria-pressed="true">Zones</button>
+          <button class="opt" id="viewBtn" aria-pressed="true">3D</button>
+        </div>
+      </div>
+      <div class="cov" id="covSeg" role="group" aria-label="Defense"></div>
+      <div class="legend" id="legend"></div>
+      <div class="lower" id="lower" aria-live="polite"></div>
+    </section>
+
+    <section class="side">
+      <div class="panel" id="p-play" role="tabpanel" aria-labelledby="tab-play">
+        <div class="sec"><div class="lbl">How to read a call</div><div class="anat" id="anat"></div></div>
+        <div class="sec"><div class="lbl">Starter plays · draft</div><div class="cards" id="plays"></div></div>
+      </div>
+
+      <div class="panel" id="p-build" role="tabpanel" aria-labelledby="tab-build" hidden>
+        <div class="sec"><div class="lbl">1 · Formation</div><div class="formrow" id="formRow"></div></div>
+        <div class="sec"><div class="lbl" id="keyLbl">2 · Route</div><div class="keys" id="keys"></div><div class="lbl" style="letter-spacing:.14em;text-transform:none;font-family:var(--f-body);font-size:.8rem;color:var(--dim)">Tap a receiver above the field to choose who gets the route.</div></div>
+        <div class="sec"><div class="lbl">3 · Motion</div><div class="pills" id="mWho"></div><div class="pills" id="mTag"></div></div>
+        <div class="sec"><div class="lbl">Call code</div>
+          <form class="codein" id="codeForm"><input id="codeIn" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type a play call, like Dubs 21129 Y Cross"><button class="cta" type="submit">Draw</button></form>
+          <div class="err" id="codeErr" role="status"></div>
+          <div class="row"><button class="cta" id="saveBtn" type="button">Save play</button><button class="cta ghost" id="resetBtn" type="button">Clear routes</button></div>
+        </div>
+        <div class="sec"><div class="lbl">My plays · saved on this device</div><div id="mine" style="display:flex;flex-direction:column;gap:10px"></div></div>
+      </div>
+
+      <div class="panel" id="p-train" role="tabpanel" aria-labelledby="tab-train" hidden>
+        <div class="lbl">Coming in v1</div>
+        <div class="train">
+          <div class="tc glass"><span class="soon">Next</span><h3>Call quiz</h3><p>See a play and pick the call, or read a call and pick the picture.</p><span class="big">21</span></div>
+          <div class="tc glass"><span class="soon">Next</span><h3>Read the defense</h3><p>Pre-snap look plus motion. Man or zone? The tell is revealed after you answer.</p><span class="big">?</span></div>
+          <div class="tc glass"><span class="soon">Next</span><h3>Beat the coverage</h3><p>Pick a defense, build a play to beat it, then watch if it works.</p><span class="big">W</span></div>
+          <div class="tc glass"><span class="soon">Next</span><h3>Concept cards</h3><p>Route combos, field zones, sequencing, and how motion shows leverage.</p><span class="big">C</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const LOS=300, PX=12, QB=[180,348];
+const LET=['A','B','Y','Z','C'];
+const COL={A:'var(--cA)',B:'var(--cB)',Y:'var(--cY)',Z:'var(--cZ)',C:'var(--cC)'};
+/* x px on a 360px (30 yd) wide field; second value is yards off the line */
+const FORMS={
+  dubs:{name:'Dubs',pos:{A:[45,0],B:[108,1],C:[180,0],Y:[252,1],Z:[315,0]}},
+  chiefs:{name:'Chiefs',pos:{A:[45,0],B:[154,0],C:[180,0],Y:[206,0],Z:[315,0]}},
+  dubstight:{name:'Dubs Tight',pos:{A:[108,0],B:[144,0],C:[180,0],Y:[216,0],Z:[252,0]}},
+  trips:{name:'Trips',pos:{A:[45,0],B:[71,0],C:[180,0],Y:[97,0],Z:[315,0]}},
+  quads:{name:'Quads',pos:{A:[35,0],B:[61,0],C:[180,0],Y:[87,0],Z:[158,0]}}
+};
+/* lateral yards (+ = toward sideline) and depth yards, relative to the receiver's own alignment */
+const ROUTES=[
+  {n:'Comeback',k:'out',p:[[0,12],[2,9]]},
+  {n:'Speed Out',k:'out',p:[[0,4],[8,4.5]]},
+  {n:'Slant',k:'in',p:[[0,1.5],[-6,7]]},
+  {n:'Whip',k:'out',p:[[0,5],[-2,6],[6,5.5]]},
+  {n:'Jerk',k:'in',p:[[0,5],[2,6],[-7,5.5]]},
+  {n:'Out',k:'out',p:[[0,11],[7,11]]},
+  {n:'Dig',k:'in',p:[[0,12],[-9,12]]},
+  {n:'Corner',k:'vert',p:[[0,10],[7,17]]},
+  {n:'Post',k:'in',p:[[0,10],[-6,17]]},
+  {n:'Fade/Go',k:'vert',p:[[0,6],[1.5,18]]}
+];
+const LIB=[
+  ['Dubs 21129','Slant / Speed','Quick game. Slants inside, speed outs outside, and the center runs the fade to hold the deep middle.'],
+  ['Dubs 21129 Y Cross','Slant / Speed, Y Cross','Same routes. Y crosses to give a trips-left look. Watch who follows him.'],
+  ['Dubs 99999','Five Verticals','Everyone goes. Stretches every deep zone.'],
+  ['Dubs 93591','Flood Right','Three levels to the right: fade, out and the center in the flat.'],
+  ['Dubs 94699','Mesh','The slots cross at different depths while both outside men and the center clear deep.'],
+  ['Dubs 91963','Dagger','Y clears the seam, Z digs behind it, center sits underneath.'],
+  ['Dubs 90683','Mills','Z post with Y dig underneath attacks the deep middle.'],
+  ['Trips 07294','Trips Smash','Comeback with a corner over the top on the three-receiver side.'],
+  ['Chiefs 93496','Bunch Cross','Whip and jerk from the bunch cross, with the center on a dig.'],
+  ['Chiefs 93496 B Exit','Bunch Cross, B Exit','B motions out to the sideline before the snap.'],
+  ['Quads 98641','Quads Layers','Four routes stacked at different depths on one side.'],
+  ['Dubs Tight 22222','Tight Slants','Five slants from a compressed set.'],
+  ['Dubs 99999 Z Enter','Verticals, Z Enter','Z motions in toward the center before the snap.']
+];
+const DEFNAME={c3:'Cover 3',c2:'Cover 2',man:'Man'};
+
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const lerp2=(p,q,t)=>[lerp(p[0],q[0],t),lerp(p[1],q[1],t)];
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const NS='http://www.w3.org/2000/svg';
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+function polyAt(pts,u){
+  let L=0;const seg=[];
+  for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(d);L+=d;}
+  if(!L)return pts[0];
+  let r=clamp(u,0,1)*L;
+  for(let i=0;i<seg.length;i++){
+    if(r<=seg[i]||i===seg.length-1){const f=seg[i]?clamp(r/seg[i],0,1):0;return [lerp(pts[i][0],pts[i+1][0],f),lerp(pts[i][1],pts[i+1][1],f)];}
+    r-=seg[i];
+  }
+  return pts[0];
+}
+const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================= CALL PARSING ================= */
+const FKEY={'dubs':'dubs','dubstight':'dubstight','chiefs':'chiefs','trips':'trips','quads':'quads'};
+function parseCall(s){
+  const m=String(s).trim().toLowerCase().match(/^(dubs[\s-]?tight|dubs|chiefs|trips|quads)\s*(\d{5})(?:\s+([abyz])\s*(cross|enter|exit))?$/);
+  if(!m)return null;
+  const form=FKEY[m[1].replace(/[\s-]/g,'')];
+  return {form,digits:m[2].split('').map(Number),motion:m[3]?{who:m[3].toUpperCase(),tag:m[4]}:null};
+}
+function callText(S){return FORMS[S.form].name+' '+S.digits.join('')+(S.motion?' '+S.motion.who+' '+S.motion.tag[0].toUpperCase()+S.motion.tag.slice(1):'');}
+function callHTML(S){
+  return `<span class="fm">${FORMS[S.form].name}</span><span class="dg">${S.digits.join('')}</span>`+(S.motion?`<span class="mo">${S.motion.who} ${S.motion.tag}</span>`:'');
+}
+
+/* ================= SCENE ================= */
+function sides(P){
+  const L=[],R=[];
+  ['A','B','Y','Z'].forEach(l=>(P[l][0]<180?L:R).push(l));
+  L.sort((a,b)=>P[a][0]-P[b][0]);R.sort((a,b)=>P[b][0]-P[a][0]);
+  return {L,R};
+}
+function motionDest(pre,who,tag){
+  const x=pre[who][0],left=x<180;
+  const others=['A','B','Y','Z'].filter(l=>l!==who);
+  const far=others.filter(l=>(pre[l][0]<180)!==left);
+  const same=others.filter(l=>(pre[l][0]<180)===left);
+  if(tag==='cross'){
+    let dx;
+    if(far.length){const inner=far.reduce((a,b)=>Math.abs(pre[a][0]-180)<Math.abs(pre[b][0]-180)?a:b);dx=pre[inner][0]+(left?-34:34);dx=pre[inner][0]+(left?-34:34);}
+    else dx=left?220:140;
+    dx=left?clamp(dx,210,340):clamp(dx,20,150);
+    return [dx,LOS+PX];
+  }
+  if(tag==='enter'){return [left?Math.max(x,148):Math.min(x,212),LOS+PX];}
+  const xs=same.map(l=>pre[l][0]);
+  let dx=left?22:338;
+  if(xs.length){const o=left?Math.min(...xs):Math.max(...xs);if(left?o<x:o>x)dx=o+(left?-26:26);}
+  return [clamp(dx,22,338),LOS];
+}
+function mkDef(id,label,cls,x,y,zone,zn,match){return {id,label,cls,x,y,zone,zn,match};}
+function align3(P){
+  const {L,R}=sides(P);
+  const cb=(arr,left)=>arr.length?clamp(P[arr[0]][0]+(left?10:-10),left?24:240,left?120:336):(left?100:260);
+  const lb=(arr,left)=>arr.length>=2?clamp(P[arr[1]][0]+(left?12:-12),left?60:222,left?138:300):arr.length===1?(left?105:255):(left?130:230);
+  return [
+    mkDef('LCB','CB','deep',cb(L,true),LOS-84,[8,56,112,132],'Deep left'),
+    mkDef('S','S','deep',180,LOS-132,[124,56,112,132],'Deep middle'),
+    mkDef('RCB','CB','deep',cb(R,false),LOS-84,[240,56,112,132],'Deep right'),
+    mkDef('LLB','LB','flat',lb(L,true),LOS-60,[8,192,112,84],'Flat'),
+    mkDef('M','M','hook',180,LOS-60,[124,192,112,84],'Middle'),
+    mkDef('RLB','LB','flat',lb(R,false),LOS-60,[240,192,112,84],'Flat')
+  ];
+}
+function align2(P){
+  const {L,R}=sides(P);const out=[];
+  [['L',L,1,true],['R',R,-1,false]].forEach(([sd,arr,inD,left])=>{
+    const r1=arr[0],r2=arr[1];
+    const cx=r1?clamp(P[r1][0]+inD*24,left?24:240,left?120:336):(left?54:306);
+    const lx=r2?clamp(P[r2][0]+inD*36,left?100:210,left?150:260):(left?141:219);
+    const sx=r2?clamp(P[r2][0]+inD*12,left?85:225,left?135:275):(left?117:243);
+    out.push(mkDef(sd+'CB','CB','flat',cx,LOS-60,left?[8,192,92,84]:[260,192,92,84],'Flat'));
+    out.push(mkDef(sd+'LB','LB','hook',lx,LOS-36,left?[104,192,72,84]:[184,192,72,84],'Hook'));
+    out.push(mkDef(sd+'S','S','deep',sx,LOS-120,left?[8,56,168,132]:[184,56,168,132],'Deep half'));
+  });
+  return out;
+}
+const inRect=(p,z)=>p[0]>=z[0]&&p[0]<=z[0]+z[2]&&p[1]>=z[1]&&p[1]<=z[1]+z[3];
+function zoneTargets(defs,E){
+  const t={};
+  defs.forEach(d=>{
+    const z=d.zone,cx=z[0]+z[2]/2,deep=z[1]<100;
+    const base=[cx,deep?LOS-15*PX:LOS-6*PX];
+    const c=LET.filter(l=>inRect(E[l],z));
+    if(!c.length){t[d.id]=base;return;}
+    const r=E[c.reduce((a,b)=>Math.hypot(E[a][0]-base[0],E[a][1]-base[1])<Math.hypot(E[b][0]-base[0],E[b][1]-base[1])?a:b)];
+    t[d.id]=deep?[lerp(cx,r[0],.65),clamp(r[1]-14,50,190)]:[lerp(cx,r[0],.6),clamp(r[1]+8,196,284)];
+  });
+  return t;
+}
+function targets2(P,E,S,defs){
+  const {L,R}=sides(P);const t={};
+  const kind=l=>ROUTES[S.digits[LET.indexOf(l)]].k;
+  const def=zoneTargets(defs,E);
+  [['L',L,1],['R',R,-1]].forEach(([sd,arr,inD])=>{
+    const r1=arr[0],r2=arr[1];if(!r2)return;
+    const e1=r1&&E[r1],e2=E[r2],out=-inD,k=kind(r2);
+    const cb=sd+'CB',lb=sd+'LB',s=sd+'S',lbA=defs.find(d=>d.id===lb);
+    if(k==='out'){
+      t[cb]=[e2[0]+out*8,clamp(e2[1]+6,190,290)];
+      if(e1)t[s]=[e1[0]+inD*6,e1[1]-20];
+      t[lb]=[lbA.x+out*10,LOS-96];
+    }else if(k==='in'){
+      if(e1){t[cb]=[e1[0],e1[1]-24];t[s]=[e1[0]+inD*8,e1[1]-10];}
+      t[lb]=[e2[0]+inD*4,e2[1]+8];
+    }else{
+      if(e1)t[cb]=[e1[0],e1[1]-24];
+      t[s]=[e2[0],e2[1]-22];
+      t[lb]=[lbA.x,LOS-120];
+    }
+  });
+  Object.keys(t).forEach(k=>{t[k]=[clamp(t[k][0],10,350),clamp(t[k][1],48,288)];def[k]=t[k];});
+  return def;
+}
+
+function buildScene(S){
+  const f=FORMS[S.form];
+  const pre={};LET.forEach(l=>pre[l]=[f.pos[l][0],LOS+f.pos[l][1]*PX]);
+  const post={};LET.forEach(l=>post[l]=pre[l].slice());
+  const mover=S.motion?S.motion.who:null;
+  if(mover)post[mover]=motionDest(pre,mover,S.motion.tag);
+  const lc=['A','B','Y','Z'].filter(l=>post[l][0]<178).length,rc=['A','B','Y','Z'].filter(l=>post[l][0]>182).length;
+  const cIn=lc>rc?-1:1;
+  const path={},E={};
+  LET.forEach((l,i)=>{
+    const x0=post[l][0],y0=post[l][1];
+    const inD=l==='C'?cIn:(x0<180?1:-1);
+    const pts=[[x0,y0]].concat(ROUTES[S.digits[i]].p.map(([lat,d])=>[clamp(x0-inD*lat*PX,10,350),LOS-d*PX]));
+    path[l]=pts;E[l]=pts[pts.length-1];
+  });
+  const tm=mover?1.4:0,ts=tm+(mover?0.4:0.5),routeDur=S.slow?7:3.6,end=ts+routeDur+0.7;
+  const offPos=(l,t)=>{
+    if(t<tm&&l===mover)return lerp2(pre[l],post[l],ease(t/tm));
+    if(t<ts)return post[l];
+    return polyAt(path[l],(t-ts)/routeDur);
+  };
+  const sc={pre,post,path,E,tm,ts,routeDur,end,mover,offPos,defs:[],stateAt:null,cov:S.def};
+  const CUSH=42;
+  if(S.def==='c3'||S.def==='c2'){
+    const mk=S.def==='c3'?align3:align2;
+    const A0=mk(pre),A1=mk(post);
+    const T=S.def==='c3'?zoneTargets(A1,E):targets2(post,E,S,A1);
+    sc.defs=A1.map((d,i)=>Object.assign({},d,{a0:[A0[i].x,A0[i].y],a1:[d.x,d.y],tg:T[d.id]}));
+    sc.stateAt=t=>{
+      const off={},def={};LET.forEach(l=>off[l]=offPos(l,t));
+      const u=(t-ts)/routeDur;
+      sc.defs.forEach(d=>{
+        if(t<ts){const k=mover?ease(clamp((t-0.25)/(tm-0.15),0,1)):1;def[d.id]=lerp2(d.a0,d.a1,k);}
+        else def[d.id]=lerp2(d.a1,d.tg,ease(clamp((u-0.05)/0.9,0,1)));
+      });
+      return {off,def};
+    };
+  }else if(S.def==='man'){
+    const manPos=(l,t)=>{
+      const u=clamp((t-ts)/routeDur,0,1);
+      const rp=t<ts?offPos(l,t):polyAt(path[l],clamp(u-0.12,0,1));
+      const shade=l==='C'?0:clamp((180-rp[0])/30,-1,1)*6;
+      const c=10+(CUSH-10)*(1-ease(clamp(u*1.5,0,1)));
+      return [rp[0]+shade,rp[1]-c];
+    };
+    const deep=LET.reduce((a,b)=>E[a][1]<E[b][1]?a:b);
+    const sA=[180,LOS-132],sT=[lerp(180,E[deep][0],.35),Math.min(E[deep][1]-20,150)];
+    sc.defs=LET.map(l=>mkDef('D'+l,l,'flat',0,0,null,'',l)).concat([mkDef('S','S','deep',180,LOS-132,null,'')]);
+    sc.stateAt=t=>{
+      const off={},def={};LET.forEach(l=>off[l]=offPos(l,t));
+      LET.forEach(l=>def['D'+l]=manPos(l,t));
+      def.S=t<ts?sA:lerp2(sA,sT,ease(clamp(((t-ts)/routeDur-0.05)/0.9,0,1)));
+      return {off,def};
+    };
+  }else{
+    sc.stateAt=t=>{const off={};LET.forEach(l=>off[l]=offPos(l,t));return {off,def:{}};};
+  }
+  sc.result=evaluate(sc,S);
+  return sc;
+}
+
+function evaluate(sc,S){
+  if(!sc.defs.length)return null;
+  const st=sc.stateAt(sc.end);
+  let best=null;
+  LET.forEach(l=>{
+    const p=st.off[l];let md=1e9,who='';
+    sc.defs.forEach(d=>{const q=st.def[d.id];const dist=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dist<md){md=dist;who=d.id;}});
+    const sep=md/PX;
+    if(!best||sep>best.sep)best={l,sep,p,who};
+  });
+  const tight=best.sep<2.2;
+  return {open:best.l,sep:best.sep,tight,why:whyText(S.def,best.p,best.l,S)};
+}
+function whyText(cov,p,l,S){
+  const d=(LOS-p[1])/PX,wide=Math.abs(p[0]-180)>84,r=ROUTES[S.digits[LET.indexOf(l)]].n;
+  if(cov==='c3'){
+    if(d<=9&&wide)return 'He is in the flat. Cover 3 has only three players underneath, so quick outs and flats get room.';
+    if(d>9&&Math.abs(Math.abs(p[0]-180)-60)<36)return 'He is in the seam between the corner and the safety. Thirds leave a gap where they meet.';
+    if(d>9)return 'He is deep and ran away from his third.';
+    return 'He is in the soft spot between the linebackers and the M underneath.';
+  }
+  if(cov==='c2'){
+    if(d>11&&Math.abs(p[0]-180)<50)return 'He is in the deep middle. Two safeties split the field, so the hole between them is the soft spot in Cover 2.';
+    if(d>9&&wide)return 'He is on the deep sideline, behind the corner and outside the safety.';
+    return 'He is in a hook or curl window. The linebackers have a lot of ground to cover.';
+  }
+  return 'He won his one-on-one. The '+r.toLowerCase()+' broke away from a defender who was trailing him.';
+}
+
+/* ================= V2 UI ================= */
+const HEX={A:'#F59A3C',B:'#4C8DFF',Y:'#27D3B2',Z:'#C060F2',C:'#B7C2DB'};
+const FDESC={dubs:'2x2. Two receivers on each side of the center.',chiefs:'1x1 with B, C and Y bunched tight in the middle.',dubstight:'2x2 compressed into a tight set.',trips:'3x1. Three receivers on the left, Z alone on the right.',quads:'4x0. All four receivers stacked to the left.'};
+const MDESC={cross:'crosses the center to the other side of the formation',enter:'moves in toward the center but does not cross',exit:'moves out toward the sideline'};
+const clsCol={deep:'#6EA2FF',flat:'#FFD21F',hook:'#FFFFFF'};
+const COVNAME={none:['Off','no defense'],c3:['Cover 3','three deep'],c2:['Cover 2','two deep'],man:['Man','one high']};
+const COVI={
+  none:'<svg viewBox="0 0 44 28" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-opacity=".5" stroke-dasharray="2 3" stroke-width="1.6"><circle cx="9" cy="14" r="4"/><circle cx="22" cy="14" r="4"/><circle cx="35" cy="14" r="4"/></g></svg>',
+  c3:'<svg viewBox="0 0 44 28" aria-hidden="true"><g fill="#6EA2FF"><circle cx="9" cy="6" r="3.4"/><circle cx="22" cy="6" r="3.4"/><circle cx="35" cy="6" r="3.4"/></g><g fill="#FFD21F"><circle cx="9" cy="21" r="3.4"/><circle cx="22" cy="21" r="3.4" fill="#fff"/><circle cx="35" cy="21" r="3.4"/></g></svg>',
+  c2:'<svg viewBox="0 0 44 28" aria-hidden="true"><g fill="#6EA2FF"><circle cx="14" cy="6" r="3.4"/><circle cx="30" cy="6" r="3.4"/></g><g fill="#FFD21F"><circle cx="6" cy="21" r="3.4"/><circle cx="17" cy="21" r="3.4" fill="#fff"/><circle cx="27" cy="21" r="3.4" fill="#fff"/><circle cx="38" cy="21" r="3.4"/></g></svg>',
+  man:'<svg viewBox="0 0 44 28" aria-hidden="true"><g fill="#6EA2FF"><circle cx="22" cy="6" r="3.4"/></g><g fill="#FFD21F"><circle cx="5" cy="21" r="3.4"/><circle cx="13.5" cy="21" r="3.4"/><circle cx="22" cy="21" r="3.4"/><circle cx="30.5" cy="21" r="3.4"/><circle cx="39" cy="21" r="3.4"/></g></svg>'
+};
+
+const S={form:'dubs',digits:[2,1,1,2,9],motion:{who:'Y',tag:'cross'},def:'c3',zones:true,slow:false,tilt:true,tab:'play',sel:'A',t:0,name:'Slant / Speed, Y Cross',playing:false};
+let sc=null,raf=null,lastTs=0,autoTimer=null,lowerKey='';
+let mine=[];
+try{mine=JSON.parse(localStorage.getItem('rams_myplays')||'[]');if(!Array.isArray(mine))mine=[];}catch(e){mine=[];}
+function saveMine(){try{localStorage.setItem('rams_myplays',JSON.stringify(mine));}catch(e){}}
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+
+/* ---- glyphs and thumbnails ---- */
+function arrowPath(a,b,sz){const ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;return `<path d="M0 0L-${sz} -${sz*.56}L-${sz} ${sz*.56}Z" transform="translate(${b[0].toFixed(1)},${b[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/>`;}
+function glyph(n){
+  const pts=[[20,38]].concat(ROUTES[n].p.map(([lat,d])=>[20-lat*1.55,38-d*1.9]));
+  const a=pts[pts.length-2],b=pts[pts.length-1];
+  return `<svg viewBox="0 0 40 44" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="38" r="3" stroke="none"/>${arrowPath(a,b,6.5).replace('<path','<path stroke="none"')}</g></svg>`;
+}
+function thumb(p){
+  const s2=buildScene({form:p.form,digits:p.digits,motion:p.motion,def:'none',slow:false});
+  let g='<svg viewBox="0 66 360 304" aria-hidden="true"><line x1="0" x2="360" y1="300" y2="300" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>';
+  LET.forEach(l=>{const pts=s2.path[l];g+=`<polyline points="${pts.map(q=>q[0].toFixed(0)+','+q[1].toFixed(0)).join(' ')}" fill="none" stroke="${HEX[l]}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/><g fill="${HEX[l]}">${arrowPath(pts[pts.length-2],pts[pts.length-1],13)}</g>`;});
+  if(s2.mover){const a=s2.pre[s2.mover],b=s2.post[s2.mover];g+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#fff" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>`;}
+  LET.forEach(l=>{const q=s2.pre[l];g+=l==='C'?`<rect x="${q[0]-10}" y="${q[1]-10}" width="20" height="20" rx="5" fill="${HEX[l]}"/>`:`<circle cx="${q[0]}" cy="${q[1]}" r="10.5" fill="${HEX[l]}"/>`;});
+  g+='<circle cx="180" cy="348" r="9" fill="#F0484B"/></svg>';
+  return g;
+}
+function formThumb(k){
+  const f=FORMS[k];let g='<svg viewBox="0 286 360 78" aria-hidden="true"><line x1="0" x2="360" y1="300" y2="300" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>';
+  LET.forEach(l=>{const x=f.pos[l][0],y=LOS+f.pos[l][1]*PX;g+=l==='C'?`<rect x="${x-10}" y="${y-10}" width="20" height="20" rx="5" fill="${HEX[l]}"/>`:`<circle cx="${x}" cy="${y}" r="10.5" fill="${HEX[l]}"/>`;});
+  return g+'<circle cx="180" cy="348" r="9" fill="#F0484B"/></svg>';
+}
+
+/* ---- field ---- */
+const svg=$('#field');
+const G={};
+function drawStatic(){
+  svg.innerHTML='';
+  const defs=el('defs',{},svg);
+  const g1=el('linearGradient',{id:'tg',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:0,'stop-color':'#0A2B6E'},g1);el('stop',{offset:1,'stop-color':'#061744'},g1);
+  const g2=el('radialGradient',{id:'tr',cx:.5,cy:.78,r:.7},defs);el('stop',{offset:0,'stop-color':'#3170FF','stop-opacity':.38},g2);el('stop',{offset:1,'stop-color':'#3170FF','stop-opacity':0},g2);
+  el('rect',{width:360,height:400,fill:'url(#tg)'},svg);
+  for(let i=0;i<7;i+=2)el('rect',{x:0,y:i*60,width:360,height:60,fill:'#fff','fill-opacity':.028},svg);
+  el('rect',{width:360,height:400,fill:'url(#tr)'},svg);
+  [240,180,120,60].forEach((y,i)=>{
+    el('line',{x1:0,x2:360,y1:y,y2:y,stroke:'#fff','stroke-opacity':.2,'stroke-width':1},svg);
+    el('text',{x:34,y:y+30,class:'yn'},svg).textContent=(i+1)*5;
+    el('text',{x:326,y:y+30,class:'yn'},svg).textContent=(i+1)*5;
+  });
+  for(let y=0;y<400;y+=12){el('line',{x1:118,x2:123,y1:y,y2:y,stroke:'#fff','stroke-opacity':.13},svg);el('line',{x1:237,x2:242,y1:y,y2:y,stroke:'#fff','stroke-opacity':.13},svg);}
+  el('line',{x1:0,x2:360,y1:LOS,y2:LOS,stroke:'#fff','stroke-width':8,'stroke-opacity':.07},svg);
+  el('line',{x1:0,x2:360,y1:LOS,y2:LOS,stroke:'#fff','stroke-width':2.2,'stroke-opacity':.9},svg);
+  el('text',{x:354,y:LOS+15,class:'yl','text-anchor':'end'},svg).textContent='LOS';
+  ['zones','routes','trail','match','def','off','ball'].forEach(k=>G[k]=el('g',{},svg));
+}
+let offEls={},defEls={},matchEls=[],trails={},lens={},ballEl=null;
+const polyLen=pts=>{let L=0;for(let i=1;i<pts.length;i++)L+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);return L;};
+function drawScene(){
+  ['zones','routes','trail','match','def','off','ball'].forEach(k=>G[k].innerHTML='');
+  offEls={};defEls={};matchEls=[];trails={};lens={};
+  if(S.zones&&(S.def==='c3'||S.def==='c2')){
+    sc.defs.forEach(d=>{const z=d.zone,c=clsCol[d.cls];
+      el('rect',{x:z[0],y:z[1],width:z[2],height:z[3],rx:10,fill:c,'fill-opacity':.1,stroke:c,'stroke-opacity':.55,'stroke-dasharray':'3 4'},G.zones);
+      el('text',{x:z[0]+z[2]/2,y:z[1]+z[3]-7,class:'zl'},G.zones).textContent=d.zn;});
+  }
+  LET.forEach(l=>{
+    const pts=sc.path[l];lens[l]=polyLen(pts);if(pts.length<2)return;
+    const s=pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+    el('polyline',{points:s,fill:'none',stroke:COL[l],'stroke-width':2,'stroke-opacity':.42,'stroke-dasharray':'2 5','stroke-linecap':'round','stroke-linejoin':'round'},G.routes);
+    const a=pts[pts.length-2],b=pts[pts.length-1],ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+    el('path',{d:'M0 0L-9 -5L-9 5Z',fill:COL[l],'fill-opacity':.5,transform:`translate(${b[0]},${b[1]}) rotate(${ang})`},G.routes);
+    const glow=el('polyline',{points:s,fill:'none',stroke:COL[l],'stroke-width':9,'stroke-opacity':.22,'stroke-linejoin':'round'},G.trail);
+    const core=el('polyline',{points:s,fill:'none',stroke:COL[l],'stroke-width':3,'stroke-linejoin':'round'},G.trail);
+    trails[l]=[glow,core];
+  });
+  if(sc.mover){
+    const a=sc.pre[sc.mover],b=sc.post[sc.mover];
+    el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#fff','stroke-width':2.4,'stroke-dasharray':'1 6','stroke-linecap':'round','stroke-opacity':.9},G.routes);
+    const ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+    el('path',{d:'M0 0L-9 -5L-9 5Z',fill:'#fff',transform:`translate(${b[0]},${b[1]}) rotate(${ang})`},G.routes);
+  }
+  if(S.def==='man'&&S.zones){LET.forEach(l=>matchEls.push([l,el('line',{stroke:'#fff','stroke-opacity':.3,'stroke-dasharray':'3 4','stroke-width':1.4},G.match)]));}
+  sc.defs.forEach(d=>{
+    const g=el('g',{},G.def),c=clsCol[d.cls];
+    el('circle',{r:19,fill:c,'fill-opacity':.13},g);
+    el('circle',{r:12.5,fill:'#040A1E',stroke:c,'stroke-width':2.6},g);
+    el('text',{fill:c,class:'dt'},g).textContent=d.label;
+    defEls[d.id]=g;
+  });
+  const mkOff=(parent,l)=>{
+    el('ellipse',{cx:0,cy:12,rx:10,ry:4,fill:'#000','fill-opacity':.4},parent);
+    el('circle',{class:'halo',r:14},parent);
+    if(l==='C')el('rect',{x:-12,y:-12,width:24,height:24,rx:7,fill:COL[l],stroke:'#fff','stroke-opacity':.5,'stroke-width':1.5},parent);
+    else el('circle',{r:12.5,fill:l==='Q'?'var(--cQ)':COL[l],stroke:'#fff','stroke-opacity':.5,'stroke-width':1.5},parent);
+    el('circle',{cx:-4,cy:-4.5,r:4.5,fill:'#fff','fill-opacity':.28},parent);
+    el('text',{},parent).textContent=l;
+  };
+  LET.forEach(l=>{
+    const g=el('g',{class:'off',tabindex:0,role:'button','aria-label':'Receiver '+l},G.off);
+    mkOff(g,l);
+    g.addEventListener('click',()=>pickRecv(l));
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pickRecv(l);}});
+    offEls[l]=g;
+  });
+  const q=el('g',{class:'off',transform:`translate(${QB[0]},${QB[1]})`},G.off);mkOff(q,'Q');
+  ballEl=el('ellipse',{rx:6,ry:4,fill:'#B65A22',stroke:'#fff','stroke-width':1.4,visibility:'hidden'},G.ball);
+}
+function tick(t){
+  const st=sc.stateAt(t);
+  LET.forEach(l=>offEls[l].setAttribute('transform',`translate(${st.off[l][0]},${st.off[l][1]})`));
+  sc.defs.forEach(d=>{const p=st.def[d.id];defEls[d.id].setAttribute('transform',`translate(${p[0]},${p[1]})`);});
+  matchEls.forEach(([l,ln])=>{const p=st.def['D'+l],o=st.off[l];ln.setAttribute('x1',p[0]);ln.setAttribute('y1',p[1]);ln.setAttribute('x2',o[0]);ln.setAttribute('y2',o[1]);});
+  const u=clamp((t-sc.ts)/sc.routeDur,0,1);
+  LET.forEach(l=>{if(!trails[l])return;const d=`${(u*lens[l]).toFixed(1)} ${(lens[l]+20).toFixed(1)}`;trails[l].forEach(p=>p.setAttribute('stroke-dasharray',u<=0?'0 9999':d));});
+  const uu=(t-sc.ts)/sc.routeDur;
+  if(sc.result&&uu>0.55){
+    const f=ease(clamp((uu-0.55)/0.4,0,1)),tp=st.off[sc.result.open];
+    ballEl.setAttribute('visibility','visible');
+    ballEl.setAttribute('cx',lerp(QB[0],tp[0],f));ballEl.setAttribute('cy',lerp(QB[1]-14,tp[1],f));
+  }else ballEl.setAttribute('visibility','hidden');
+  renderLower(t);
+  const pr=t/sc.end;$('#scrub').value=Math.round(pr*1000);$('#scrub').style.setProperty('--p',(pr*100).toFixed(1)+'%');
+}
+function renderLower(t){
+  const showTell=!!sc.mover&&S.def!=='none'&&t>=sc.tm;
+  const showRes=!!sc.result&&t>=sc.end-0.05;
+  const key=showTell+'|'+showRes;
+  if(key===lowerKey)return;lowerKey=key;
+  const L=$('#lower');let html='',n=0;
+  if(S.def==='none')html='<div class="l3 idle">Turn on a defense to see how it reacts to this play and where the open window is.</div>';
+  else{
+    if(showTell){n++;html+=S.def==='man'
+      ?`<div class="l3 tell"><span class="k">Tell</span><div><b>Man coverage</b><span class="tx">A defender ran with ${S.motion.who} across the formation. A defender following the motion man means man coverage. Attack with crossers and picks.</span></div></div>`
+      :`<div class="l3 tell"><span class="k">Tell</span><div><b>Zone coverage</b><span class="tx">Nobody followed ${S.motion.who}. The defense shifted instead. No follower means zone, so find the soft spot.</span></div></div>`;}
+    if(showRes){n++;const r=sc.result;html+=r.tight
+      ?`<div class="l3 res tight"><span class="k">Read</span><div><b>Covered on every route</b><span class="tx">${DEFNAME[S.def]} has a defender within ${r.sep.toFixed(1)} yards of every receiver. Change a route or add motion to make space.</span></div></div>`
+      :`<div class="l3 res"><span class="k">Open</span><div><b>${r.open} on the ${ROUTES[S.digits[LET.indexOf(r.open)]].n.toLowerCase()}, ${r.sep.toFixed(1)} yds of space</b><span class="tx">${r.why}</span></div></div>`;}
+    if(!n)html=`<div class="l3 idle">${sc.mover?'Watch the motion. Does a defender follow?':'Watch the play. The read shows up at the end.'}</div>`;
+  }
+  L.className='lower'+(n===2?' two':'');L.innerHTML=html;
+  Object.values(offEls).forEach(g=>g.classList.remove('hot'));
+  if(showRes&&!sc.result.tight)offEls[sc.result.open].classList.add('hot');
+}
+function renderLegend(){
+  const lg=$('#legend');
+  if(S.def==='none')lg.innerHTML='<span>Dashed line = the route. The bright line draws as the player runs.</span>';
+  else if(S.def==='man')lg.innerHTML='<span><i style="border-color:#FFD21F"></i>Defender (letter is who he covers)</span><span><i style="border-color:#6EA2FF"></i>Deep safety</span>';
+  else lg.innerHTML='<span><i style="border-color:#6EA2FF"></i>Deep</span><span><i style="border-color:#FFD21F"></i>'+(S.def==='c3'?'Flat':'Flat (CB)')+'</span><span><i style="border-color:#fff"></i>'+(S.def==='c3'?'Middle':'Hook')+'</span>';
+}
+
+/* ---- play control ---- */
+const ICO_PLAY='<path d="M5 3l12 7-12 7z" fill="currentColor"/>',ICO_PAUSE='<path d="M5 3h4v14H5zM11 3h4v14h-4z" fill="currentColor"/>',ICO_REPLAY='<path d="M10 3a7 7 0 1 0 7 7h-2.4A4.6 4.6 0 1 1 10 5.4V9l5-4.5L10 0z" fill="currentColor" transform="translate(0 1.5)"/>';
+function setIco(){const done=sc&&S.t>=sc.end-0.01;$('#playIco').innerHTML=S.playing?ICO_PAUSE:(done?ICO_REPLAY:ICO_PLAY);$('#playBtn').setAttribute('aria-label',S.playing?'Pause':(done?'Replay':'Play'));}
+function stop(){if(raf)cancelAnimationFrame(raf);raf=null;S.playing=false;setIco();}
+function loop(ts){
+  const dt=Math.min(0.05,(ts-lastTs)/1000);lastTs=ts;
+  S.t=Math.min(sc.end,S.t+dt);tick(S.t);
+  if(S.t>=sc.end)stop();else raf=requestAnimationFrame(loop);
+}
+function play(){
+  clearTimeout(autoTimer);
+  if(reduce){S.t=sc.end;tick(S.t);stop();return;}
+  if(S.t>=sc.end-0.01)S.t=0;
+  S.playing=true;setIco();lastTs=performance.now();raf=requestAnimationFrame(loop);
+}
+function refresh(keepT){
+  stop();lowerKey='';
+  sc=buildScene(S);
+  S.t=keepT?clamp(S.t,0,sc.end):0;
+  drawScene();renderHead();renderTiles();renderCov();renderLegend();renderPanels();
+  $('#zoneBtn').textContent=S.def==='man'?'Matchups':'Zones';
+  $('#zoneBtn').disabled=S.def==='none';
+  $('#zoneBtn').setAttribute('aria-pressed',S.zones);
+  tick(S.t);stop();
+}
+function loadCall(code,name,autoplay){
+  const p=parseCall(code);if(!p)return false;
+  S.form=p.form;S.digits=p.digits;S.motion=p.motion;S.name=name||'';
+  refresh(false);
+  if(autoplay!==false)autoTimer=setTimeout(play,450);
+  return true;
+}
+function pickRecv(l){S.sel=l;if(S.tab!=='build')setTab('build');else{renderTiles();renderPanels();}}
+
+/* ---- renderers ---- */
+function renderHead(){
+  $('#fmName').textContent=FORMS[S.form].name;
+  $('#callName').textContent=S.name||'';
+  $('#mChip').innerHTML=S.motion?`<span class="mchip">Motion · ${S.motion.who} ${cap(S.motion.tag)}</span>`:'<span class="mchip none">No motion</span>';
+}
+function renderTiles(){
+  $('#tiles').innerHTML=LET.map((l,i)=>`<button class="tile" data-l="${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab==='build'&&S.sel===l}" aria-label="${l}: route ${S.digits[i]}, ${ROUTES[S.digits[i]].n}"><span class="let ${l==='C'?'sq':''}">${l}</span>${glyph(S.digits[i])}<span class="num">${S.digits[i]}</span><span class="rn">${ROUTES[S.digits[i]].n}</span></button>`).join('');
+  $('#tiles').querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>pickRecv(b.dataset.l)));
+}
+function renderCov(){
+  $('#covSeg').innerHTML=['none','c3','c2','man'].map(k=>`<button class="cv" data-def="${k}" aria-pressed="${S.def===k}">${COVI[k]}<b>${COVNAME[k][0]}</b><span>${COVNAME[k][1]}</span></button>`).join('');
+}
+function cardCode(code){const p=parseCall(code);return `<span class="cd"><small>${FORMS[p.form].name}</small>${p.digits.join('')}${p.motion?`<i>${p.motion.who} ${p.motion.tag}</i>`:''}</span>`;}
+function cardHTML(code,name,attrs,pressed){return `<button class="card" ${attrs} aria-pressed="${pressed}"><span class="th">${thumb(parseCall(code))}</span><span class="bd">${cardCode(code)}<span class="cn">${name}</span></span></button>`;}
+function renderPanels(){
+  const cur=callText(S).toLowerCase();
+  const entry=LIB.find(p=>p[0].toLowerCase()===cur);
+  $('#anat').innerHTML=
+    `<div class="seg3"><b>${FORMS[S.form].name}</b><span>Formation. ${FDESC[S.form]}</span></div>`+
+    `<div class="seg3"><b>${S.digits.join('')}</b><span>Routes left to right: A, B, Y, Z, then the center C.</span></div>`+
+    (S.motion?`<div class="seg3 m"><b>${S.motion.who} ${cap(S.motion.tag)}</b><span>Motion. ${S.motion.who} ${MDESC[S.motion.tag]}.</span></div>`:'')+
+    (entry?`<div class="note glass" style="flex-basis:100%">${entry[2]}</div>`:'');
+  $('#plays').innerHTML=LIB.map((p,i)=>cardHTML(p[0],p[1],`data-i="${i}"`,p[0].toLowerCase()===cur)).join('');
+  $('#plays').querySelectorAll('.card').forEach(b=>b.addEventListener('click',()=>{const p=LIB[b.dataset.i];loadCall(p[0],p[1]);}));
+  $('#formRow').innerHTML=Object.keys(FORMS).map(k=>`<button class="fcard" data-f="${k}" aria-pressed="${S.form===k}">${formThumb(k)}<b>${FORMS[k].name}</b></button>`).join('');
+  $('#formRow').querySelectorAll('.fcard').forEach(b=>b.addEventListener('click',()=>{S.form=b.dataset.f;S.name='My play';refresh(false);autoTimer=setTimeout(play,350);}));
+  const si=LET.indexOf(S.sel);
+  $('#keyLbl').textContent='2 · Route for receiver '+S.sel;
+  $('#keys').innerHTML=ROUTES.map((r,n)=>`<button class="key" data-n="${n}" aria-pressed="${S.digits[si]===n}">${glyph(n)}<b>${n}</b><span>${r.n}</span></button>`).join('');
+  $('#keys').querySelectorAll('.key').forEach(b=>b.addEventListener('click',()=>{S.digits[si]=+b.dataset.n;S.name='My play';refresh(false);autoTimer=setTimeout(play,250);}));
+  $('#mWho').innerHTML=['None','A','B','Y','Z'].map(w=>`<button class="pill" data-w="${w}" aria-pressed="${(S.motion?S.motion.who:'None')===w}">${w==='None'?'No motion':w}</button>`).join('');
+  $('#mTag').innerHTML=['cross','enter','exit'].map(t=>`<button class="pill" data-t="${t}" aria-pressed="${!!S.motion&&S.motion.tag===t}" ${S.motion?'':'disabled'}>${cap(t)}</button>`).join('');
+  $('#mWho').querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>{const w=b.dataset.w;S.motion=w==='None'?null:{who:w,tag:S.motion?S.motion.tag:'cross'};S.name='My play';refresh(false);autoTimer=setTimeout(play,250);}));
+  $('#mTag').querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>{if(!S.motion)return;S.motion.tag=b.dataset.t;S.name='My play';refresh(false);autoTimer=setTimeout(play,250);}));
+  if(document.activeElement!==$('#codeIn'))$('#codeIn').value=callText(S);
+  $('#mine').innerHTML=mine.length?mine.map((p,i)=>`<div class="mine">${cardHTML(p.code,p.name,`data-i="${i}"`,false)}<button class="xbtn" data-del="${i}" aria-label="Delete ${p.name}">Delete</button></div>`).join(''):'<div style="color:var(--dim);font-size:.9rem">Nothing saved yet. Build a play and tap Save play.</div>';
+  $('#mine').querySelectorAll('.card').forEach(b=>b.addEventListener('click',()=>{const p=mine[b.dataset.i];loadCall(p.code,p.name);}));
+  $('#mine').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{mine.splice(+b.dataset.del,1);saveMine();renderPanels();}));
+}
+function setTab(t){
+  S.tab=t;
+  ['play','build','train'].forEach(k=>{$('#p-'+k).hidden=k!==t;$('#tab-'+k).setAttribute('aria-selected',k===t);});
+  renderTiles();renderPanels();
+}
+
+/* ---- events ---- */
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+$('#playBtn').addEventListener('click',()=>{if(S.playing)stop();else play();});
+$('#slowBtn').addEventListener('click',e=>{S.slow=!S.slow;e.currentTarget.setAttribute('aria-pressed',S.slow);refresh(false);});
+$('#zoneBtn').addEventListener('click',()=>{S.zones=!S.zones;refresh(true);});
+$('#viewBtn').addEventListener('click',e=>{S.tilt=!S.tilt;e.currentTarget.setAttribute('aria-pressed',S.tilt);e.currentTarget.textContent=S.tilt?'3D':'Flat';$('#pitchwrap').classList.toggle('flat',!S.tilt);});
+$('#covSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.def=b.dataset.def;refresh(false);autoTimer=setTimeout(play,300);});
+$('#scrub').addEventListener('input',e=>{stop();S.t=e.target.value/1000*sc.end;tick(S.t);});
+$('#codeForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(loadCall($('#codeIn').value,'My play'))$('#codeErr').textContent='';
+  else $('#codeErr').textContent='Not a valid call. Try Dubs 21129 Y Cross: formation, five route numbers, optional motion.';
+});
+$('#saveBtn').addEventListener('click',()=>{
+  const code=callText(S);
+  if(mine.some(p=>p.code.toLowerCase()===code.toLowerCase())){$('#codeErr').textContent='That play is already saved.';return;}
+  mine.unshift({code,name:'My play '+(mine.length+1)});saveMine();$('#codeErr').textContent='Saved.';renderPanels();
+});
+$('#resetBtn').addEventListener('click',()=>{S.digits=[9,9,9,9,9];S.motion=null;S.name='My play';refresh(false);});
+
+/* ---- boot ---- */
+drawStatic();
+loadCall('Dubs 21129 Y Cross','Slant / Speed, Y Cross',false);
+setTab('play');
+if(reduce){S.t=sc.end;tick(S.t);stop();}else autoTimer=setTimeout(play,700);
+</script>
