@@ -2,7 +2,9 @@
 
 Phone-first web app that teaches our 5th-grade flag football offense: formations, routes, play calls, and how plays beat Cover 3, Cover 2 and Man. Built for the Lake Nona Rams.
 
-Requirements: [docs/BRD.md](docs/BRD.md). Visual/behavior reference: [docs/reference/prototype-v2.html](docs/reference/prototype-v2.html).
+**Live app:** https://notreallycoder85.github.io/flag-learning-center/
+
+Requirements: [docs/BRD.md](docs/BRD.md). Review list for the coach: [docs/REVIEW-CHECKLIST.md](docs/REVIEW-CHECKLIST.md). Visual/behavior reference: [docs/reference/prototype-v2.html](docs/reference/prototype-v2.html).
 
 ## Run it
 
@@ -37,6 +39,19 @@ npm run build    # production build into dist/
 - Route descriptions (shown after a route quiz answer): the `blurb` on each route in `src/data/routes.json`.
 - Coach teaching points to keep in the app: [docs/COACH-NOTES.md](docs/COACH-NOTES.md).
 - Ranks, XP per answer, and how hard Beat the Coverage is (`beat.thresholds`, in yards of separation): `src/data/settings.json`.
+
+## Publishing changes
+
+The site is served by GitHub Pages from the `gh-pages` branch. After you change something and commit it to `main`:
+
+```bash
+git push
+npm run deploy     # runs the tests, builds, and publishes. Live in a minute or two.
+```
+
+`npm run deploy` refuses to run with uncommitted changes, so what is live always matches a commit.
+
+Optional upgrade: automatic deploys on every push. That needs a GitHub Actions workflow file, and GitHub only lets a token push one after `gh auth refresh -s workflow` is run once. Until then, `npm run deploy` does the same job by hand.
 
 ## Install and offline
 
