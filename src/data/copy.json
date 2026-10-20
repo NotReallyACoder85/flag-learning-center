@@ -1,0 +1,29 @@
+{
+  "motionDesc": {
+    "cross": "crosses the center to the other side of the formation",
+    "enter": "moves in toward the center but does not cross",
+    "exit": "moves out toward the sideline"
+  },
+  "coverage": {
+    "none": ["Off", "no defense"],
+    "c3": ["Cover 3", "three deep"],
+    "c2": ["Cover 2", "two deep"],
+    "man": ["Man", "one high"]
+  },
+  "tell": {
+    "man": {
+      "title": "Man coverage",
+      "text": "A defender ran with {who} across the formation. A defender following the motion man means man coverage. Attack with crossers and picks."
+    },
+    "zone": {
+      "title": "Zone coverage",
+      "text": "Nobody followed {who}. The defense shifted instead. No follower means zone, so find the soft spot."
+    }
+  },
+  "idle": {
+    "noDefense": "Turn on a defense to see how it reacts to this play and where the open window is.",
+    "motion": "Watch the motion. Does a defender follow?",
+    "play": "Watch the play. The read shows up at the end."
+  },
+  "covered": "{defense} has a defender within {sep} yards of every receiver. Change a route or add motion to make space."
+}
