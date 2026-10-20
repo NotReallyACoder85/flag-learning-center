@@ -46,4 +46,4 @@ Ideas for making it more fun for the kids live in [docs/IDEAS.md](docs/IDEAS.md)
 
 ## Notes
 
-- `node_modules` is stored as `node_modules.nosync` (symlinked) so iCloud does not sync thousands of files.
+- This folder lives outside iCloud Drive on purpose: iCloud can corrupt a git repo with sync conflicts. GitHub is the backup.
