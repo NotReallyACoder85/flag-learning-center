@@ -7,13 +7,29 @@ const INDEX = new URL('index.html', self.registration.scope).href;
 // Files are versioned by the build, so ignore Vary headers (some hosts send Vary: Origin, which makes module scripts miss the cache).
 const MATCH = { ignoreVary: true };
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((c) => c.addAll(FILES.map((f) => new URL(f, self.registration.scope).href)))
-      .then(() => self.skipWaiting())
+/**
+ * Download every file and keep it under its clean URL.
+ * Each request carries ?v=VERSION and skips the browser cache, so a host or CDN that still holds an
+ * older copy of a file (GitHub Pages can for ~10 minutes after a deploy) can never end up in our cache.
+ */
+async function precache() {
+  const cache = await caches.open(CACHE);
+  await Promise.all(
+    FILES.map(async (f) => {
+      const clean = new URL(f, self.registration.scope).href;
+      const res = await fetch(clean + '?v=' + VERSION, { cache: 'reload' });
+      if (!res.ok) throw new Error('Could not download ' + f + ' (' + res.status + ')');
+      await cache.put(clean, res);
+    })
   );
+  // The page we cached must point at the code files we cached. If not, refuse to install and try again later.
+  const html = await (await cache.match(INDEX)).text();
+  const stale = FILES.filter((f) => /^assets\/index-/.test(f) && !html.includes(f));
+  if (stale.length) throw new Error('index.html does not match the build: ' + stale.join(', '));
+}
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
