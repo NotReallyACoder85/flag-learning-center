@@ -4,7 +4,7 @@ import { S, ctx } from './state.js';
 import { buildScene, parseCall, callText, LET, routeFor, playFromEntry, DEF_NAME, clamp as clampN } from '../engine/index.js';
 import { drawScene, renderField } from './field.js';
 import { renderLower, resetLower } from './lower.js';
-import { renderHead, renderTiles, renderCov, renderLegend, renderPlaybook } from './panels.js';
+import { renderHead, renderTiles, renderCov, renderMiniDef, renderLegend, renderPlaybook } from './panels.js';
 
 const ICO = {
   play: '<path d="M5 3l12 7-12 7z" fill="currentColor"/>',
@@ -23,7 +23,11 @@ export function onRefresh(fn) { afterRefresh = fn; }
 function setIcon() {
   const done = ctx.sc && S.t >= ctx.sc.end - 0.01;
   $('#playIco').innerHTML = S.playing ? ICO.pause : done ? ICO.replay : ICO.play;
-  $('#playBtn').setAttribute('aria-label', S.playing ? 'Pause' : done ? 'Replay' : 'Play');
+  const label = S.playing ? 'Pause' : done ? 'Replay' : 'Play';
+  $('#playBtn').setAttribute('aria-label', label);
+  $('#pbIco').innerHTML = $('#playIco').innerHTML; // the pinned button mirrors the main one
+  $('#pbPlay').setAttribute('aria-label', label);
+  $('#pbTxt').textContent = label;
 }
 
 /** Draw the play at time t (field, callouts, scrubber). */
@@ -97,7 +101,7 @@ export function refresh(keepT = false) {
   S.limit = undefined;
   S.t = reduceMotion && !S.quiz ? ctx.sc.end : keepT ? clampN(S.t, 0, ctx.sc.end) : 0;
   drawScene();
-  renderHead(); renderTiles(); renderCov(); renderLegend(); renderPlaybook();
+  renderHead(); renderTiles(); renderCov(); renderMiniDef(); renderLegend(); renderPlaybook();
   const zb = $('#zoneBtn');
   zb.textContent = S.def === 'man' ? 'Matchups' : 'Zones';
   zb.disabled = S.def === 'none';

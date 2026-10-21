@@ -4,7 +4,6 @@
 .tab[aria-selected="true"]{background:#fff;color:#07102B}
 .app{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
 @media(min-width:960px){.app{grid-template-columns:minmax(0,1.12fr) minmax(0,.9fr)}}
-@media(min-width:960px) and (min-height:1080px){.stage{position:sticky;top:16px}}
 .stage,.side{display:flex;flex-direction:column;gap:14px;min-width:0}
 
 /* call head */
@@ -28,7 +27,8 @@
 .tile[aria-pressed="true"] .num{color:var(--gold)}
 
 /* pitch */
-.pitchwrap{perspective:1400px;perspective-origin:50% 100%;max-width:560px;width:100%;margin:-7% auto 0}
+.pitchwrap{max-width:560px;width:100%;margin:-7% auto 0}
+.fieldrow{perspective:1400px;perspective-origin:50% 100%}
 @media(max-width:700px){.pitchwrap{margin-top:-3%}}
 .pitch{transform-origin:50% 100%;transform:rotateX(var(--tilt)) scale(1.02);transition:transform .6s cubic-bezier(.2,.8,.2,1);
   -webkit-mask-image:linear-gradient(0deg,#000 86%,transparent 100%);mask-image:linear-gradient(0deg,#000 86%,transparent 100%);
@@ -319,3 +319,43 @@ button.tc .soon{position:absolute;top:14px;right:14px;z-index:1}
 .chip .dotmark{width:.3em;height:.3em}
 /* route names can wrap to two lines instead of being cut off */
 .tile .rn{white-space:normal;overflow:hidden;text-overflow:clip;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:center;line-height:1.05;min-height:2.1em;align-content:center}
+
+/* ---------- Playbook: field stays in view while you pick plays ---------- */
+.mininame{display:none;text-align:center;font:800 1rem/1.1 var(--f-disp);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.miniread{text-align:center;font:600 .85rem var(--f-cond);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pbstep{display:none;flex:0 0 44px;width:44px;height:44px;border-radius:50%;border:1px solid var(--edge2);background:rgba(255,255,255,.08);color:var(--fg);align-items:center;justify-content:center}
+.pbstep:disabled{opacity:.3;cursor:default}
+.playbar{display:none;gap:8px;align-items:center}
+.pbplay{flex:0 0 auto;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:var(--gold);color:#0A1230;display:flex;align-items:center;gap:8px;font:700 .8rem var(--f-cond);letter-spacing:.12em;text-transform:uppercase}
+.minidef{display:flex;gap:6px;flex:1;min-width:0}
+.md{flex:1 1 0;min-width:0;min-height:44px;padding:0 2px;border:1px solid var(--edge);border-radius:12px;background:var(--glass);font:700 .72rem var(--f-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.md[aria-pressed="true"]{border-color:#fff;color:#fff;background:linear-gradient(180deg,rgba(49,112,255,.5),rgba(49,112,255,.16))}
+
+@media(max-width:959px){
+  /* Pinned at the top: play name, the field with previous/next, the read, and Play + defense. Everything else scrolls underneath. */
+  body[data-tab="play"] .head,body[data-tab="play"] .cov{display:none}
+  body[data-tab="play"] .pitchwrap{order:0}
+  body[data-tab="play"] .tiles{order:1}
+  body[data-tab="play"] .panel{order:2}
+  body[data-tab="play"] #p-play .sec:first-child{order:3} /* the "how to read" card goes below the playbook */
+  body[data-tab="play"] .lower{order:3}
+  body[data-tab="play"] .deck{order:4}
+  body[data-tab="play"] .legend{order:5}
+  body[data-tab="play"] .mininame,body[data-tab="play"] .miniread{display:block}
+  body[data-tab="play"] .playbar,body[data-tab="play"] .pbstep{display:flex}
+  body[data-stick] .fieldrow{display:flex;align-items:center;justify-content:center;gap:6px}
+  body[data-stick] .pitch{flex:0 1 auto}
+  body[data-tab="play"] .pitch{max-width:min(100%,25vh)}
+  /* Each section is a row you swipe sideways. The next card peeks in so it is clear there is more. */
+  .grp .cards{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:16px;margin-inline:-16px;padding:2px 16px 8px;overscroll-behavior-x:contain;scrollbar-width:none}
+  .grp .cards::-webkit-scrollbar{display:none}
+  .grp .cards .card{flex:0 0 150px;scroll-snap-align:start}
+  .grp{scroll-margin-top:calc(var(--pin-h,360px) + 12px)}
+}
+
+/* Desktop and wide tablets: the field column stays put while the playbook scrolls beside it. */
+@media(min-width:960px){
+  .stage{position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;padding:2px 4px 6px;margin:-2px -4px}
+  /* size the field to the window so it and its controls fit without scrolling the column */
+  .pitchwrap{max-width:clamp(280px,calc((100dvh - 470px) * .9),560px)}
+}

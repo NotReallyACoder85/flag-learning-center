@@ -7,6 +7,7 @@ import { glyph, thumb, COV_ICON } from './glyphs.js';
 import { HEX } from './theme.js';
 
 export function renderHead() {
+  $('#miniName').textContent = (S.name || formations[S.form].name) + (S.name ? ' · ' + formations[S.form].name : '') + (S.motion ? ' · Motion' : '');
   $('#fmName').textContent = formations[S.form].name;
   $('#callName').textContent = S.name || '';
   $('#mChip').innerHTML = S.motion
@@ -38,6 +39,13 @@ export function renderCov() {
   $('#covSeg').innerHTML = ['none', 'c3', 'c2', 'man']
     .map((k) => `<button class="cv" data-def="${k}" aria-pressed="${S.def === k}">${COV_ICON[k]}<b>${copy.coverage[k][0]}</b><span>${copy.coverage[k][1]}</span></button>`)
     .join('');
+}
+
+const MINI_DEF = { none: 'Off', c3: 'Cov 3', c2: 'Cov 2', man: 'Man' };
+
+/** Compact defense switch inside the pinned field block (phones). */
+export function renderMiniDef() {
+  $('#miniDef').innerHTML = ['none', 'c3', 'c2', 'man'].map((k) => `<button class="md" data-def="${k}" aria-pressed="${S.def === k}" aria-label="${copy.coverage[k][0]}">${MINI_DEF[k]}</button>`).join('');
 }
 
 export function renderLegend() {
@@ -92,8 +100,11 @@ export function renderPlaybook() {
       (S.motion ? `<div class="seg3 m"><b>${S.motion.who} ${cap(S.motion.tag)}</b><span>Motion. ${S.motion.who} ${copy.motionDesc[S.motion.tag] || 'moves before the snap'}.</span></div>` : '') +
       (known ? `<div class="note glass" style="flex-basis:100%">${esc(known.note)}</div>` : '');
   }
+  const at = S.playId ? playbookEntries.findIndex((e) => e.id === S.playId) : -1;
+  $('#pbPrev').disabled = at <= 0;
+  $('#pbNext').disabled = at === playbookEntries.length - 1;
   $('#plays').innerHTML = playbookSections.map((sec) => {
     const items = playbookEntries.filter((e) => e.section === sec.id);
-    return `<section class="grp"><h3 class="grp-h">${esc(sec.name)}<span>${items.length} plays</span></h3><p class="grp-b">${esc(sec.blurb)}</p><div class="cards">${items.map((e) => playCard(e, e.id === S.playId)).join('')}</div></section>`;
+    return `<section class="grp"><h3 class="grp-h">${esc(sec.name)}<span>${items.length} plays</span></h3><p class="grp-b">${esc(sec.blurb)}</p><div class="cards" role="group" aria-label="${esc(sec.name)}">${items.map((e) => playCard(e, e.id === S.playId)).join('')}</div></section>`;
   }).join('');
 }

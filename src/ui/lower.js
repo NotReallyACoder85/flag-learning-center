@@ -43,6 +43,7 @@ export function renderLower(t) {
     S.def === 'none' ? 'Defense is off'
     : noRoutes ? 'Pick a route for each receiver'
     : showRes ? (sc.result.tight ? 'Covered on every route' : `Open: ${sc.result.open} · ${routeFor(S.digits[LET.indexOf(sc.result.open)]).name} · ${sc.result.sep.toFixed(1)} yds`)
+    : t <= 0 ? 'Ready. Tap Play.'
     : 'Watching the play…';
   const L = $('#lower');
   L.className = 'lower' + (n === 2 ? ' two' : '');
