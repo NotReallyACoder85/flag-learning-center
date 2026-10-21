@@ -2,7 +2,7 @@
 import { $, esc } from './dom.js';
 import { S } from './state.js';
 import { settings, copy } from '../data/index.js';
-import { DEF_NAME, ROUTES, LET, erasedPlay, gradePlay, starXp } from '../engine/index.js';
+import { DEF_NAME, routeFor, LET, erasedPlay, gradePlay, starXp } from '../engine/index.js';
 import { refresh, seek } from './player.js';
 import { burst } from './celebrate.js';
 import { addXp } from './progress.js';
@@ -16,6 +16,7 @@ function setupPlay() {
   S.def = ch.def;
   Object.assign(S, erasedPlay());
   S.name = 'Challenge';
+  S.playId = null;
   refresh(false);
   render();
 }
@@ -36,7 +37,7 @@ function resultHTML() {
   const g = ch.grade;
   if (!g) return '';
   if (g.error) return `<div class="fbbox no"><b class="bad">${esc(g.error)}</b></div>`;
-  const openRoute = ROUTES[S.digits[LET.indexOf(g.open)]].name.toLowerCase();
+  const openRoute = routeFor(S.digits[LET.indexOf(g.open)]).name.toLowerCase();
   return g.passed
     ? `<div class="fbbox ok"><div class="sum-stars" aria-label="${g.stars} out of 3 stars">${stars(g.stars)}</div><b class="good">${esc(g.open)} is open on the ${esc(openRoute)}, ${g.sep.toFixed(1)} yds of space.</b><p>${esc(g.why)}</p>${g.gain ? `<span class="xp">+${g.gain} XP</span>` : ''}</div>`
     : `<div class="fbbox no"><b class="bad">${esc(copy.train.beatCovered)}</b></div>`;

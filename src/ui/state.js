@@ -1,12 +1,14 @@
-import { plays } from '../data/index.js';
-import { parseCall } from '../engine/index.js';
+import { playbookEntries, playFromEntry } from '../engine/index.js';
 
-const first = plays.find((p) => /\s[abyz]\s/i.test(p.call)) || plays[0];
+const first = playFromEntry(playbookEntries[0]);
 
 /** UI state. The play fields (form, digits, motion, def, slow) are passed straight to the engine. */
 export const S = {
-  ...parseCall(first.call),
+  form: first.form,
+  digits: first.digits,
+  motion: first.motion,
   name: first.name,
+  playId: first.id, // set while a playbook play is loaded, null for anything the player built or typed
   def: 'c3',
   slow: false,
   zones: true,

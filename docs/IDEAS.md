@@ -58,6 +58,12 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 ## Added at the coach's request (Phase 6)
 - **Route numbers quiz** and **Formations quiz** are the first two quizzes on the Train tab, with the route tree and formation names as the base level. See [COACH-NOTES.md](COACH-NOTES.md).
 
+## From adding the coach's playbook
+- **Run game and play-action plays.** The PDF has jet sweeps, QB keeps, reverses and roll-outs. Showing them needs a ball carrier, a handoff and a moving quarterback. Worth doing if the team runs them a lot.
+- **Pick the defense for the play.** Each Playbook section says which coverage it beats. Tapping a "Man coverage beaters" play could switch the defense to Man (and Cover 2 / Cover 3 for the others) so the kids see the play against the defense it was built for.
+- **Quiz from the real playbook.** A quiz that shows a play and asks "which coverage does this beat?", or "name this play", using these 28 plays.
+- **Play names on Draw Up.** Let a player build a play and give the concept a name, like "Smash".
+
 ## Not done yet from my top picks
 - **B6 film-room thought bubbles.** Left for after Phase 7 so we can write the lines with your input (what each defender is thinking).
 - **A7 badges.** Ranks and streaks are in, badges are the next small step.

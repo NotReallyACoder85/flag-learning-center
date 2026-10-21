@@ -4,6 +4,16 @@ Everything below is a starting guess made from the BRD and the prototype. Nothin
 
 Tip: run through these with the app open on your phone, with the Playbook, Draw Up and Train tabs.
 
+## 0. The Playbook (from your PDF)
+The Playbook tab now shows the 28 passing plays from *2x2 - Attack System - Plays.pdf*, grouped the way the PDF groups them. Things to check:
+- [ ] **Each diagram matches the PDF.** Routes were read straight from the PDF's drawing data, so lengths and angles should be close to exact (within about half a yard).
+- [ ] **Route names.** The PDF doesn't name routes. We named each one from its shape (Hitch, Slant, Corner, Post, Snag, Trail, Wheel, and so on) and checked the odd ones by eye. A route that sits on the numbered tree shows its number (for example Slant is 2). Please correct any name that is wrong: edit `name` (and `tree`, or remove it) in `src/data/playbook.json`.
+- [ ] **Gold star = a key route.** Routes the PDF drew in orange or red (other than the center, whose box is orange in every play) get a star. Is that what you intended them to mean?
+- [ ] **Left side and right side.** Titles like "Smash / Double Slant" are shown as "Left side: Smash. Right side: Double Slant." Only the first (left-handed) version of each play is shown, not the mirror image.
+- [ ] **"Base 2x2" is our Dubs formation,** with the app's own spacing. The stacked sets use a new formation, **Stacked 2x2** (playbook only).
+- [ ] **Left out on purpose: the Run Game and Play-Action section** (jet sweeps, QB keeps, reverses, rollouts, Stalk & Go, Post-Wheel with a jet fake). Those need ball carriers and a moving quarterback, which the app doesn't have yet. Also left out: the six defense reference diagrams (plays 1, 2, 17, 18, 33, 34).
+- [ ] **Same concept in two sections** (for example 4 Verticals under Cover 2 and under Cover 3) are shown under both, since the PDF draws them slightly differently.
+
 ## 1. Route shapes (BRD question 1)
 Edit: `src/data/routes.json` (`points` are lateral yards, then depth yards).
 

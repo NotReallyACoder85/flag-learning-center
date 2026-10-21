@@ -21,6 +21,7 @@ function say(msg, ok = false) {
 function change(fn) {
   fn();
   S.name = 'My play';
+  S.playId = null;
   say('');
   touched();
   refresh(false);
@@ -52,6 +53,7 @@ export function renderBuilder() {
 
 function save() {
   if (S.digits.some((d) => d == null)) return say('Give every receiver a route before saving.');
+  if (S.digits.some((d) => typeof d === 'object')) return say('Pick a numbered route (0 to 9) for every receiver before saving.');
   const code = callText(S);
   if (mine.some((p) => p.code.toLowerCase() === code.toLowerCase())) return say('That play is already saved.');
   mine.unshift({ code, name: 'My play ' + (mine.length + 1) });

@@ -1,0 +1,339 @@
+{
+  "_note": "Generated from the coach's 2x2 Attack System playbook PDF (top diagram of each pair; the mirror image is left out). Route points are [lateral yards toward the receiver's own sideline, depth yards from the line]. Centre routes have abs:true and measure lateral to the right. key marks the routes highlighted in the PDF.",
+  "sections": [
+    {"id": "man", "name": "Man coverage beaters", "blurb": "Plays built to beat man coverage."},
+    {"id": "c2", "name": "Cover 2 beaters", "blurb": "Plays built to beat Cover 2 (two deep, four under)."},
+    {"id": "c3", "name": "Cover 3 beaters", "blurb": "Plays built to beat Cover 3 (three deep)."},
+    {"id": "split", "name": "Split-field beaters", "blurb": "From the stacked 2x2 set, built to beat split-field coverage."},
+    {"id": "double", "name": "Double moves", "blurb": "Receivers fake one route, then break into another."}
+  ],
+  "plays": [
+    {
+      "id": "man-smash-double-slant", "name": "Smash / Double Slant", "section": "man", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Smash. Right side: Double Slant.",
+      "routes": {
+        "A": {"name": "Hitch", "kind": "in", "key": false, "points": [[-0.5, 7.0], [-1.0, 6.0]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 7.0], [4.6, 11.0]]},
+        "C": {"name": "Wheel", "kind": "in", "key": false, "abs": true, "points": [[5.1, 0.3], [10.0, 2.6], [12.8, 5.6], [14.9, 10.5]]},
+        "Y": {"name": "Slant", "tree": 2, "kind": "in", "key": true, "points": [[0.0, 2.0], [-4.6, 3.5]]},
+        "Z": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 3.5], [-5.6, 7.0]]}
+      }
+    },
+    {
+      "id": "man-slant-flood", "name": "Slant / Flood", "section": "man", "formation": "dubs",
+      "motion": {"who": "B", "to": [197, 2.9]},
+      "note": "Left side: Slant. Right side: Flood.",
+      "routes": {
+        "A": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 3.0], [-8.2, 6.0]]},
+        "B": {"name": "Flat", "kind": "out", "key": false, "points": [[0.6, -3.0], [10.4, 1.9], [15.5, 2.5]]},
+        "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.5], [0.5, 4.0]]},
+        "Y": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 8.5], [7.2, 8.5]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[2.1, 8.5], [2.1, 16.0]]}
+      }
+    },
+    {
+      "id": "man-slot-fade-post-wheel", "name": "Slot-Fade / Post Wheel", "section": "man", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Slot-Fade. Right side: Post Wheel.",
+      "routes": {
+        "A": {"name": "Cross", "kind": "in", "key": false, "points": [[0.0, 2.0], [-11.3, 5.0]]},
+        "B": {"name": "Slot Fade", "kind": "out", "key": false, "points": [[0.0, 3.5], [5.1, 11.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 2.0], [2.6, 2.0]]},
+        "Y": {"name": "Wheel", "kind": "vert", "key": false, "points": [[3.1, 1.5], [5.4, 4.2], [7.8, 8.5], [8.2, 12.5]]},
+        "Z": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 7.5], [-7.7, 13.5]]}
+      }
+    },
+    {
+      "id": "man-mesh", "name": "Mesh", "section": "man", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 6.5], [-4.1, 12.5]]},
+        "B": {"name": "Mesh", "kind": "in", "key": true, "points": [[-1.5, 1.5], [-3.3, 2.5], [-16.4, 4.0]]},
+        "C": {"name": "Go", "tree": 9, "kind": "in", "key": false, "abs": true, "points": [[3.6, 12.0]]},
+        "Y": {"name": "Mesh", "kind": "in", "key": false, "points": [[-3.6, 2.7], [-5.8, 3.9], [-15.9, 5.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 5.2], [0.5, 12.0]]}
+      }
+    },
+    {
+      "id": "man-seams-drive-concept", "name": "Seams / Drive Concept", "section": "man", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Seams. Right side: Drive Concept.",
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[2.7, 9.9], [3.1, 13.5]]},
+        "B": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-0.5, 7.0], [-1.5, 13.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.4, 1.8], [3.6, 2.0]]},
+        "Y": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 10.0], [-8.2, 10.0]]},
+        "Z": {"name": "Drive", "kind": "in", "key": false, "points": [[-2.9, 1.8], [-6.4, 2.8], [-13.1, 3.8], [-18.5, 4.0]]}
+      }
+    },
+    {
+      "id": "man-post-corner-dagger-concept", "name": "Post-Corner / Dagger Concept", "section": "man", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Post-Corner. Right side: Dagger Concept.",
+      "routes": {
+        "A": {"name": "Comeback", "tree": 0, "kind": "out", "key": false, "points": [[0.0, 10.0], [2.1, 7.0]]},
+        "B": {"name": "Post-Corner", "kind": "out", "key": false, "points": [[0.0, 9.0], [-2.1, 10.5], [6.2, 14.5]]},
+        "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.5], [1.5, 4.0]]},
+        "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.0, 12.0]]},
+        "Z": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 8.0], [-9.7, 8.0]]}
+      }
+    },
+    {
+      "id": "man-post-out-trail-concept", "name": "Post-Out / Trail Concept", "section": "man", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Post-Out. Right side: Trail Concept.",
+      "routes": {
+        "A": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 9.0], [-9.7, 13.0]]},
+        "B": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 7.0], [8.7, 7.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 2.5], [-2.6, 2.5]]},
+        "Y": {"name": "Trail", "kind": "in", "key": false, "points": [[4.6, 2.0], [0.5, 3.5]]},
+        "Z": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 3.0], [-8.7, 7.5]]}
+      }
+    },
+    {
+      "id": "c2-smash-scissors", "name": "Smash / Scissors", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Smash. Right side: Scissors.",
+      "routes": {
+        "A": {"name": "Hitch", "kind": "in", "key": false, "points": [[0.0, 7.0], [-0.5, 6.5]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 9.0], [3.6, 11.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.3, 3.5], [0.8, 4.0], [2.1, 4.0]]},
+        "Y": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 7.5], [6.2, 11.0]]},
+        "Z": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 8.5], [-8.2, 12.0]]}
+      }
+    },
+    {
+      "id": "c2-3-verticals", "name": "3-Verticals", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 3.3], [2.1, 11.5]]},
+        "B": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 8.0], [-5.1, 8.0]]},
+        "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.0], [-1.5, 4.0]]},
+        "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-2.1, 12.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 3.4], [1.5, 12.5]]}
+      }
+    },
+    {
+      "id": "c2-flood-concept", "name": "Flood Concept", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 12.5]]},
+        "B": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 7.5], [-7.7, 13.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.7, 1.4], [2.1, 2.2], [10.3, 3.0]]},
+        "Y": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 9.0], [8.7, 9.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[0.4, 3.7], [0.5, 14.5]]}
+      }
+    },
+    {
+      "id": "c2-4-verticals", "name": "4 Verticals", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[2.6, 13.0]]},
+        "B": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.5, 13.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.5], [2.1, 3.5]]},
+        "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.0, 12.5]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.6, 4.5], [2.1, 12.5]]}
+      }
+    },
+    {
+      "id": "c2-levels-concept", "name": "Levels Concept", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 11.5]]},
+        "B": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 9.5], [-7.2, 9.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[3.7, 1.9], [11.3, 3.5]]},
+        "Y": {"name": "Shallow", "kind": "in", "key": true, "points": [[-1.0, 1.6], [-2.7, 2.8], [-10.3, 3.5]]},
+        "Z": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 7.0], [-9.2, 14.0]]}
+      }
+    },
+    {
+      "id": "c2-motion-flood-right", "name": "Motion Flood Right", "section": "c2", "formation": "dubs",
+      "motion": {"who": "B", "to": [197, 1.9]},
+      "routes": {
+        "A": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 7.0], [-8.2, 13.0]]},
+        "B": {"name": "Speed Out", "tree": 1, "kind": "out", "key": false, "points": [[0.6, -2.0], [0.6, 4.0], [8.8, 4.0]]},
+        "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.5], [-1.5, 3.5]]},
+        "Y": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 9.5], [5.6, 9.5]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[0.9, 6.4], [1.0, 15.0]]}
+      }
+    },
+    {
+      "id": "c2-switch-v-out-switch-verticals", "name": "Switch V-out / Switch Verticals", "section": "c2", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Switch V-out. Right side: Switch Verticals.",
+      "routes": {
+        "A": {"name": "V-Out", "kind": "out", "key": false, "points": [[-4.1, 3.4], [-4.9, 5.0], [-3.7, 6.2], [1.0, 7.5]]},
+        "B": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.9, 3.2], [2.6, 6.0], [2.6, 15.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[-1.0, 1.5], [-2.1, 2.2], [-7.2, 2.5]]},
+        "Y": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[5.6, 4.5], [5.6, 13.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[-6.1, 4.0], [-6.9, 7.0], [-7.7, 13.5]]}
+      }
+    },
+    {
+      "id": "c3-slant-arrow-flood", "name": "Slant-Arrow / Flood", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Slant-Arrow. Right side: Flood.",
+      "routes": {
+        "A": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 3.0], [-6.2, 7.0]]},
+        "B": {"name": "Arrow", "kind": "out", "key": false, "points": [[1.5, 1.5], [7.7, 3.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.0], [7.2, 3.0]]},
+        "Y": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 9.0], [7.7, 9.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.3, 5.1], [1.5, 13.5]]}
+      }
+    },
+    {
+      "id": "c3-4-verticals", "name": "4 Verticals", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.8, 7.2], [2.1, 12.5]]},
+        "B": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.0, 4.4], [-1.5, 12.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.0], [3.1, 4.0]]},
+        "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.3, 4.7], [-1.0, 11.5]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.0, 4.5], [1.5, 12.0]]}
+      }
+    },
+    {
+      "id": "c3-snag-flood", "name": "Snag / Flood", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Snag. Right side: Flood.",
+      "routes": {
+        "A": {"name": "Snag", "kind": "vert", "key": false, "points": [[-7.7, 4.5], [-7.7, 3.5]]},
+        "B": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 8.0], [-5.1, 14.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.0], [8.7, 3.0]]},
+        "Y": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 8.0], [8.7, 8.0]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[0.5, 13.0]]}
+      }
+    },
+    {
+      "id": "c3-smash-post-wheel", "name": "Smash / Post-Wheel", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Smash. Right side: Post-Wheel.",
+      "routes": {
+        "A": {"name": "Shallow", "kind": "in", "key": true, "points": [[0.0, 4.5], [-7.7, 4.5]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 8.5], [5.6, 11.5]]},
+        "C": {"name": "Drag", "kind": "in", "key": false, "abs": true, "points": [[0.0, 7.0], [6.7, 7.0]]},
+        "Y": {"name": "Wheel", "kind": "vert", "key": false, "points": [[4.1, 2.2], [7.1, 5.0], [8.1, 7.5], [8.2, 12.0]]},
+        "Z": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 6.5], [-5.1, 11.0]]}
+      }
+    },
+    {
+      "id": "c3-dagger-concept", "name": "Dagger Concept", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.3, 8.8], [1.5, 14.0]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 7.0], [8.7, 10.0]]},
+        "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.5], [1.0, 4.0]]},
+        "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.3, 5.7], [-1.5, 13.0]]},
+        "Z": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 7.0], [-13.3, 7.0]]}
+      }
+    },
+    {
+      "id": "c3-snag-dig-concept", "name": "Snag-Dig Concept", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "routes": {
+        "A": {"name": "Snag", "kind": "vert", "key": false, "points": [[-9.7, 5.0], [-10.3, 3.5]]},
+        "B": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 7.5], [-7.2, 7.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[3.8, 2.4], [7.1, 2.9], [7.7, 2.5]]},
+        "Y": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 6.5], [-5.1, 11.0]]},
+        "Z": {"name": "Comeback", "tree": 0, "kind": "vert", "key": false, "points": [[0.0, 10.0], [1.0, 7.0]]}
+      }
+    },
+    {
+      "id": "c3-slant-arrow-double-hitches", "name": "Slant-Arrow / Double Hitches", "section": "c3", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Slant-Arrow. Right side: Double Hitches.",
+      "routes": {
+        "A": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 2.5], [-7.2, 6.0]]},
+        "B": {"name": "Arrow", "kind": "out", "key": true, "points": [[0.0, 2.0], [8.7, 5.0]]},
+        "C": {"name": "Go", "tree": 9, "kind": "in", "key": false, "abs": true, "points": [[0.4, 6.4], [0.0, 13.0]]},
+        "Y": {"name": "Hitch", "kind": "in", "key": true, "points": [[-0.5, 6.0], [-2.1, 5.0]]},
+        "Z": {"name": "Hitch", "kind": "in", "key": false, "points": [[0.0, 6.0], [-1.5, 5.0]]}
+      }
+    },
+    {
+      "id": "split-post-wheel-flood", "name": "Post-Wheel / Flood", "section": "split", "formation": "stacked",
+      "motion": null,
+      "note": "Left side: Post-Wheel. Right side: Flood.",
+      "routes": {
+        "A": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 7.0], [-6.2, 12.0]]},
+        "B": {"name": "Wheel", "kind": "vert", "key": false, "points": [[2.6, 1.5], [5.6, 11.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.1, 1.2], [1.2, 1.8], [9.7, 2.5]]},
+        "Y": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 7.5], [6.2, 12.5]]},
+        "Z": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[-1.5, 2.0], [-1.5, 6.0], [6.7, 6.0]]}
+      }
+    },
+    {
+      "id": "split-corner-out-drive-concept", "name": "Corner-Out / Drive Concept", "section": "split", "formation": "stacked",
+      "motion": null,
+      "note": "Left side: Corner-Out. Right side: Drive Concept.",
+      "routes": {
+        "A": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[0.0, 6.0], [6.2, 6.0]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[-1.5, 3.0], [-1.0, 9.0], [4.6, 12.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[-0.4, 2.8], [-1.7, 3.0], [-2.6, 2.5]]},
+        "Y": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 8.0], [-5.1, 11.5]]},
+        "Z": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[2.1, 3.5], [2.1, 7.0], [-6.2, 7.0]]}
+      }
+    },
+    {
+      "id": "split-v-corner-flood", "name": "V-Corner / Flood", "section": "split", "formation": "stacked",
+      "motion": null,
+      "note": "Left side: V-Corner. Right side: Flood.",
+      "routes": {
+        "A": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[-1.0, 3.0], [-1.0, 10.0]]},
+        "B": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[-3.6, 1.5], [6.2, 6.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.0], [9.7, 3.0]]},
+        "Y": {"name": "Corner", "tree": 7, "kind": "out", "key": false, "points": [[0.0, 10.0], [4.1, 13.0]]},
+        "Z": {"name": "Out", "tree": 5, "kind": "out", "key": false, "points": [[-0.5, 6.0], [6.7, 6.0]]}
+      }
+    },
+    {
+      "id": "split-fade-trail-concept", "name": "Fade / Trail Concept", "section": "split", "formation": "stacked",
+      "motion": null,
+      "note": "Left side: Fade. Right side: Trail Concept.",
+      "routes": {
+        "A": {"name": "Fade", "kind": "out", "key": false, "points": [[0.0, 2.5], [4.6, 8.5]]},
+        "B": {"name": "Swing", "kind": "vert", "key": false, "points": [[1.5, -3.8], [4.1, -4.3], [5.7, -4.1], [6.2, -3.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.0], [-4.6, 3.0]]},
+        "Y": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 6.5], [-5.1, 11.0]]},
+        "Z": {"name": "Trail", "kind": "in", "key": false, "points": [[3.1, 3.5], [-5.6, 5.5]]}
+      }
+    },
+    {
+      "id": "double-post-out-up-double-slants", "name": "Post-Out & Up / Double Slants", "section": "double", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Post-Out & Up. Right side: Double Slants.",
+      "routes": {
+        "A": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 8.0], [-7.2, 12.0]]},
+        "B": {"name": "Out & Up", "kind": "vert", "key": false, "points": [[0.0, 3.2], [0.6, 4.7], [1.8, 5.4], [4.8, 5.7], [6.5, 6.4], [7.7, 8.4], [9.2, 13.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.0], [-2.1, 4.0]]},
+        "Y": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 2.5], [-5.6, 6.5]]},
+        "Z": {"name": "Slant", "tree": 2, "kind": "in", "key": false, "points": [[0.0, 4.5], [-6.7, 9.0]]}
+      }
+    },
+    {
+      "id": "double-post-corner-levels-concept", "name": "Post-Corner / Levels Concept", "section": "double", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Post-Corner. Right side: Levels Concept.",
+      "routes": {
+        "A": {"name": "Cross", "kind": "in", "key": false, "points": [[0.0, 5.5], [-8.2, 5.5]]},
+        "B": {"name": "Post-Corner", "kind": "out", "key": false, "points": [[0.0, 7.0], [-2.6, 9.0], [4.1, 12.5]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 2.5], [6.2, 2.5]]},
+        "Y": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 8.5], [-5.6, 13.0]]},
+        "Z": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 8.0], [-6.7, 8.0]]}
+      }
+    },
+    {
+      "id": "double-slant-go-corner-post", "name": "Slant & Go / Corner-Post", "section": "double", "formation": "dubs",
+      "motion": null,
+      "note": "Left side: Slant & Go. Right side: Corner-Post.",
+      "routes": {
+        "A": {"name": "Slant & Go", "kind": "out", "key": false, "points": [[-2.6, 3.0], [1.0, 10.0]]},
+        "B": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 8.0], [-6.2, 8.0]]},
+        "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[0.0, 3.0], [3.6, 3.0]]},
+        "Y": {"name": "Corner-Post", "kind": "in", "key": false, "points": [[0.0, 7.0], [2.6, 8.5], [-4.1, 12.5]]},
+        "Z": {"name": "Go", "tree": 9, "kind": "vert", "key": false, "points": [[1.3, 3.3], [1.0, 11.5]]}
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 // A receiver can have no route (the "Clear routes" state). He stands still and nothing breaks.
 import { describe, it, expect } from 'vitest';
 import { buildScene, callText, checkCall, digitsText, erasedPlay, setRoute, LET, LOS } from '../src/engine/index.js';
-import { FORM_KEYS, DEFS, MOTIONS } from './helpers.js';
+import { ALL_FORM_KEYS, DEFS, MOTIONS } from './helpers.js';
 
 const finite = (p) => Number.isFinite(p[0]) && Number.isFinite(p[1]);
 
@@ -41,7 +41,7 @@ describe('no-route receivers', () => {
   });
   it('sweep: every formation x defense x motion with empty and mixed route sets stays finite', () => {
     const sets = [erasedPlay().digits, [null, 7, null, null, 4], [2, null, null, 2, null], [null, null, null, null, 9]];
-    FORM_KEYS.forEach((form) =>
+    ALL_FORM_KEYS.forEach((form) =>
       DEFS.forEach((def) =>
         MOTIONS.forEach((motion) =>
           sets.forEach((digits) => {

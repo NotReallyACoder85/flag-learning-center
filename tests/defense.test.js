@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildScene, parseCall, overloadShift, callouts, LOS, PX } from '../src/engine/index.js';
 import { formations, settings } from '../src/data/index.js';
-import { FORM_KEYS, MOTIONS, libraryPlays } from './helpers.js';
+import { ALL_FORM_KEYS, MOTIONS, libraryPlays } from './helpers.js';
 
 const scene = (call, def) => buildScene({ ...parseCall(call), def, slow: false });
 const prePos = (form) => {
@@ -38,7 +38,7 @@ describe('strength shift (overload)', () => {
 describe('zones tile the field (no overlaps, gaps at most 8 px, no overlaps, inside the field)', () => {
   const rows = (s, y) => s.defs.map((d) => d.zone).filter((z) => z[1] === y).sort((a, b) => a[0] - b[0]);
   it.each([['c3'], ['c2']])('%s, every formation x motion', (def) => {
-    FORM_KEYS.forEach((form) =>
+    ALL_FORM_KEYS.forEach((form) =>
       MOTIONS.forEach((motion) => {
         const digits = [2, 1, 1, 2, 9];
         const s = buildScene({ form, digits, motion, def, slow: false });

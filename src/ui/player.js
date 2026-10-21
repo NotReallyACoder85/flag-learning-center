@@ -1,7 +1,7 @@
 // Playback loop and scene refresh. Everything that changes the play goes through refresh().
 import { $ } from './dom.js';
 import { S, ctx } from './state.js';
-import { buildScene, parseCall, callText, LET, ROUTES, DEF_NAME, clamp as clampN } from '../engine/index.js';
+import { buildScene, parseCall, callText, LET, routeFor, playFromEntry, DEF_NAME, clamp as clampN } from '../engine/index.js';
 import { drawScene, renderField } from './field.js';
 import { renderLower, resetLower } from './lower.js';
 import { renderHead, renderTiles, renderCov, renderLegend, renderPlaybook } from './panels.js';
@@ -80,10 +80,11 @@ export const togglePlay = () => (S.playing ? stop() : play());
 /** Text version of the diagram for screen readers. */
 function describeField() {
   if (S.quiz) return $('#field').setAttribute('aria-label', 'Quiz diagram. Use the button below to watch it.');
-  const routes = LET.map((l, i) => `${l} ${ROUTES[S.digits[i]] ? ROUTES[S.digits[i]].name : 'no route'}`).join(', ');
-  const motion = S.motion ? ` ${S.motion.who} goes in motion (${S.motion.tag}).` : '';
+  const routes = LET.map((l, i) => `${l} ${routeFor(S.digits[i]) ? routeFor(S.digits[i]).name : 'no route'}`).join(', ');
+  const motion = S.motion ? ` ${S.motion.who} goes in motion${S.motion.tag === 'custom' ? '' : ` (${S.motion.tag})`}.` : '';
   const def = S.def === 'none' ? 'No defense.' : `Against ${DEF_NAME[S.def]}.`;
-  $('#field').setAttribute('aria-label', `${callText(S)}. ${def}${motion} Routes: ${routes}.`);
+  const title = S.playId ? S.name : callText(S);
+  $('#field').setAttribute('aria-label', `${title}. ${def}${motion} Routes: ${routes}.`);
 }
 
 /** Rebuild the scene from S and redraw everything. keepT keeps the current time. */
@@ -121,7 +122,14 @@ export function seek(frac) {
 export function loadCall(code, name) {
   const p = parseCall(code);
   if (!p) return false;
-  S.form = p.form; S.digits = p.digits; S.motion = p.motion; S.name = name || '';
+  S.form = p.form; S.digits = p.digits; S.motion = p.motion; S.name = name || ''; S.playId = null;
   refresh(false);
   return true;
+}
+
+/** Load a play from the playbook (the coach's diagrams). */
+export function loadPlay(entry) {
+  const p = playFromEntry(entry);
+  S.form = p.form; S.digits = p.digits; S.motion = p.motion; S.name = entry.name; S.playId = entry.id;
+  refresh(false);
 }

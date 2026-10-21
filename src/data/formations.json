@@ -3,5 +3,6 @@
   "chiefs":    { "name": "Chiefs",     "desc": "1x1 with B, C and Y bunched tight in the middle.",          "pos": { "A": [45, 0],  "B": [154, 0], "C": [180, 0], "Y": [206, 0], "Z": [315, 0] } },
   "dubstight": { "name": "Dubs Tight", "desc": "2x2 compressed into a tight set.",                          "pos": { "A": [108, 0], "B": [144, 0], "C": [180, 0], "Y": [216, 0], "Z": [252, 0] } },
   "trips":     { "name": "Trips",      "desc": "3x1. Three receivers on the left, Z alone on the right.",   "pos": { "A": [45, 0],  "B": [71, 0],  "C": [180, 0], "Y": [97, 0],  "Z": [315, 0] } },
-  "quads":     { "name": "Quads",      "desc": "4x0. All four receivers stacked to the left.",              "pos": { "A": [35, 0],  "B": [61, 0],  "C": [180, 0], "Y": [87, 0],  "Z": [158, 0] } }
+  "quads":     { "name": "Quads",      "desc": "4x0. All four receivers stacked to the left.",              "pos": { "A": [35, 0],  "B": [61, 0],  "C": [180, 0], "Y": [87, 0],  "Z": [158, 0] } },
+  "stacked":   { "name": "Stacked 2x2", "playbook": true, "desc": "2x2 with the receivers stacked in pairs, one behind the other.", "pos": { "A": [94, 0],  "B": [94, 2.5], "C": [180, 0], "Y": [266, 0], "Z": [266, 2.5] } }
 }

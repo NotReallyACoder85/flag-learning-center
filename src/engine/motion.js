@@ -10,8 +10,12 @@ export function sides(P) {
   return { L, R };
 }
 
-/** Where a motion player ends up. pre = pre-snap positions keyed by letter. */
-export function motionDest(pre, who, tag) {
+/**
+ * Where a motion player ends up. pre = pre-snap positions keyed by letter.
+ * tag 'custom' goes to `to` = [x px, yards behind the line] (playbook plays).
+ */
+export function motionDest(pre, who, tag, to) {
+  if (tag === 'custom') return [to[0], LOS + to[1] * PX];
   const x = pre[who][0];
   const left = x < 180;
   const others = SKILL.filter((l) => l !== who);

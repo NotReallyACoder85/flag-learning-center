@@ -3,9 +3,9 @@ import {
   makeRng, callRound, callQuestion, readRound, mutatePlay, explainDiff, gradePlay, rankFor, answerXp, starXp, roundStars,
   parseCall, callText, describePlay, buildScene, LET, routeRound, formationRound,
 } from '../src/engine/index.js';
-import { plays, settings, concepts, formations, routes, copy } from '../src/data/index.js';
+import { callbook, settings, concepts, formations, baseFormations, routes, copy } from '../src/data/index.js';
 
-const library = plays.map((p) => p.call);
+const library = callbook.map((p) => p.call);
 
 describe('rng', () => {
   it('is repeatable for the same seed and different for different seeds', () => {
@@ -110,7 +110,7 @@ describe('beat the coverage grading', () => {
       let pass = 0, n = 300;
       for (let i = 0; i < n; i++) {
         const digits = Array.from({ length: 5 }, () => rng.int(10));
-        if (gradePlay({ form: rng.pick(Object.keys(formations)), digits, motion: null }, d).passed) pass++;
+        if (gradePlay({ form: rng.pick(baseFormations), digits, motion: null }, d).passed) pass++;
       }
       expect(pass / n, d).toBeGreaterThan(0.2);
       expect(pass / n, d).toBeLessThan(0.85);

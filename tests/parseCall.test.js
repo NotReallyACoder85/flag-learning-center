@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseCall, checkCall, callText } from '../src/engine/index.js';
-import { plays } from '../src/data/index.js';
+import { callbook } from '../src/data/index.js';
 
 describe('parseCall', () => {
   it('parses formation, digits and no motion', () => {
@@ -56,6 +56,6 @@ describe('checkCall', () => {
 
 describe('callText', () => {
   it('round-trips every library play', () => {
-    plays.forEach((p) => expect(callText(parseCall(p.call))).toBe(p.call));
+    callbook.forEach((p) => expect(callText(parseCall(p.call))).toBe(p.call));
   });
 });

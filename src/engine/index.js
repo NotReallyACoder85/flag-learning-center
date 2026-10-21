@@ -10,6 +10,7 @@ export { ROUTES, routeFor, hasRoute } from './routes.js';
 export { motionDest, sides } from './motion.js';
 export { buildScene } from './scene.js';
 export { evaluate, whyText } from './evaluate.js';
+export { playFromEntry, playbookEntries, playbookSections, findEntry } from './playbook.js';
 export { callouts } from './callouts.js';
 export { overloadShift } from './defenses.js';
 export { erasedPlay, setRoute, setMotionWho, setMotionTag } from './edit.js';

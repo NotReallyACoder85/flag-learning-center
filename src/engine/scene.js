@@ -20,7 +20,7 @@ export function buildScene(play) {
   const post = {};
   LET.forEach((l) => (post[l] = pre[l].slice()));
   const mover = play.motion ? play.motion.who : null;
-  if (mover) post[mover] = motionDest(pre, mover, play.motion.tag);
+  if (mover) post[mover] = motionDest(pre, mover, play.motion.tag, play.motion.to);
 
   // The center breaks toward the strong side (right on ties).
   const lc = SKILL.filter((l) => post[l][0] < 178).length;
@@ -30,8 +30,9 @@ export function buildScene(play) {
   const path = {}, E = {};
   LET.forEach((l, i) => {
     const [x0, y0] = post[l];
-    const inD = l === 'C' ? cIn : x0 < 180 ? 1 : -1;
     const route = routeFor(play.digits[i]); // undefined = no route: he stands still
+    // abs: a drawn route that is measured to the right and never mirrored (the center's routes in the playbook)
+    const inD = route && route.abs ? -1 : l === 'C' ? cIn : x0 < 180 ? 1 : -1;
     const pts = [[x0, y0]].concat(route ? route.points.map(([lat, d]) => [clamp(x0 - inD * lat * PX, 10, 350), LOS - d * PX]) : []);
     path[l] = pts;
     E[l] = pts[pts.length - 1];

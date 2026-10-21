@@ -34,8 +34,8 @@ export function checkCall(input) {
   return { error: `Not a valid call. Example: ${CALL_EXAMPLE}.` };
 }
 
-/** Route digits as text. A receiver with no route shows as _ (so a half-built play reads "Dubs 2_1_9"). */
-export const digitsText = (digits) => digits.map((d) => (d == null ? '_' : d)).join('');
+/** Route digits as text. No route shows as _ ("Dubs 2_1_9"), and a drawn playbook route shows as a dot. */
+export const digitsText = (digits) => digits.map((d) => (d == null ? '_' : typeof d === 'object' ? '·' : d)).join('');
 
 /** A play in words: "A Slant, B Speed Out, ... Y goes in motion (cross)." Used for screen readers. */
 export function describePlay(p) {

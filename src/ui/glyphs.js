@@ -1,4 +1,4 @@
-import { LET, LOS, PX, ROUTES, buildScene } from '../engine/index.js';
+import { LET, LOS, PX, routeFor, buildScene } from '../engine/index.js';
 import { formations } from '../data/index.js';
 import { HEX } from './theme.js';
 
@@ -7,9 +7,14 @@ export function arrowPath(a, b, sz) {
   return `<path d="M0 0L-${sz} -${sz * 0.56}L-${sz} ${sz * 0.56}Z" transform="translate(${b[0].toFixed(1)},${b[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/>`;
 }
 
-/** Small route icon for a route number. */
-export function glyph(n) {
-  const pts = [[20, 38]].concat(ROUTES[n].points.map(([lat, d]) => [20 - lat * 1.55, 38 - d * 1.9]));
+/** Small route icon for a route: a tree number (0-9) or a drawn playbook route. Scaled to fit the box. */
+export function glyph(x) {
+  const r = routeFor(x);
+  const maxLat = Math.max(1, ...r.points.map(([lat]) => Math.abs(lat)));
+  const maxDepth = Math.max(1, ...r.points.map(([, d]) => Math.abs(d)));
+  const sx = Math.min(1.55, 15 / maxLat), sy = Math.min(1.9, 30 / maxDepth);
+  const dir = r.abs ? 1 : -1; // routes break toward the sideline (drawn left); center routes are measured to the right
+  const pts = [[20, 38]].concat(r.points.map(([lat, d]) => [20 + dir * lat * sx, 38 - d * sy]));
   const a = pts[pts.length - 2], b = pts[pts.length - 1];
   return `<svg viewBox="0 0 40 44" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><polyline points="${pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="38" r="3" stroke="none"/>${arrowPath(a, b, 6.5).replace('<path', '<path stroke="none"')}</g></svg>`;
 }

@@ -274,6 +274,8 @@ Priority: **P0** = must ship v1 · **P1** = should ship v1 · **P2** = later.
 
 ---
 
+> **Update (Phase 7):** the Playbook tab no longer shows these 13 plays. It now shows the 28 passing plays from the coach's *2x2 - Attack System* PDF (`src/data/playbook.json`). These 13 plays remain as the call-coded library (`src/data/callbook.json`) for the call quiz, Read the defense and the concept cards.
+
 ## Appendix A — Starter library (13 plays)
 
 | Call | Name | Coaching note |

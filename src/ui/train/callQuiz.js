@@ -1,13 +1,13 @@
 // Call quiz: see the play and pick the call, or see the call and pick the picture.
 import { esc } from '../dom.js';
 import { S } from '../state.js';
-import { plays } from '../../data/index.js';
+import { callbook } from '../../data/index.js';
 import { callRound, callText, describePlay, explainDiff } from '../../engine/index.js';
 import { refresh, replay } from '../player.js';
 import { thumb } from '../glyphs.js';
 import { runQuiz } from './runner.js';
 
-const library = plays.map((p) => p.call);
+const library = callbook.map((p) => p.call);
 
 export function startCallQuiz(api) {
   runQuiz(api, {
@@ -19,7 +19,7 @@ export function startCallQuiz(api) {
           view: 'field',
           enter() {
             S.quiz = true;
-            Object.assign(S, { form: q.play.form, digits: q.play.digits.slice(), motion: q.play.motion ? { ...q.play.motion } : null, def: 'none', name: '' });
+            Object.assign(S, { form: q.play.form, digits: q.play.digits.slice(), motion: q.play.motion ? { ...q.play.motion } : null, def: 'none', name: '', playId: null });
             refresh(false);
           },
           html: `${head}<h2 class="qtext">What is the call?</h2><p class="hint">Run the play, then pick the call that matches.</p>

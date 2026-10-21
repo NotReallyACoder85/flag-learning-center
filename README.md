@@ -25,11 +25,13 @@ npm run build    # production build into dist/
 | `src/styles/` | CSS and bundled fonts. |
 | `tests/` | Unit tests and the formation x defense x motion sweep. |
 | `public/` | Icons, manifest, files copied as-is. |
+| `scripts/` | `deploy.sh`, and `playbook-pdf/` (the tools that turned the coach's PDF into `playbook.json`). |
 | `docs/` | BRD and reference prototype. |
 
 ## Editing the playbook
 
-- Add a play: add an entry to `src/data/plays.json`.
+- Playbook plays (the Playbook tab) are in `src/data/playbook.json`: the coach's 2x2 Attack System plays. Each play has a formation, optional motion, and a drawn route for each receiver (`points` are lateral yards toward his own sideline, then yards deep). To change a route, edit its `points`. To add a play, copy an existing one and give it a new `id`.
+- The 13 call-coded plays (like `Dubs 21129 Y Cross`) are in `src/data/callbook.json`. The call quiz, Read the defense and the concept cards use them.
 - Tune a route: edit its `points` in `src/data/routes.json` (lateral yards, depth yards).
 - Move a formation: edit `src/data/formations.json`.
 - Quiz length and app name: `src/data/settings.json`.

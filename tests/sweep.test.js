@@ -1,7 +1,7 @@
 // Every formation x defense x motion x route set builds, animates and evaluates without error.
 import { describe, it, expect } from 'vitest';
 import { buildScene, LET } from '../src/engine/index.js';
-import { FORM_KEYS, DEFS, MOTIONS, libraryPlays } from './helpers.js';
+import { ALL_FORM_KEYS, DEFS, MOTIONS, libraryPlays } from './helpers.js';
 
 const finite = (p) => Array.isArray(p) && p.length === 2 && Number.isFinite(p[0]) && Number.isFinite(p[1]);
 
@@ -27,7 +27,7 @@ describe('sweep: every formation x defense x motion', () => {
   routeSets.push([2, 1, 1, 2, 9], [0, 7, 2, 9, 4], [9, 4, 6, 9, 1]);
   it('builds with no errors and finite positions', () => {
     let n = 0;
-    FORM_KEYS.forEach((form) =>
+    ALL_FORM_KEYS.forEach((form) =>
       DEFS.forEach((def) =>
         MOTIONS.forEach((motion) =>
           routeSets.forEach((digits) => {
@@ -36,7 +36,7 @@ describe('sweep: every formation x defense x motion', () => {
         )
       )
     );
-    expect(n).toBe(FORM_KEYS.length * DEFS.length * MOTIONS.length * routeSets.length * 2);
+    expect(n).toBe(ALL_FORM_KEYS.length * DEFS.length * MOTIONS.length * routeSets.length * 2);
   });
 });
 

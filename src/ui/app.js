@@ -1,9 +1,9 @@
 // Boot and event wiring.
 import { $ } from './dom.js';
 import { S } from './state.js';
-import { plays } from '../data/index.js';
+import { findEntry } from '../engine/index.js';
 import { drawStatic, setPickHandler, markSelected } from './field.js';
-import { refresh, loadCall, togglePlay, play, replay, seek, onRefresh } from './player.js';
+import { refresh, loadCall, loadPlay, togglePlay, play, replay, seek, onRefresh } from './player.js';
 import { renderTiles, renderPlaybook } from './panels.js';
 import { renderBuilder, initBuilder } from './builder.js';
 import { syncView } from './view.js';
@@ -90,8 +90,7 @@ export function start() {
   $('#plays').addEventListener('click', (e) => {
     const b = e.target.closest('.card');
     if (!b) return;
-    const p = plays[b.dataset.i];
-    loadCall(p.call, p.name);
+    loadPlay(findEntry(b.dataset.id));
   });
   // Space bar plays/pauses on desktop, unless typing or pressing a control.
   document.addEventListener('keydown', (e) => {

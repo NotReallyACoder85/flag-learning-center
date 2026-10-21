@@ -2,7 +2,7 @@
 import { $, esc } from './dom.js';
 import { S, ctx } from './state.js';
 import { setHot } from './field.js';
-import { ROUTES, LET, DEF_NAME, callouts } from '../engine/index.js';
+import { routeFor, LET, DEF_NAME, callouts } from '../engine/index.js';
 import { copy } from '../data/index.js';
 
 let lastKey = '';
@@ -33,7 +33,7 @@ export function renderLower(t) {
       if (r.tight) {
         html += `<div class="l3 res tight"><span class="k">Read</span><div><b>Covered on every route</b><span class="tx">${fill(copy.covered, { defense: DEF_NAME[S.def], sep: r.sep.toFixed(1) })}</span></div></div>`;
       } else {
-        const route = ROUTES[S.digits[LET.indexOf(r.open)]].name.toLowerCase();
+        const route = routeFor(S.digits[LET.indexOf(r.open)]).name.toLowerCase();
         html += `<div class="l3 res"><span class="k">Open</span><div><b>${r.open} on the ${esc(route)}, ${r.sep.toFixed(1)} yds of space</b><span class="tx">${esc(r.why)}</span></div></div>`;
       }
     }
@@ -42,7 +42,7 @@ export function renderLower(t) {
   $('#miniRead').textContent =
     S.def === 'none' ? 'Defense is off'
     : noRoutes ? 'Pick a route for each receiver'
-    : showRes ? (sc.result.tight ? 'Covered on every route' : `Open: ${sc.result.open} · ${ROUTES[S.digits[LET.indexOf(sc.result.open)]].name} · ${sc.result.sep.toFixed(1)} yds`)
+    : showRes ? (sc.result.tight ? 'Covered on every route' : `Open: ${sc.result.open} · ${routeFor(S.digits[LET.indexOf(sc.result.open)]).name} · ${sc.result.sep.toFixed(1)} yds`)
     : 'Watching the play…';
   const L = $('#lower');
   L.className = 'lower' + (n === 2 ? ' two' : '');

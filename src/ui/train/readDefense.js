@@ -1,13 +1,13 @@
 // Read the defense: watch the motion, decide man or zone, then see the tell.
 import { esc } from '../dom.js';
 import { S, ctx } from '../state.js';
-import { plays, copy } from '../../data/index.js';
+import { callbook, copy } from '../../data/index.js';
 import { readRound } from '../../engine/index.js';
 import { refresh, playUntil } from '../player.js';
 import { markDefender } from '../field.js';
 import { runQuiz } from './runner.js';
 
-const library = plays.map((p) => p.call);
+const library = callbook.map((p) => p.call);
 const watchMotion = () => playUntil(ctx.sc.tm + 0.5); // stop right after the motion, before the snap
 
 export function startReadDefense(api) {
@@ -19,7 +19,7 @@ export function startReadDefense(api) {
         view: 'field',
         enter() {
           S.quiz = true;
-          Object.assign(S, { form: q.play.form, digits: q.play.digits.slice(), motion: { ...q.play.motion }, def: q.play.def, name: '' });
+          Object.assign(S, { form: q.play.form, digits: q.play.digits.slice(), motion: { ...q.play.motion }, def: q.play.def, name: '', playId: null });
           refresh(false);
         },
         html: `${head}<h2 class="qtext">Man or zone?</h2>

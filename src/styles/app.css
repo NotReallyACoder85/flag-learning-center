@@ -300,3 +300,22 @@ body[data-quiz="field"] .head,body[data-quiz="field"] .tiles,body[data-quiz="fie
 .rth svg,.fth svg{display:block;width:100%;height:auto}
 .rpics .rth{padding:6px;background:linear-gradient(180deg,#0A2B6E,#061744)}
 button.tc .soon{position:absolute;top:14px;right:14px;z-index:1}
+
+/* Playbook sections */
+#plays{display:flex;flex-direction:column;gap:26px}
+.grp{display:flex;flex-direction:column;gap:8px}
+.grp-h{margin:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px;font:900 1.35rem/1.1 var(--f-disp);letter-spacing:.05em;text-transform:uppercase}
+.grp-h span{font:600 .72rem var(--f-cond);letter-spacing:.18em;color:var(--muted)}
+.grp-b{margin:0 0 2px;font-size:.85rem;color:var(--muted)}
+.card .cd{font-size:1.05rem;line-height:1.12}
+.card .cn{margin-top:2px}
+
+/* key routes (highlighted in the coach's diagrams) */
+.tile .keymark{position:absolute;top:7px;right:8px;font-size:.8rem;line-height:1;color:var(--gold)}
+.tile.key{border-color:rgba(255,210,31,.45)}
+
+/* drawn playbook routes that are not on the numbered tree show a dot instead of a number */
+.dotmark{display:inline-block;width:.26em;height:.26em;border-radius:50%;background:currentColor;vertical-align:middle;opacity:.9}
+.chip .dotmark{width:.3em;height:.3em}
+/* route names can wrap to two lines instead of being cut off */
+.tile .rn{white-space:normal;overflow:hidden;text-overflow:clip;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:center;line-height:1.05;min-height:2.1em;align-content:center}

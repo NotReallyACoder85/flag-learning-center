@@ -1,5 +1,5 @@
 // Question builders and grading for the Train modes. Pure functions, seeded so they are testable.
-import { formations, routes, settings } from '../data/index.js';
+import { formations, baseFormations, routes, settings } from '../data/index.js';
 import { SKILL, MOTION_TAGS } from './constants.js';
 import { parseCall, callText } from './parseCall.js';
 import { routeFor } from './routes.js';
@@ -21,7 +21,7 @@ export function mutatePlay(play, rng) {
       else if (rng.int(2)) next.motion = null;
       else next.motion = { who: rng.pick(SKILL.filter((w) => w !== next.motion.who)), tag: next.motion.tag };
     } else {
-      next.form = rng.pick(Object.keys(formations).filter((f) => f !== play.form));
+      next.form = rng.pick(baseFormations.filter((f) => f !== play.form));
     }
     if (!sameCall(next, play)) return next;
   }
@@ -114,7 +114,7 @@ export function routeRound(rng, n, routeList = routes) {
  * Odd questions: see the name, pick the formation (four pictures).
  */
 export function formationRound(rng, n) {
-  const keys = Object.keys(formations);
+  const keys = baseFormations.slice();
   const order = rng.shuffle(keys);
   return Array.from({ length: n }, (_, i) => {
     const form = order[i % order.length];
