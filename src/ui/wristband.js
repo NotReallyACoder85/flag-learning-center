@@ -41,10 +41,11 @@ function cellHTML(slot, f, interactive, b) {
 
 /** A small black route picture for the route tree table. Same shape as the Route diagram: sideline on the left. */
 function treePic(r) {
-  const pts = [[20, 43]].concat(r.points.map(([lat, d]) => [20 - lat * 1.9, 43 - d * 2]));
+  const pts = [[24, 43]].concat(r.points.map(([lat, d]) => [24 - lat * 1.9, 43 - d * 2]));
   const a = pts[pts.length - 2], z = pts[pts.length - 1];
   const ang = (Math.atan2(z[1] - a[1], z[0] - a[0]) * 180) / Math.PI;
-  return `<svg viewBox="0 0 40 46" aria-hidden="true"><polyline points="${pts.map((q) => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ')}" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 0L-5 -3L-5 3Z" fill="#111" transform="translate(${z[0].toFixed(1)},${z[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/><circle cx="20" cy="43" r="2.6" fill="#111"/></svg>`;
+  const ball = '<g transform="translate(45,38) rotate(-35) scale(1.35)"><ellipse rx="5.2" ry="3.2" fill="#fff" stroke="#111" stroke-width="1.3"/><path d="M-2 0H2M-1 -1.2V1.2M1 -1.2V1.2" stroke="#111" stroke-width=".8" fill="none"/></g>';
+  return `<svg viewBox="0 0 52 46" aria-hidden="true"><line x1="2" y1="4" x2="2" y2="44" stroke="#111" stroke-width="1.2" stroke-dasharray="2 2"/>${ball}<polyline points="${pts.map((q) => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ')}" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 0L-5 -3L-5 3Z" fill="#111" transform="translate(${z[0].toFixed(1)},${z[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/><circle cx="24" cy="43" r="2.6" fill="#111"/></svg>`;
 }
 
 /** The route tree as a table: number, name, and (optionally) the route drawn small. 5 rows in 2 columns. */

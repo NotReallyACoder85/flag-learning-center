@@ -463,7 +463,7 @@ body[data-tab="wrist"] .app{max-width:860px}
 .wtrow:nth-child(5n){border-bottom:0}
 .wtrow:nth-child(n+6){border-left:.3pt solid #888}
 .wtn{flex:0 0 auto;width:5.2cqw;height:5.2cqw;border-radius:50%;background:#111;color:#fff;font:800 3.4cqw/5.2cqw var(--f-body);text-align:center}
-.wtp{flex:0 0 auto;height:100%;width:6.4cqw;padding:.4cqw 0;display:flex;align-items:center;justify-content:center}
+.wtp{flex:0 0 auto;height:100%;width:8.4cqw;padding:.4cqw 0;display:flex;align-items:center;justify-content:center}
 .wtp svg{height:100%;width:auto;max-width:100%}
 .wtt{font:700 3.4cqw/1.05 var(--f-cond);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .wb-ins{display:flex;flex-direction:column;gap:8px}
