@@ -97,3 +97,8 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 - **Team logo.** It is currently the NFL Rams mark. That is a trademark question if the link spreads beyond the team. A team-made logo avoids it. Your call.
 - **Project folder is in iCloud Drive.** iCloud has already made stray "name 2" copies of files here. Once it is on GitHub the repo is the real backup, so moving the working folder out of iCloud Drive (for example into a `Developer` folder) is safer for git.
 - **Route and coverage accuracy.** The route shapes, the center's break direction, and how zones lean against Trips and Quads are all my starting guesses from the BRD and prototype. Phase 7 is where you confirm them.
+
+## Wristband ideas (added with arm band sets)
+- Print a "coach copy" page: all 18 plays larger, one page, for the sideline clipboard.
+- Per-player sets: same plays, a name or jersey number on each insert's title.
+- A coverage-beater key: a small M / 2 / 3 tag on each diagram showing which coverage it is best against.

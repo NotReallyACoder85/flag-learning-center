@@ -458,6 +458,29 @@ body[data-tab="wrist"] .app{max-width:860px}
 .wdia{flex:1 1 0;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
 .wdia svg{max-width:100%;max-height:100%;height:100%;width:auto}
 .wd-l{font:800 17px var(--f-body);text-anchor:middle;dominant-baseline:central}
+.wtree .wtgrid{flex:1 1 0;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));grid-auto-flow:column}
+.wtrow{display:flex;align-items:center;gap:2cqw;min-height:0;padding:0 2.2cqw;border-bottom:.3pt solid #888}
+.wtrow:nth-child(5n){border-bottom:0}
+.wtrow:nth-child(n+6){border-left:.3pt solid #888}
+.wtn{flex:0 0 auto;width:5.2cqw;height:5.2cqw;border-radius:50%;background:#111;color:#fff;font:800 3.4cqw/5.2cqw var(--f-body);text-align:center}
+.wtp{flex:0 0 auto;height:100%;width:6.4cqw;padding:.4cqw 0;display:flex;align-items:center;justify-content:center}
+.wtp svg{height:100%;width:auto;max-width:100%}
+.wtt{font:700 3.4cqw/1.05 var(--f-cond);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.wb-ins{display:flex;flex-direction:column;gap:8px}
+.wb-inshead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wb-inshead .grp-h{margin:0}
+.wb-ordersec{padding:16px;display:flex;flex-direction:column;gap:10px}
+.wb-ordersec .hint{margin:0}
+.wb-order{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.wbrow{display:flex;align-items:center;gap:10px;min-height:52px;padding:4px 10px;border:1px solid var(--edge);border-radius:12px;background:rgba(3,6,18,.4)}
+.wbrow.empty{min-height:44px;opacity:.75}
+.wbr-n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--gold,#FFD21F);color:#111;font:800 .9rem/30px var(--f-body);text-align:center}
+.wbrow.empty .wbr-n{background:#555;color:#ddd}
+.wbr-t{flex:1 1 auto;min-width:0;font:700 1rem var(--f-cond);letter-spacing:.04em;text-transform:uppercase;overflow-wrap:anywhere}
+.wbr-btns{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.wbr-b{min-height:44px;padding:0 12px}
+.wbr-x{color:var(--bad)}
+@media(max-width:520px){.wbrow{flex-wrap:wrap}.wbr-btns{flex:1 1 100%;justify-content:flex-start}}
 .wname{flex:0 0 auto;max-height:2.15em;overflow:hidden;margin-top:.3cqw;font:700 2.5cqw/1.05 var(--f-cond);letter-spacing:.03em;text-transform:uppercase;overflow-wrap:anywhere}
 .wname.n2{font-size:2.2cqw}
 .wname.n3{font-size:1.9cqw}

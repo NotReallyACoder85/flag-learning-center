@@ -11,7 +11,7 @@ import { initTrain, showHub, exitTrain } from './train/index.js';
 import { initBeat, startChallenge } from './beat.js';
 import { initWristband, renderWristband, addToActiveCard } from './wristband.js';
 
-const TABS = ['play', 'build', 'wrist', 'train'];
+const TABS = ['play', 'wrist', 'build', 'train'];
 
 function setTab(t) {
   setTheater(false);
