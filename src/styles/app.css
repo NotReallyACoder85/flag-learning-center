@@ -513,3 +513,7 @@ body[data-tab="wrist"] .app{max-width:860px}
 
 /* four tabs fit on one line on a phone */
 @media(max-width:430px){.tab{padding:8px 9px;letter-spacing:.07em;font-size:.72rem;white-space:nowrap}.tabs{gap:0}}
+
+.wb-more{padding:0 16px}
+.wb-more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font:600 .72rem var(--f-cond);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.wb-moreIn{display:flex;flex-direction:column;gap:16px;padding-bottom:16px}

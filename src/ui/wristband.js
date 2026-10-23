@@ -3,7 +3,7 @@ import { $, esc } from './dom.js';
 import { S } from './state.js';
 import {
   SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat, firstEmptyFlat, filledCount,
-  setCardType, setCardTitle, slotPlay, printableCards, cardsPerSheet,
+  setCardType, slotPlay, printableCards, cardsPerSheet,
   playbookEntries, playbookSections, playFromEntry, parseCall, callText, sanitizePlay,
 } from '../engine/index.js';
 import { formations, routes } from '../data/index.js';
@@ -50,16 +50,15 @@ function treePic(r) {
 /** The route tree as a table: number, name, and (optionally) the route drawn small. 5 rows in 2 columns. */
 function treeHTML(b, c) {
   const rows = routes.map((r) => `<div class="wtrow"><span class="wtn">${r.id}</span>${b.pics ? `<span class="wtp">${treePic(r)}</span>` : ''}<span class="wtt">${esc(r.name)}</span></div>`).join('');
-  return `<div class="wcard wtree"><div class="wtitle">${esc(c.title || 'Route tree')}</div><div class="wtgrid">${rows}</div></div>`;
+  return `<div class="wcard wtree"><div class="wtitle">Route tree</div><div class="wtgrid">${rows}</div></div>`;
 }
 
 /** One insert. */
 function cardHTML(b, ci, interactive) {
   const c = b.cards[ci];
   if (c.type === 'tree') return treeHTML(b, c);
-  const title = c.title ? `<div class="wtitle">${esc(c.title)}</div>` : '';
   const cells = c.slots.map((s, k) => cellHTML(s, flatOf(b, ci, k), interactive, b)).join('');
-  return `<div class="wcard${b.color ? ' wcolor' : ''}">${title}<div class="wgrid">${cells}</div></div>`;
+  return `<div class="wcard${b.color ? ' wcolor' : ''}"><div class="wgrid">${cells}</div></div>`;
 }
 
 /** The order list: every play position, with move earlier / later, change and remove. */
@@ -89,21 +88,6 @@ export function renderWristband() {
   const pages = Math.ceil(inserts / perSheet);
   const total = flatCount(b);
   root.innerHTML = `
-    <div class="wb-top">
-      <label class="wb-lbl" for="wbSelect">Arm band set</label>
-      <select id="wbSelect" class="wb-select">${state.bands.map((x) => `<option value="${esc(x.id)}" ${x.id === state.active ? 'selected' : ''}>${esc(x.name)} (${filledCount(x)}/${flatCount(x)} plays)</option>`).join('')}</select>
-      <div class="row">
-        <button class="cta ghost" data-wb="new" type="button" ${state.bands.length >= MAX_BANDS ? 'disabled' : ''}>New</button>
-        <button class="cta ghost" data-wb="copy" type="button" ${state.bands.length >= MAX_BANDS ? 'disabled' : ''}>Duplicate</button>
-        <button class="cta ghost" data-wb="rename" type="button">Rename</button>
-        <button class="cta ghost" data-wb="delete" type="button">Delete</button>
-      </div>
-    </div>
-    <div class="wb-opts">
-      <label class="wb-check"><input id="wbNames" type="checkbox" ${b.names ? 'checked' : ''}> Show play names under each diagram (off gives the diagrams more room)</label>
-      <label class="wb-check"><input id="wbColor" type="checkbox" ${b.color ? 'checked' : ''}> Color (uses more ink; black and white prints best)</label>
-      ${hasTree ? `<label class="wb-check"><input id="wbPics" type="checkbox" ${b.pics ? 'checked' : ''}> Draw each route next to its name on the route tree</label>` : ''}
-    </div>
     ${msg ? `<div class="wb-msg" role="status">${esc(msg)}${undo ? ' <button class="cta ghost" data-wb="undo" type="button">Undo</button>' : ''}</div>` : ''}
     ${b.cards.map((c, ci) => `
     <section class="wb-ins" aria-label="Insert ${ci + 1}">
@@ -114,7 +98,6 @@ export function renderWristband() {
           <button class="pill" data-wb="type" data-ci="${ci}" data-v="tree" aria-pressed="${c.type === 'tree'}" type="button">Route tree</button>
         </div>
       </div>
-      <label class="wb-field"><span>Title on this insert (optional)</span><input class="wbCardTitle" data-ci="${ci}" type="text" maxlength="40" value="${esc(c.title)}" placeholder="${c.type === 'tree' ? 'Route tree' : 'Game 3: Eagles'}"></label>
       <div class="wb-cardwrap">${cardHTML(b, ci, true)}</div>
     </section>`).join('')}
     <p class="hint">Each insert is exactly 4.25 inches wide and 2 inches tall when printed. Tap an empty slot to add a play. Tap a play, then another slot, to swap places (or drag on a computer).</p>
@@ -131,7 +114,27 @@ export function renderWristband() {
       <label class="wb-check"><input id="wbGuides" type="checkbox" ${guides ? 'checked' : ''}> Cut guides (a thin dashed outline)</label>
       <button class="cta" data-wb="print" type="button" ${sets ? '' : 'disabled'}>Print ${copies} ${copies === 1 ? 'set' : 'sets'} (${inserts} inserts, ${pages} ${pages === 1 ? 'page' : 'pages'})</button>
       <p class="hint">In the print dialog, set Scale to 100% (not "Fit to page") and turn off headers and footers, so the inserts print at true size.</p>
-    </div>`;
+    </div>
+    <details class="wb-more glass">
+      <summary>Set options</summary>
+      <div class="wb-moreIn">
+    <div class="wb-top">
+      <label class="wb-lbl" for="wbSelect">Arm band set</label>
+      <select id="wbSelect" class="wb-select">${state.bands.map((x) => `<option value="${esc(x.id)}" ${x.id === state.active ? 'selected' : ''}>${esc(x.name)} (${filledCount(x)}/${flatCount(x)} plays)</option>`).join('')}</select>
+      <div class="row">
+        <button class="cta ghost" data-wb="new" type="button" ${state.bands.length >= MAX_BANDS ? 'disabled' : ''}>New</button>
+        <button class="cta ghost" data-wb="copy" type="button" ${state.bands.length >= MAX_BANDS ? 'disabled' : ''}>Duplicate</button>
+        <button class="cta ghost" data-wb="rename" type="button">Rename</button>
+        <button class="cta ghost" data-wb="delete" type="button">Delete</button>
+      </div>
+    </div>
+    <div class="wb-opts">
+      <label class="wb-check"><input id="wbNames" type="checkbox" ${b.names ? 'checked' : ''}> Show play names under each diagram (off gives the diagrams more room)</label>
+      <label class="wb-check"><input id="wbColor" type="checkbox" ${b.color ? 'checked' : ''}> Color (uses more ink; black and white prints best)</label>
+      ${hasTree ? `<label class="wb-check"><input id="wbPics" type="checkbox" ${b.pics ? 'checked' : ''}> Draw each route next to its name on the route tree</label>` : ''}
+    </div>
+      </div>
+    </details>`;
 }
 
 /* ---------- play picker ---------- */
@@ -341,16 +344,6 @@ export function initWristband() {
     else if (id === 'wbPics') { update((x) => ({ ...x, pics: e.target.checked })); renderWristband(); }
     else if (id === 'wbSheet') { sheet = e.target.value; renderWristband(); }
     else if (id === 'wbGuides') { guides = e.target.checked; }
-  });
-  root.addEventListener('input', (e) => {
-    if (!e.target.classList.contains('wbCardTitle')) return;
-    const ci = +e.target.dataset.ci, t = e.target.value.trim();
-    update((x) => setCardTitle(x, ci, e.target.value));
-    // update the title on the card without redrawing (so typing keeps its place)
-    const card = e.target.closest('.wb-ins').querySelector('.wcard'), tree = band().cards[ci].type === 'tree';
-    let el = card.querySelector('.wtitle');
-    if (t && !el) { el = document.createElement('div'); el.className = 'wtitle'; card.prepend(el); }
-    if (el) { if (t) el.textContent = t; else if (tree) el.textContent = 'Route tree'; else el.remove(); }
   });
   // drag one slot onto another to swap (mouse; tap-to-swap covers touch)
   let dragFrom = null;
