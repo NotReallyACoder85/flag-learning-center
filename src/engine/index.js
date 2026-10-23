@@ -11,6 +11,7 @@ export { motionDest, sides } from './motion.js';
 export { buildScene } from './scene.js';
 export { evaluate, whyText } from './evaluate.js';
 export { sanitizeRoute, sanitizePlay } from './saved.js';
+export { SLOTS, MAX_BANDS, CARD_IN, emptyBand, newId, sanitizeSlot, sanitizeBand, sanitizeBands, setSlot, clearSlot, swapSlots, firstEmpty, filledCount, slotPlay, cardsPerSheet } from './wristband.js';
 export { TEMPLATES, templatesIn, buildRoute, fromTemplate, nudgeStem, nudgeBreak, flipRoute, paramsOf, describeRoute, kindOf } from './routelab.js';
 export { playFromEntry, playbookEntries, playbookSections, findEntry } from './playbook.js';
 export { callouts } from './callouts.js';

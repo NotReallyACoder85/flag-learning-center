@@ -64,6 +64,13 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 - **Quiz from the real playbook.** A quiz that shows a play and asks "which coverage does this beat?", or "name this play", using these 28 plays.
 - **Play names on Draw Up.** Let a player build a play and give the concept a name, like "Smash".
 
+## Wristband follow-ups
+- **Save a card as a PDF** for printing at a copy shop, or to text to another coach.
+- **Share a card by link** so an assistant coach can print the same card.
+- **A "formation" or "beats" label** under each play name, if there is room.
+- **Print a full-size play sheet** (one play per page, big diagrams) for the sideline.
+- **Slot colors or tabs** if wristband inserts use color coding for play types.
+
 ## Route Lab follow-ups
 - **Draw your own route.** A full-screen editor: tap points on a big field, snapping to the yard grid and 15-degree angles, with undo, mirror and a live preview. For anything the templates can't make. (The templates and stem/break controls shipped first.)
 - **Share a custom play by link.** A play with custom routes can't be a call code, so the link would carry the whole play.

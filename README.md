@@ -56,6 +56,10 @@ npm run deploy     # runs the tests, builds, and publishes. Live in a minute or 
 
 Optional upgrade: automatic deploys on every push. That needs a GitHub Actions workflow file, and GitHub only lets a token push one after `gh auth refresh -s workflow` is run once. Until then, `npm run deploy` does the same job by hand.
 
+## Wristband cards
+
+The Wristband tab builds 4.25" x 2" cards of 6 plays (3 across, 2 down). Tap an empty slot to pick a play from the Playbook, My plays, or the play on the field. Tap a filled slot and then another slot to swap them (or drag one onto another). The Playbook also has an "Add to wristband" button. Cards are saved on this device, and you can keep several (for example one per opponent), each with an optional title line. Print puts the cards on a letter sheet at their true size: 5 per page upright, 8 per page sideways. Black and white is the default because it prints best. In the print dialog set Scale to 100% and turn off headers and footers.
+
 ## Enlarge the field
 
 The expand button in the corner of the field (or the F key) opens the field full-window, with Play, the defense choices and the previous/next arrows. Esc or the close button goes back. It is available in the Playbook and in Draw Up.

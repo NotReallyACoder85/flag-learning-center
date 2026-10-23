@@ -9,8 +9,9 @@ import { renderBuilder, initBuilder } from './builder.js';
 import { syncView } from './view.js';
 import { initTrain, showHub, exitTrain } from './train/index.js';
 import { initBeat, startChallenge } from './beat.js';
+import { initWristband, renderWristband, addToActiveCard } from './wristband.js';
 
-const TABS = ['play', 'build', 'train'];
+const TABS = ['play', 'build', 'wrist', 'train'];
 
 function setTab(t) {
   setTheater(false);
@@ -28,6 +29,7 @@ function setTab(t) {
   renderBuilder();
   markSelected();
   if (t === 'train') showHub();
+  if (t === 'wrist') renderWristband();
 }
 
 /** Choose which receiver the route keypad edits. */
@@ -85,6 +87,13 @@ export function start() {
   onRefresh(renderBuilder);
   initBuilder();
   initBeat();
+  initWristband();
+  // "Add to wristband" on a Playbook play
+  $('#anat').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-wb="add"]');
+    if (!b || !S.playId) return;
+    $('#wbMsg').textContent = addToActiveCard({ pb: S.playId });
+  });
   initTrain({
     setTab,
     startBeat: () => startChallenge(setTab),

@@ -91,7 +91,8 @@ function playbookAnatomy(e) {
   return `<div class="seg3"><b>${esc(formations[e.formation].name)}</b><span>Formation. ${esc(formations[e.formation].desc)}</span></div>` +
     `<div class="seg3"><b>Routes</b><span>${names}.</span></div>` +
     (e.motion ? `<div class="seg3 m"><b>${e.motion.who} Motion</b><span>Motion. ${e.motion.who} moves to a new spot before the snap, then runs his route from there.</span></div>` : '') +
-    `<div class="note glass" style="flex-basis:100%">${esc(sec ? sec.blurb : '')} ${esc(e.note || '')}${anyKey ? ' A gold star marks a key route in the playbook diagram.' : ''}</div>`;
+    `<div class="note glass" style="flex-basis:100%">${esc(sec ? sec.blurb : '')} ${esc(e.note || '')}${anyKey ? ' A gold star marks a key route in the playbook diagram.' : ''}</div>` +
+    `<div class="wbadd"><button class="cta ghost" data-wb="add" type="button">Add to wristband</button><span class="wbmsg" id="wbMsg" role="status" aria-live="polite"></span></div>`;
 }
 
 /** "How to read this play" card plus the playbook, grouped by the sections in the coach's playbook. */

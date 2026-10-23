@@ -1,6 +1,6 @@
 // Teaching diagrams for the route and formation quizzes.
 import { routes, formations } from '../data/index.js';
-import { LET, LOS, PX } from '../engine/index.js';
+import { LET, LOS, PX, buildScene } from '../engine/index.js';
 import { HEX } from './theme.js';
 
 const PER_YD = 6; // px per yard in the route diagram
@@ -46,4 +46,44 @@ export function formDiagram(key, letters = true) {
   const dots = LET.map((l) => player(l, f.pos[l][0], LOS + f.pos[l][1] * PX)).join('');
   const qb = `<circle cx="180" cy="348" r="13" fill="#F0484B"/>${letters ? '<text x="180" y="349" class="fd-l">Q</text>' : ''}`;
   return `<svg viewBox="0 272 360 96" role="img" aria-label="${f.desc.replace(/"/g, '')}"><line x1="0" x2="360" y1="${LOS}" y2="${LOS}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>${dots}${qb}</svg>`;
+}
+
+/**
+ * A play drawn for a wristband slot: black lines on white (or colored), big dots with letters, bold arrowheads.
+ * Built to stay readable when printed about 1.4 inches wide.
+ */
+export function wristDiagram(play, color = false) {
+  const s = buildScene({ form: play.form, digits: play.digits, motion: play.motion, def: 'none', slow: false });
+  const ink = '#111';
+  const col = (l) => (color ? HEX[l] : ink);
+  // fit the picture to what is on the field, so short plays are drawn bigger (but never zoomed in absurdly far)
+  const xs = [180], ys = [350];
+  LET.forEach((l) => {
+    xs.push(s.pre[l][0]); ys.push(s.pre[l][1]);
+    s.path[l].forEach((p) => { xs.push(p[0]); ys.push(p[1]); });
+  });
+  const pad = 22;
+  const x0 = Math.min(...xs) - pad, x1 = Math.max(...xs) + pad, y0 = Math.min(...ys) - pad, y1 = Math.max(...ys) + pad + 8;
+  const w = Math.max(x1 - x0, 270), h = Math.max(y1 - y0, 170);
+  const vx = (x0 + x1) / 2 - w / 2, vy = y1 - h;
+  let g = `<line x1="${vx}" x2="${vx + w}" y1="${LOS}" y2="${LOS}" stroke="${ink}" stroke-width="2" stroke-opacity=".55"/>`;
+  LET.forEach((l) => {
+    const pts = s.path[l];
+    if (pts.length < 2) return;
+    const a = pts[pts.length - 2], b = pts[pts.length - 1];
+    const ang = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
+    g += `<polyline points="${pts.map((p) => p[0].toFixed(0) + ',' + p[1].toFixed(0)).join(' ')}" fill="none" stroke="${col(l)}" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<path d="M0 0L-16 -8L-16 8Z" fill="${col(l)}" transform="translate(${b[0].toFixed(0)},${b[1].toFixed(0)}) rotate(${ang.toFixed(0)})"/>`;
+  });
+  if (s.mover) {
+    const a = s.pre[s.mover], b = s.post[s.mover];
+    g += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${ink}" stroke-width="3.4" stroke-dasharray="1 7" stroke-linecap="round"/>`;
+  }
+  LET.forEach((l) => {
+    const q = s.pre[l];
+    const shape = l === 'C' ? `<rect x="${q[0] - 14}" y="${q[1] - 14}" width="28" height="28" rx="5" fill="${col(l)}"/>` : `<circle cx="${q[0]}" cy="${q[1]}" r="14" fill="${col(l)}"/>`;
+    g += shape + `<text x="${q[0]}" y="${q[1] + 1}" class="wd-l" fill="${color ? '#06102A' : '#fff'}">${l}</text>`;
+  });
+  g += `<circle cx="180" cy="350" r="10" fill="none" stroke="${color ? HEX.A : ink}" stroke-width="3"/>`;
+  return `<svg class="wd" viewBox="${vx.toFixed(0)} ${vy.toFixed(0)} ${w.toFixed(0)} ${h.toFixed(0)}" aria-hidden="true">${g}</svg>`;
 }

@@ -14,6 +14,13 @@ The Playbook tab now shows the 28 passing plays from *2x2 - Attack System - Play
 - [ ] **Left out on purpose: the Run Game and Play-Action section** (jet sweeps, QB keeps, reverses, rollouts, Stalk & Go, Post-Wheel with a jet fake). Those need ball carriers and a moving quarterback, which the app doesn't have yet. Also left out: the six defense reference diagrams (plays 1, 2, 17, 18, 33, 34).
 - [ ] **Same concept in two sections** (for example 4 Verticals under Cover 2 and under Cover 3) are shown under both, since the PDF draws them slightly differently.
 
+## 0c. Wristband cards
+- [ ] **Print one and measure it.** Print a card at 100% scale and check it is 4.25 inches wide and 2 inches tall. Printers differ: if the card is clipped, your printer's non-printable edge is larger than 0.25 inch, and we can adjust the margins.
+- [ ] **Is the layout right?** 3 slots across, 2 down, each with a number, the play diagram and the play name. Slot numbers let you call "play 4".
+- [ ] **Readable at that size?** The diagrams are about 1.4 inches wide. If the letters or arrows are too small to read from a wristband, we can drop the letters, enlarge the diagram, or use 2 rows of 3 differently.
+- [ ] **Black and white vs color.** Black and white is the default. Color is optional per card.
+- [ ] **What else should be on a card?** For example the formation, a quick note, or a defense it beats.
+
 ## 0b. Route Lab (Draw Up > More routes)
 - [ ] **Template shapes.** Wheel, Snag, Trail, Swing, Arrow and the six double moves were copied from your PDF where it had them (Post-Corner, Corner-Post, Wheel, Snag, Trail, Arrow) and drawn from the names for the rest (Out & Up, In & Up, Slant & Go, Hitch & Go, Swing). Please check the lengths and angles. Edit `src/data/routelab.json`.
 - [ ] **Stem and Break.** Each press changes it by 1 yard. Stem runs 1 to 16 yards. Break can shrink to 40% or grow to 220% of the template's first cut. Is that range right?
