@@ -20,14 +20,14 @@ function routeFace(d) {
   const r = routeFor(d); // undefined when the receiver has no route
   if (!r) return { r, num: '–', name: 'No route', say: 'no route' };
   const num = typeof d === 'number' ? d : r.tree != null ? r.tree : '<i class="dotmark"></i>'; // a drawn route shows its tree number when it has one
-  const say = typeof d === 'number' ? `route ${d}, ${r.name}` : `${r.name}${r.key ? ', key route' : ''}`;
-  return { r, num, name: r.name, say };
+  const say = typeof d === 'number' ? `route ${d}, ${r.name}` : `${r.name}${r.detail ? ', ' + r.detail : ''}${r.key ? ', key route' : ''}`;
+  return { r, num, name: r.name, detail: r.detail || '', say };
 }
 
 export function renderTiles() {
   $('#tiles').innerHTML = LET.map((l, i) => {
     const d = S.digits[i], f = routeFace(d);
-    return `<button class="tile ${f.r && f.r.key ? 'key' : ''}" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: ${esc(f.say)}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${f.r ? glyph(d) : '<svg viewBox="0 0 40 44" aria-hidden="true"></svg>'}<span class="num">${f.num}</span><span class="rn">${esc(f.name)}</span>${f.r && f.r.key ? '<span class="keymark" aria-hidden="true">★</span>' : ''}</button>`;
+    return `<button class="tile ${f.r && f.r.key ? 'key' : ''}" data-l="${l}" data-fk="tile:${l}" style="--c:${HEX[l]};color:${HEX[l]}" aria-pressed="${S.tab === 'build' && S.sel === l}" aria-label="${l}: ${esc(f.say)}. Tap to change."><span class="let ${l === 'C' ? 'sq' : ''}">${l}</span>${f.r ? glyph(d) : '<svg viewBox="0 0 40 44" aria-hidden="true"></svg>'}<span class="num">${f.num}</span><span class="rn">${esc(f.name)}${f.detail ? `<small>${esc(f.detail)}</small>` : ''}</span>${f.r && f.r.key ? '<span class="keymark" aria-hidden="true">★</span>' : ''}</button>`;
   }).join('');
   $('#chips').innerHTML = LET.map((l, i) => {
     const f = routeFace(S.digits[i]);
@@ -63,6 +63,13 @@ export function cardCode(code) {
 
 export function cardHTML(code, name, attrs, pressed) {
   return `<button class="card" ${attrs} aria-pressed="${pressed}"><span class="th">${thumb(parseCall(code))}</span><span class="bd">${cardCode(code)}<span class="cn">${esc(name)}</span></span></button>`;
+}
+
+/** A card for a play the player saved: a call-coded play or a whole play with custom routes. */
+export function savedCardHTML(entry, attrs) {
+  if (entry.code) return cardHTML(entry.code, entry.name, attrs, false);
+  const p = entry.play;
+  return `<button class="card" ${attrs} aria-pressed="false"><span class="th">${thumb({ form: p.form, digits: p.routes, motion: p.motion })}</span><span class="bd"><span class="cd"><small>${esc(formations[p.form].name)}</small>custom</span><span class="cn">${esc(entry.name)}</span></span></button>`;
 }
 
 const thumbs = new Map(); // playbook thumbnails never change, so draw each once

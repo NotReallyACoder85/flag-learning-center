@@ -31,6 +31,7 @@ npm run build    # production build into dist/
 ## Editing the playbook
 
 - Playbook plays (the Playbook tab) are in `src/data/playbook.json`: the coach's 2x2 Attack System plays. Each play has a formation, optional motion, and a drawn route for each receiver (`points` are lateral yards toward his own sideline, then yards deep). To change a route, edit its `points`. To add a play, copy an existing one and give it a new `id`.
+- Draw Up's "More routes" (the Route Lab): the Specials and Double moves templates are in `src/data/routelab.json`. Each has a `stem` (yards straight up first, or null) and `steps` (moves after the stem). Stem and Break limits are in the same file.
 - The 13 call-coded plays (like `Dubs 21129 Y Cross`) are in `src/data/callbook.json`. The call quiz, Read the defense and the concept cards use them.
 - Tune a route: edit its `points` in `src/data/routes.json` (lateral yards, depth yards).
 - Move a formation: edit `src/data/formations.json`.

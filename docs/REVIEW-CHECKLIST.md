@@ -14,6 +14,11 @@ The Playbook tab now shows the 28 passing plays from *2x2 - Attack System - Play
 - [ ] **Left out on purpose: the Run Game and Play-Action section** (jet sweeps, QB keeps, reverses, rollouts, Stalk & Go, Post-Wheel with a jet fake). Those need ball carriers and a moving quarterback, which the app doesn't have yet. Also left out: the six defense reference diagrams (plays 1, 2, 17, 18, 33, 34).
 - [ ] **Same concept in two sections** (for example 4 Verticals under Cover 2 and under Cover 3) are shown under both, since the PDF draws them slightly differently.
 
+## 0b. Route Lab (Draw Up > More routes)
+- [ ] **Template shapes.** Wheel, Snag, Trail, Swing, Arrow and the six double moves were copied from your PDF where it had them (Post-Corner, Corner-Post, Wheel, Snag, Trail, Arrow) and drawn from the names for the rest (Out & Up, In & Up, Slant & Go, Hitch & Go, Swing). Please check the lengths and angles. Edit `src/data/routelab.json`.
+- [ ] **Stem and Break.** Each press changes it by 1 yard. Stem runs 1 to 16 yards. Break can shrink to 40% or grow to 220% of the template's first cut. Is that range right?
+- [ ] **Naming.** Custom routes are named only, with no codes. Plays that use them are saved whole in My Plays and can't be typed as a call.
+
 ## 1. Route shapes (BRD question 1)
 Edit: `src/data/routes.json` (`points` are lateral yards, then depth yards).
 

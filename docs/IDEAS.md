@@ -64,6 +64,12 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 - **Quiz from the real playbook.** A quiz that shows a play and asks "which coverage does this beat?", or "name this play", using these 28 plays.
 - **Play names on Draw Up.** Let a player build a play and give the concept a name, like "Smash".
 
+## Route Lab follow-ups
+- **Draw your own route.** A full-screen editor: tap points on a big field, snapping to the yard grid and 15-degree angles, with undo, mirror and a live preview. For anything the templates can't make. (The templates and stem/break controls shipped first.)
+- **Share a custom play by link.** A play with custom routes can't be a call code, so the link would carry the whole play.
+- **Stacked 2x2 in Draw Up.** Now that whole plays can be saved, the Stacked set could join the formation picker.
+- **Standard-cut variations.** Templates for Hitch, Flat, Drag and the other standard cuts, if the tree plus stem tuning isn't enough.
+
 ## Not done yet from my top picks
 - **B6 film-room thought bubbles.** Left for after Phase 7 so we can write the lines with your input (what each defender is thinking).
 - **A7 badges.** Ranks and streaks are in, badges are the next small step.

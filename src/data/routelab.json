@@ -1,0 +1,17 @@
+{
+  "_note": "Routes beyond the 0-9 tree, for Draw Up. 'steps' are [lateral yards toward the receiver's own sideline, yards deeper] moves. For a route with a stem, the steps start at the end of the stem (stem = yards straight up first). With stem null they start at the line. Lateral + goes toward the sideline (for the center, + goes right).",
+  "limits": { "stemMin": 1, "stemMax": 16, "breakMinScale": 0.4, "breakMaxScale": 2.2, "maxDepth": 22, "maxLateral": 22 },
+  "templates": [
+    { "id": "wheel",         "group": "special", "name": "Wheel",        "stem": null, "steps": [[3.1, 1.5], [2.3, 2.7], [2.4, 4.3], [0.4, 4.0]] },
+    { "id": "snag",          "group": "special", "name": "Snag",         "stem": null, "steps": [[-7.7, 4.5], [0, -1]] },
+    { "id": "trail",         "group": "special", "name": "Trail",        "stem": null, "steps": [[4.6, 2.0], [-4.1, 1.5]] },
+    { "id": "swing",         "group": "special", "name": "Swing",        "stem": null, "steps": [[2, -1.5], [2.5, -0.3], [2.5, 0.6], [1.5, 1.4]] },
+    { "id": "arrow",         "group": "special", "name": "Arrow",        "stem": null, "steps": [[1.5, 1.5], [6.2, 2.0]] },
+    { "id": "post-corner",   "group": "double",  "name": "Post-Corner",  "stem": 7,    "steps": [[-2.6, 2], [6.7, 3.5]] },
+    { "id": "corner-post",   "group": "double",  "name": "Corner-Post",  "stem": 7,    "steps": [[2.6, 1.5], [-6.7, 4]] },
+    { "id": "out-and-up",    "group": "double",  "name": "Out & Up",     "stem": 4,    "steps": [[7, 0], [0.5, 8]] },
+    { "id": "in-and-up",     "group": "double",  "name": "In & Up",      "stem": 4,    "steps": [[-7, 0], [-0.5, 8]] },
+    { "id": "slant-and-go",  "group": "double",  "name": "Slant & Go",   "stem": 3,    "steps": [[-3, 2], [3.5, 7]] },
+    { "id": "hitch-and-go",  "group": "double",  "name": "Hitch & Go",   "stem": 6,    "steps": [[0, -1], [1, 9]] }
+  ]
+}

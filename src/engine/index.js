@@ -10,6 +10,8 @@ export { ROUTES, routeFor, hasRoute } from './routes.js';
 export { motionDest, sides } from './motion.js';
 export { buildScene } from './scene.js';
 export { evaluate, whyText } from './evaluate.js';
+export { sanitizeRoute, sanitizePlay } from './saved.js';
+export { TEMPLATES, templatesIn, buildRoute, fromTemplate, nudgeStem, nudgeBreak, flipRoute, paramsOf, describeRoute, kindOf } from './routelab.js';
 export { playFromEntry, playbookEntries, playbookSections, findEntry } from './playbook.js';
 export { callouts } from './callouts.js';
 export { overloadShift } from './defenses.js';

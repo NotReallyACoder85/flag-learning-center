@@ -131,6 +131,13 @@ export function loadCall(code, name) {
   return true;
 }
 
+/** Load a saved whole play (one with custom routes). */
+export function loadSavedPlay(entry) {
+  const p = entry.play;
+  S.form = p.form; S.digits = p.routes.slice(); S.motion = p.motion ? { ...p.motion } : null; S.name = entry.name; S.playId = null;
+  refresh(false);
+}
+
 /** Load a play from the playbook (the coach's diagrams). */
 export function loadPlay(entry) {
   const p = playFromEntry(entry);
