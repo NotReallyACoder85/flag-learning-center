@@ -28,8 +28,8 @@
         .then(done, done);
     }, true);
   </script>
-  <script type="module" crossorigin src="/flag-learning-center/assets/index-9XXGtc5p.js"></script>
-  <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-BReEXT2Q.css">
+  <script type="module" crossorigin src="/flag-learning-center/assets/index-CtJjqmDV.js"></script>
+  <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-BaEMpiiE.css">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -88,7 +88,11 @@
         <div class="panel" id="p-build" role="tabpanel" aria-labelledby="tab-build" hidden>
           <div id="challenge"></div>
           <div class="sec"><div class="lbl">1 · Formation</div><div class="formrow" id="formRow"></div></div>
-          <div class="sec"><div class="lbl" id="keyLbl">2 · Route</div><div class="keys" id="keys"></div><div class="hint">Tap a receiver above the field to choose who gets the route.</div></div>
+          <div class="sec"><div class="lbl" id="keyLbl">2 · Route</div>
+            <div class="pills" id="routeTabs" role="group" aria-label="Route list"></div>
+            <div id="keys"></div>
+            <div class="tuner" id="tuner"></div>
+            <div class="hint">Tap a receiver above the field to choose who gets the route. Use Stem and Break to change how long it runs before it cuts.</div></div>
           <div class="sec"><div class="lbl">3 · Motion</div><div class="pills" id="mWho"></div><div class="pills" id="mTag"></div></div>
           <div class="sec"><div class="lbl">Call code</div>
             <form class="codein" id="codeForm"><input id="codeIn" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type a play call, like Dubs 21129 Y Cross"><button class="cta" type="submit">Draw</button></form>
