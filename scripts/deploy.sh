@@ -20,7 +20,22 @@ else
   git worktree add --orphan -b gh-pages .deploy
 fi
 
+# Which code files did the last two deploys point at? Keep them, because GitHub's servers can hand out an
+# older index.html for ~10 minutes, and that page still asks for its own (older) files.
+KEEP=""
+for gen in HEAD HEAD~1; do
+  if git -C .deploy rev-parse --verify -q "$gen" >/dev/null; then
+    KEEP="$KEEP $(git -C .deploy show "$gen:index.html" 2>/dev/null | grep -oE 'assets/[A-Za-z0-9_.-]+' | sort -u)"
+  fi
+done
+
 rsync -a --delete --exclude '.git' dist/ .deploy/
+for f in $(echo "$KEEP" | tr ' ' '\n' | sort -u); do
+  [ -e ".deploy/$f" ] && continue
+  for gen in HEAD HEAD~1; do
+    if git -C .deploy cat-file -e "$gen:$f" 2>/dev/null; then git -C .deploy show "$gen:$f" > ".deploy/$f"; break; fi
+  done
+done
 touch .deploy/.nojekyll
 (
   cd .deploy
