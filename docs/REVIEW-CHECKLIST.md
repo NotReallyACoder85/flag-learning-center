@@ -23,6 +23,7 @@ An arm band set is 3 inserts, each 4.25 x 2 inches. Each insert is either 6 play
 - [ ] **Drag to reorder and remove.** Dragging a play onto another slot inserts it there and shifts the rest. Dragging it off the inserts removes it (Undo appears). On phones, tap a play, then tap where it goes.
 - [ ] **Black and white vs color.** Black and white is the default. Color is optional per set.
 - [ ] **What else should be on an insert?** For example the formation, a quick note, or a defense it beats.
+- [ ] **Coach call sheet.** One letter page, same 18 plays in the same order, 3 across and 6 rows (each pair of rows is one insert, with a heavier line between inserts). Check that the text is readable on the sideline and that you want the receiver route list (A, B, Y, Z, C) on it. Should it also show the route tree, or a defense it beats?
 - Older single cards saved before this change open as insert 1 of a new set.
 
 ## 0b. Route Lab (Draw Up > More routes)

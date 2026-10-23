@@ -4,7 +4,7 @@ import { S } from './state.js';
 import {
   SLOTS, MIX_SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, insertFlat, firstEmptyFlat, filledCount,
   setCardType, slotPlay, printableCards, cardsPerSheet,
-  playbookEntries, playbookSections, playFromEntry, parseCall, callText, sanitizePlay,
+  playbookEntries, playbookSections, playFromEntry, parseCall, callText, sanitizePlay, routeFor,
 } from '../engine/index.js';
 import { formations, routes } from '../data/index.js';
 import { wristDiagram } from './diagrams.js';
@@ -102,6 +102,11 @@ export function renderWristband() {
       <label class="wb-check"><input id="wbGuides" type="checkbox" ${guides ? 'checked' : ''}> Cut guides (a thin dashed outline)</label>
       <button class="cta" data-wb="print" type="button" ${sets ? '' : 'disabled'}>Print ${copies} ${copies === 1 ? 'set' : 'sets'} (${inserts} inserts, ${pages} ${pages === 1 ? 'page' : 'pages'})</button>
       <p class="hint">In the print dialog, set Scale to 100% (not "Fit to page") and turn off headers and footers, so the inserts print at true size.</p>
+    </div>
+    <div class="wb-print glass">
+      <div class="lbl">Coach call sheet</div>
+      <p class="hint">One letter page with the same plays in the same order, each with its number, diagram, formation and the route every receiver runs.</p>
+      <button class="cta" data-wb="printsheet" type="button" ${filledCount(b) ? '' : 'disabled'}>Print call sheet (1 page)</button>
     </div>
     <details class="wb-more glass">
       <summary>Set options</summary>
@@ -216,6 +221,31 @@ function initPicker() {
   $('#wbSearch').addEventListener('input', (e) => { search = e.target.value; renderPicker(); });
 }
 
+/* ---------- coach call sheet ---------- */
+
+const RECEIVERS = ['A', 'B', 'Y', 'Z', 'C']; // the order digits are stored in
+const TAGS = { cross: 'Cross', enter: 'Enter', exit: 'Exit' };
+
+/** Route names for one play, per receiver: "A Comeback · B Post-Corner ...". */
+function routeLines(p) {
+  return p.digits.map((d, i) => {
+    const r = routeFor(d);
+    return `<span><b>${RECEIVERS[i]}</b> ${typeof d === 'number' ? `${d} ` : ''}${r ? esc(r.name) : 'No route'}</span>`;
+  }).join('');
+}
+
+/** One page: the same plays, in the same order, 3 across like the inserts (3 inserts = 6 rows of 3). */
+function callSheetHTML(b) {
+  const cells = flatPositions(b).map((_, f) => {
+    const slot = getFlat(b, f);
+    if (!slot) return `<div class="cs-cell cs-empty"><span class="cs-n">${f + 1}</span></div>`;
+    const p = slotPlay(slot);
+    const m = p.motion ? `${p.motion.who} ${TAGS[p.motion.tag] || 'motion'}` : '';
+    return `<div class="cs-cell"><span class="cs-n">${f + 1}</span><div class="cs-dia">${wristDiagram(p, b.color)}</div><div class="cs-txt"><div class="cs-name">${esc(p.name)}</div><div class="cs-form">${esc(formations[p.form].name)}${m ? ` · Motion: ${esc(m)}` : ''}</div><div class="cs-routes">${routeLines(p)}</div></div></div>`;
+  }).join('');
+  return `<div class="cs-page"><div class="cs-head"><span class="cs-title">Call sheet</span><span class="cs-set">${esc(b.name)}</span></div><div class="cs-grid">${cells}</div></div>`;
+}
+
 /* ---------- printing ---------- */
 
 function cleanupPrint() {
@@ -225,18 +255,18 @@ function cleanupPrint() {
 }
 
 /** Put N copies of the set (each printable insert) in a hidden sheet, size the page, and open the print dialog. */
-function printCards() {
+function printCards(kind = 'inserts') {
   const b = band(), list = printableCards(b);
-  if (!list.length) { msg = 'Add at least one play before printing.'; undo = null; return renderWristband(); }
+  if (kind === 'sheet' ? !filledCount(b) : !list.length) { msg = 'Add at least one play before printing.'; undo = null; return renderWristband(); }
   cleanupPrint();
   const root = document.createElement('div');
   root.id = 'printRoot';
-  root.className = guides ? 'guides' : '';
+  root.className = kind === 'sheet' ? 'callsheet' : guides ? 'guides' : '';
   root.setAttribute('aria-hidden', 'true');
-  root.innerHTML = Array.from({ length: copies }, () => list.map(({ ci }) => cardHTML(b, ci, false)).join('')).join('');
+  root.innerHTML = kind === 'sheet' ? callSheetHTML(b) : Array.from({ length: copies }, () => list.map(({ ci }) => cardHTML(b, ci, false)).join('')).join('');
   const st = document.createElement('style');
   st.id = 'printPage';
-  st.textContent = `@page{size:letter ${sheet === 'landscape' ? 'landscape' : 'portrait'};margin:.25in}`;
+  st.textContent = kind === 'sheet' ? '@page{size:letter portrait;margin:.4in}' : `@page{size:letter ${sheet === 'landscape' ? 'landscape' : 'portrait'};margin:.25in}`;
   document.head.appendChild(st);
   document.body.appendChild(root);
   window.addEventListener('afterprint', cleanupPrint, { once: true });
@@ -321,6 +351,7 @@ export function initWristband() {
     } else if (act === 'copies-') copies = Math.max(1, copies - 1);
     else if (act === 'copies+') copies = Math.min(40, copies + 1);
     else if (act === 'print') return printCards();
+    else if (act === 'printsheet') return printCards('sheet');
     msg = ''; undo = null;
     renderWristband();
   });

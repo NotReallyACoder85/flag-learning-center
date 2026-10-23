@@ -498,7 +498,27 @@ body[data-tab="wrist"] .app{max-width:860px}
   #printRoot .wcard{flex:0 0 auto;width:4.25in;height:2in;max-width:none;aspect-ratio:auto;border-radius:0;box-shadow:none;break-inside:avoid;page-break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #printRoot.guides .wcard{outline:.4pt dashed #666;outline-offset:0}
   #printRoot .wslot{cursor:default}
+  #printRoot.callsheet{display:block!important}
+  #printRoot .cs-page{width:7.7in;height:10.2in;display:flex;flex-direction:column;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+.cs-page{color:#111}
+.cs-head{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5pt solid #111;padding-bottom:.05in;margin-bottom:.06in}
+.cs-title{font:800 18pt var(--f-disp);letter-spacing:.06em;text-transform:uppercase}
+.cs-set{font:700 11pt var(--f-cond);letter-spacing:.08em;text-transform:uppercase}
+.cs-grid{flex:1 1 0;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(6,1fr)}
+.cs-cell{position:relative;display:flex;gap:.06in;min-width:0;min-height:0;padding:.05in .06in;border-right:.4pt solid #888;border-bottom:.4pt solid #888;break-inside:avoid}
+.cs-cell:nth-child(3n){border-right:0}
+.cs-cell:nth-child(n+16){border-bottom:0}
+.cs-cell:nth-child(n+4):nth-child(-n+6),.cs-cell:nth-child(n+10):nth-child(-n+12){border-bottom:1.4pt solid #111}
+.cs-n{position:absolute;top:.04in;left:.04in;z-index:1;width:.2in;height:.2in;border-radius:50%;background:#111;color:#fff;font:800 8pt/.2in var(--f-body);text-align:center}
+.cs-empty .cs-n{background:#bbb}
+.cs-dia{flex:0 0 46%;min-width:0;display:flex;align-items:center;justify-content:center}
+.cs-dia svg{max-width:100%;max-height:100%}
+.cs-txt{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:.02in;justify-content:center}
+.cs-name{font:800 9.5pt/1.05 var(--f-cond);letter-spacing:.03em;text-transform:uppercase}
+.cs-form{font:600 7pt/1.1 var(--f-body);color:#444}
+.cs-routes{display:flex;flex-direction:column;font:500 7pt/1.2 var(--f-body)}
+.cs-routes b{display:inline-block;width:.14in}
 
 /* four tabs fit on one line on a phone */
 @media(max-width:430px){.tab{padding:8px 9px;letter-spacing:.07em;font-size:.72rem;white-space:nowrap}.tabs{gap:0}}
