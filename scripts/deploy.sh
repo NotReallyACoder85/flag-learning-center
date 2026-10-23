@@ -29,7 +29,8 @@ for gen in HEAD HEAD~1; do
   fi
 done
 
-rsync -a --delete --exclude '.git' dist/ .deploy/
+# --checksum: index.html keeps its size from build to build (hashed names are the same length), so compare contents, not size and time
+rsync -a --checksum --delete --exclude '.git' dist/ .deploy/
 for f in $(echo "$KEEP" | tr ' ' '\n' | sort -u); do
   [ -e ".deploy/$f" ] && continue
   for gen in HEAD HEAD~1; do
