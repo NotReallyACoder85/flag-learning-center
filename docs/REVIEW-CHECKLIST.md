@@ -18,6 +18,7 @@ The Playbook tab now shows the 28 passing plays from *2x2 - Attack System - Play
 An arm band set is 3 inserts, each 4.25 x 2 inches. Each insert is either 6 plays or the route tree, so a full set holds 18 plays. Plays are numbered 1 to 18 across the set.
 - [ ] **Print one and measure it.** Print a set at 100% scale and check each insert is 4.25 inches wide and 2 inches tall. If an insert is clipped, your printer's non-printable edge is larger than 0.25 inch, and we can adjust the margins.
 - [ ] **Readable at that size?** Play names are off by default, so each diagram is larger. If the letters or arrows are still too small from arm's length, we can drop the letters or use 2 rows of 3 differently. Turn names back on with "Show play names".
+- [ ] **4 plays + routes insert.** A narrow route tree column (number and name, no pictures) beside 4 plays. About 9 pt text when printed: readable on an arm band?
 - [ ] **Route tree insert.** Shows number and name for routes 0 to 9, with a small picture of each route (switch the pictures off if it feels busy). Is 2 columns of 5 the right layout?
 - [ ] **Order and remove.** Under the inserts, each play has up and down arrows, Change and Remove. Arrows carry a play across inserts. Remove shows an Undo.
 - [ ] **Black and white vs color.** Black and white is the default. Color is optional per set.

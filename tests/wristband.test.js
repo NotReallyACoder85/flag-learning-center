@@ -59,6 +59,21 @@ describe('the route tree insert', () => {
   });
 });
 
+describe('the 4 plays + route tree insert', () => {
+  it('holds 4 plays, so the set has 16 numbered plays and the next insert starts at 5', () => {
+    const b = setCardType(emptyBand(), 1, 'mix');
+    expect(flatCount(b)).toBe(16);
+    expect(flatPositions(b)[6 + 3]).toEqual({ card: 1, slot: 3 });
+    expect(flatPositions(b)[6 + 4]).toEqual({ card: 2, slot: 0 });
+    expect(flatOf(b, 1, 4)).toBe(-1);
+  });
+  it('always prints, and survives a save and load', () => {
+    const b = setCardType(emptyBand(), 0, 'mix');
+    expect(printableCards(b).map((x) => x.ci)).toEqual([0]);
+    expect(sanitizeBand(JSON.parse(JSON.stringify(b))).cards[0].type).toBe('mix');
+  });
+});
+
 describe('editing plays', () => {
   it('sets, clears and swaps without changing the original', () => {
     const b = emptyBand();

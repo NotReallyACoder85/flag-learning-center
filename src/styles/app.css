@@ -517,3 +517,12 @@ body[data-tab="wrist"] .app{max-width:860px}
 .wb-more{padding:0 16px}
 .wb-more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font:600 .72rem var(--f-cond);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
 .wb-moreIn{display:flex;flex-direction:column;gap:16px;padding-bottom:16px}
+.wmixrow{flex:1 1 0;min-height:0;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.wg4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wg4 .wslot{border-right:.3pt solid #888;border-bottom:.3pt solid #888}
+.wg4 .wslot:nth-child(n+3){border-bottom:0}
+.wtcol{display:flex;flex-direction:column;min-width:0}
+.wtch{flex:0 0 auto;padding:0 1.6cqw;font:700 2.6cqw/4.6cqw var(--f-cond);letter-spacing:.1em;text-transform:uppercase;border-bottom:.3pt solid #888}
+.wtcrow{flex:1 1 0;min-height:0;display:flex;align-items:center;gap:1.6cqw;padding:0 1.6cqw}
+.wtcn{flex:0 0 auto;width:3.4cqw;height:3.4cqw;border-radius:50%;background:#111;color:#fff;font:800 2.3cqw/3.4cqw var(--f-body);text-align:center}
+.wtct{font:700 2.9cqw/1 var(--f-cond);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}

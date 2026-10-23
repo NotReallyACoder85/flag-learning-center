@@ -2,7 +2,7 @@
 import { $, esc } from './dom.js';
 import { S } from './state.js';
 import {
-  SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat, firstEmptyFlat, filledCount,
+  SLOTS, MIX_SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat, firstEmptyFlat, filledCount,
   setCardType, slotPlay, printableCards, cardsPerSheet,
   playbookEntries, playbookSections, playFromEntry, parseCall, callText, sanitizePlay,
 } from '../engine/index.js';
@@ -53,10 +53,19 @@ function treeHTML(b, c) {
   return `<div class="wcard wtree"><div class="wtitle">Route tree</div><div class="wtgrid">${rows}</div></div>`;
 }
 
+/** 4 plays (2 x 2) beside a narrow route tree: number and name, 10 rows. */
+function mixHTML(b, ci, interactive) {
+  const c = b.cards[ci];
+  const cells = c.slots.slice(0, MIX_SLOTS).map((s, k) => cellHTML(s, flatOf(b, ci, k), interactive, b)).join('');
+  const rows = routes.map((r) => `<div class="wtcrow"><span class="wtcn">${r.id}</span><span class="wtct">${esc(r.name)}</span></div>`).join('');
+  return `<div class="wcard wmix${b.color ? ' wcolor' : ''}"><div class="wmixrow"><div class="wgrid wg4">${cells}</div><div class="wtcol"><div class="wtch">Routes</div>${rows}</div></div></div>`;
+}
+
 /** One insert. */
 function cardHTML(b, ci, interactive) {
   const c = b.cards[ci];
   if (c.type === 'tree') return treeHTML(b, c);
+  if (c.type === 'mix') return mixHTML(b, ci, interactive);
   const cells = c.slots.map((s, k) => cellHTML(s, flatOf(b, ci, k), interactive, b)).join('');
   return `<div class="wcard${b.color ? ' wcolor' : ''}"><div class="wgrid">${cells}</div></div>`;
 }
@@ -95,7 +104,8 @@ export function renderWristband() {
         <h3 class="grp-h">Insert ${ci + 1}</h3>
         <div class="pills" role="group" aria-label="Insert ${ci + 1} contents">
           <button class="pill" data-wb="type" data-ci="${ci}" data-v="plays" aria-pressed="${c.type === 'plays'}" type="button">6 plays</button>
-          <button class="pill" data-wb="type" data-ci="${ci}" data-v="tree" aria-pressed="${c.type === 'tree'}" type="button">Route tree</button>
+          <button class="pill" data-wb="type" data-ci="${ci}" data-v="mix" aria-pressed="${c.type === 'mix'}" type="button">4 plays + routes</button>
+          <button class="pill" data-wb="type" data-ci="${ci}" data-v="tree" aria-pressed="${c.type === 'tree'}" type="button">Full route tree</button>
         </div>
       </div>
       <div class="wb-cardwrap">${cardHTML(b, ci, true)}</div>
@@ -109,7 +119,7 @@ export function renderWristband() {
     <div class="wb-print glass">
       <div class="lbl">Print</div>
       <div class="tn"><span class="tn-l">Sets</span><button class="stepbtn" data-wb="copies-" aria-label="Fewer sets" ${copies <= 1 ? 'disabled' : ''}>−</button><output class="tn-v" aria-live="polite">${copies}</output><button class="stepbtn" data-wb="copies+" aria-label="More sets" ${copies >= 40 ? 'disabled' : ''}>+</button></div>
-      <p class="hint">One set is every insert above that has plays on it, plus the route tree if you chose it (${sets} ${sets === 1 ? 'insert' : 'inserts'}).</p>
+      <p class="hint">One set is every insert above that has plays on it, plus any insert that carries the route tree (${sets} ${sets === 1 ? 'insert' : 'inserts'}).</p>
       <label class="wb-field"><span>Sheet</span><select id="wbSheet" class="wb-select"><option value="portrait" ${sheet === 'portrait' ? 'selected' : ''}>Letter, upright: 5 inserts per page</option><option value="landscape" ${sheet === 'landscape' ? 'selected' : ''}>Letter, sideways: 8 inserts per page</option></select></label>
       <label class="wb-check"><input id="wbGuides" type="checkbox" ${guides ? 'checked' : ''}> Cut guides (a thin dashed outline)</label>
       <button class="cta" data-wb="print" type="button" ${sets ? '' : 'disabled'}>Print ${copies} ${copies === 1 ? 'set' : 'sets'} (${inserts} inserts, ${pages} ${pages === 1 ? 'page' : 'pages'})</button>

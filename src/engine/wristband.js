@@ -5,6 +5,7 @@ import { sanitizePlay } from './saved.js';
 import { findEntry, playFromEntry } from './playbook.js';
 
 export const SLOTS = 6;     // plays per insert
+export const MIX_SLOTS = 4; // plays on an insert that also carries the route tree
 export const INSERTS = 3;   // inserts per arm band
 export const MAX_BANDS = 20;
 export const CARD_IN = { w: 4.25, h: 2 };
@@ -35,7 +36,7 @@ export function sanitizeSlot(s) {
 function sanitizeCard(c) {
   const slots = (c && Array.isArray(c.slots) ? c.slots.slice(0, SLOTS) : []).map(sanitizeSlot);
   while (slots.length < SLOTS) slots.push(null);
-  return { type: c && c.type === 'tree' ? 'tree' : 'plays', title: text(c && c.title, 40), slots };
+  return { type: c && (c.type === 'tree' || c.type === 'mix') ? c.type : 'plays', title: text(c && c.title, 40), slots };
 }
 
 /** A saved arm band. An older single card ({ slots, title }) becomes insert 1 of a new set. */
@@ -63,7 +64,7 @@ export function sanitizeBands(raw) {
 
 export function flatPositions(band) {
   const out = [];
-  band.cards.forEach((c, card) => { if (c.type === 'plays') c.slots.forEach((_, slot) => out.push({ card, slot })); });
+  band.cards.forEach((c, card) => { if (c.type !== 'tree') c.slots.slice(0, c.type === 'mix' ? MIX_SLOTS : SLOTS).forEach((_, slot) => out.push({ card, slot })); });
   return out;
 }
 export const flatCount = (band) => flatPositions(band).length;
@@ -100,7 +101,7 @@ export function firstEmptyFlat(band) {
 export const filledCount = (band) => flatPositions(band).filter((p) => band.cards[p.card].slots[p.slot]).length;
 
 export function setCardType(band, ci, type) {
-  return { ...band, cards: band.cards.map((c, i) => (i === ci ? { ...c, type: type === 'tree' ? 'tree' : 'plays' } : c)) }; // slots are kept, so switching back restores them
+  return { ...band, cards: band.cards.map((c, i) => (i === ci ? { ...c, type: type === 'tree' || type === 'mix' ? type : 'plays' } : c)) }; // slots are kept, so switching back restores them
 }
 export function setCardTitle(band, ci, title) {
   return { ...band, cards: band.cards.map((c, i) => (i === ci ? { ...c, title: text(title, 40) } : c)) };
@@ -117,7 +118,7 @@ export function slotPlay(slot) {
 }
 
 /** Inserts that have something to print: the route tree, or a play insert with at least one play. */
-export const printableCards = (band) => band.cards.map((c, ci) => ({ c, ci })).filter(({ c }) => c.type === 'tree' || c.slots.some(Boolean));
+export const printableCards = (band) => band.cards.map((c, ci) => ({ c, ci })).filter(({ c }) => c.type !== 'plays' || c.slots.some(Boolean));
 
 /** How many inserts fit on a letter sheet, with 0.25" margins. Upright: 1 across, 5 down. Sideways: 2 across, 4 down. */
 export const cardsPerSheet = (landscape) => (landscape ? 8 : 5);
