@@ -375,3 +375,47 @@ button.tc .soon{position:absolute;top:14px;right:14px;z-index:1}
 .flipbtn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--edge2);background:var(--glass);font:700 .85rem var(--f-cond);letter-spacing:.12em;text-transform:uppercase}
 .tn-empty{font-size:.85rem;color:var(--dim)}
 .rn small{display:block;font:500 .58rem/1.1 var(--f-cond);letter-spacing:.04em;color:var(--gold);text-transform:none}
+
+/* ---------- Enlarge: full-window field ---------- */
+.fieldrow{position:relative}
+.expandbtn{position:absolute;top:6px;right:6px;z-index:4;width:44px;height:44px;border-radius:12px;border:1px solid var(--edge2);background:rgba(3,6,18,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--fg);display:flex;align-items:center;justify-content:center;opacity:.9}
+.expandbtn:hover{border-color:#fff}
+.expandbtn .ex-close{display:none}
+.expandbtn[aria-pressed="true"] .ex-open{display:none}
+.expandbtn[aria-pressed="true"] .ex-close{display:block}
+body[data-quiz] .expandbtn{display:none}
+
+body.theater{overflow:hidden}
+body.theater .pitchwrap{position:fixed!important;inset:0;z-index:200;width:auto!important;max-width:none!important;margin:0!important;display:flex;flex-direction:column;gap:8px;
+  padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+  background:var(--ink)!important;box-shadow:none!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+body.theater .mininame{display:block;font-size:1.2rem}
+body.theater .miniread{display:block}
+body.theater .fieldrow{flex:1 1 0;min-height:0;display:flex!important;align-items:center;justify-content:center}
+/* the field takes the window height (minus the name, read and controls), or the width if that is smaller */
+body.theater .pitch{width:min(100%,calc((100vh - 190px) * .9));width:min(100%,calc((100dvh - 190px) * .9));max-width:none!important;flex:0 0 auto;transform:none;-webkit-mask-image:none;mask-image:none;filter:none}
+body.theater .pbstep{display:none}
+body.theater[data-tab="play"] .pbstep{display:flex;position:absolute;top:50%;margin-top:-22px;z-index:3;background:rgba(3,6,18,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.theater #pbPrev{left:0}
+body.theater #pbNext{right:0}
+body.theater .playbar,body.theater .minibar{display:none}
+body.theater[data-tab="play"] .playbar{display:flex}
+body.theater[data-tab="build"] .minibar{display:flex;gap:8px;align-items:stretch}
+@media(orientation:landscape) and (max-height:520px){
+  /* a phone on its side: the field fills the left, the controls stack on the right */
+  body.theater .pitchwrap{display:grid;grid-template-columns:minmax(0,1fr) 250px;grid-template-rows:auto auto 1fr auto;grid-template-areas:"field name" "field read" "field ." "field bar";column-gap:12px;row-gap:6px}
+  body.theater .fieldrow{grid-area:field}
+  body.theater .mininame{grid-area:name;white-space:normal;font-size:1rem}
+  body.theater .miniread{grid-area:read;text-align:left}
+  body.theater[data-tab="play"] .playbar,body.theater[data-tab="build"] .minibar{grid-area:bar;flex-wrap:wrap}
+  body.theater .minidef{flex:1 1 100%}
+  body.theater .pitch{width:min(100%,calc((100vh - 24px) * .9));width:min(100%,calc((100dvh - 24px) * .9))}
+}
+@media(min-width:960px){
+  /* a larger field in the normal desktop column too */
+  .pitchwrap{max-width:clamp(320px,calc((100dvh - 420px) * .9),560px)}
+}
+/* on desktop the field column is its own layer, so lift the whole column above the list while the field is full-window */
+body.theater .stage{z-index:200}
+.rotatehint{display:none;text-align:center;font:500 .8rem var(--f-body);color:var(--dim)}
+@media(orientation:portrait) and (max-width:600px){body.theater .rotatehint{display:block}}

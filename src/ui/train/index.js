@@ -20,6 +20,7 @@ export function initTrain({ setTab, watch, startBeat }) {
     root,
     setHandler: (fn) => { handler = fn; },
     setView(kind) {
+      if (kind) document.body.classList.remove('theater');
       if (kind) document.body.dataset.quiz = kind;
       else delete document.body.dataset.quiz;
       syncView();

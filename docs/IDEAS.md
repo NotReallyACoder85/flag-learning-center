@@ -70,6 +70,10 @@ Goal: help our 10U flag team learn plays, routes and concepts, and see them run 
 - **Stacked 2x2 in Draw Up.** Now that whole plays can be saved, the Stacked set could join the formation picker.
 - **Standard-cut variations.** Templates for Hitch, Flat, Drag and the other standard cuts, if the tree plus stem tuning isn't enough.
 
+## Field size follow-ups
+- **A size setting (small / medium / large)** for the normal view, if the full-window button is not enough.
+- **Better normal view when a phone is on its side.** The pinned field is only about 100 px tall in landscape; the full-window button fixes it, but the normal layout could use the width better.
+
 ## Not done yet from my top picks
 - **B6 film-room thought bubbles.** Left for after Phase 7 so we can write the lines with your input (what each defender is thinking).
 - **A7 badges.** Ranks and streaks are in, badges are the next small step.

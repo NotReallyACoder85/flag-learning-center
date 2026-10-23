@@ -13,6 +13,7 @@ import { initBeat, startChallenge } from './beat.js';
 const TABS = ['play', 'build', 'train'];
 
 function setTab(t) {
+  setTheater(false);
   if (S.tab === 'train' && t !== 'train') exitTrain();
   S.tab = t;
   document.body.dataset.tab = t;
@@ -34,6 +35,26 @@ function pickRecv(l) {
   S.sel = l;
   if (S.tab !== 'build') setTab('build');
   else { renderTiles(); renderBuilder(); markSelected(); }
+}
+
+/**
+ * Full-window field. The field grows to fill the window; only Play, the defense choices and the arrows stay.
+ * Everything behind it is made inert so Tab and screen readers stay inside.
+ */
+function setTheater(on) {
+  const body = document.body;
+  if (on === body.classList.contains('theater')) return;
+  body.classList.toggle('theater', on);
+  const btn = $('#expandBtn');
+  btn.setAttribute('aria-pressed', on);
+  btn.setAttribute('aria-label', on ? 'Close the full-window field' : 'Enlarge field');
+  const behind = [$('.nav'), $('.side'), $('.installtip'), ...document.querySelectorAll('.stage > :not(#pitchwrap)')];
+  behind.forEach((el) => { if (el) el.inert = on; });
+  const wrap = $('#pitchwrap');
+  if (on) { wrap.setAttribute('role', 'dialog'); wrap.setAttribute('aria-label', 'Field, full window'); }
+  else { wrap.removeAttribute('role'); wrap.removeAttribute('aria-label'); }
+  // put focus on the play button inside (so the space bar plays), or back on the Enlarge button when closing
+  (on ? $(S.tab === 'play' ? '#pbPlay' : '#miniPlay') : btn).focus({ preventScroll: true });
 }
 
 /** Move to the previous (-1) or next (+1) play in the playbook, and bring it into view in its row. */
@@ -104,6 +125,7 @@ export function start() {
     })
   );
   $('#pbPlay').addEventListener('click', togglePlay);
+  $('#expandBtn').addEventListener('click', () => setTheater(!document.body.classList.contains('theater')));
   $('#pbPrev').addEventListener('click', () => stepPlay(-1));
   $('#pbNext').addEventListener('click', () => stepPlay(1));
   trackPinnedHeight();
@@ -119,6 +141,16 @@ export function start() {
     const b = e.target.closest('.card');
     if (!b) return;
     loadPlay(findEntry(b.dataset.id));
+  });
+  // Escape closes the full-window field; F opens or closes it.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('theater')) { e.preventDefault(); setTheater(false); return; }
+    if ((e.key === 'f' || e.key === 'F') && !e.altKey && !e.ctrlKey && !e.metaKey && S.tab !== 'train') {
+      const t = e.target;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName)) return;
+      e.preventDefault();
+      setTheater(!document.body.classList.contains('theater'));
+    }
   });
   // Left and right arrows step through the playbook (not while typing, on a slider, or moving between tabs).
   document.addEventListener('keydown', (e) => {
