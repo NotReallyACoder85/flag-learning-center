@@ -88,6 +88,20 @@ export function swapFlat(band, f, g) {
   return setFlat(setFlat(band, f, b), g, a);
 }
 
+/**
+ * Drag a play to a new position. Onto an empty slot it just moves there. Onto a play, it is inserted at that
+ * position and the plays in between shift over by one (dragging to #1 pushes everything else along).
+ */
+export function insertFlat(band, from, to) {
+  const n = flatCount(band);
+  if (from === to || from < 0 || to < 0 || from >= n || to >= n || getFlat(band, from) == null) return band;
+  if (getFlat(band, to) == null) return swapFlat(band, from, to);
+  const list = Array.from({ length: n }, (_, f) => getFlat(band, f));
+  const [moved] = list.splice(from, 1);
+  list.splice(to, 0, moved);
+  return list.reduce((b, s, f) => setFlat(b, f, s), band);
+}
+
 /** Move a play one place earlier (-1) or later (+1), across inserts. Swaps with whatever is there (a play or an empty slot). */
 export function moveFlat(band, f, dir) {
   const g = f + dir;

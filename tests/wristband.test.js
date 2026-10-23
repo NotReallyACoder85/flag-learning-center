@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  SLOTS, INSERTS, emptyBand, sanitizeSlot, sanitizeBand, sanitizeBands, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat,
+  SLOTS, INSERTS, emptyBand, sanitizeSlot, sanitizeBand, sanitizeBands, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat, insertFlat,
   firstEmptyFlat, filledCount, setCardType, setCardTitle, slotPlay, printableCards, cardsPerSheet, CARD_IN,
   playbookEntries, fromTemplate, nudgeStem, buildScene,
 } from '../src/engine/index.js';
@@ -71,6 +71,33 @@ describe('the 4 plays + route tree insert', () => {
     const b = setCardType(emptyBand(), 0, 'mix');
     expect(printableCards(b).map((x) => x.ci)).toEqual([0]);
     expect(sanitizeBand(JSON.parse(JSON.stringify(b))).cards[0].type).toBe('mix');
+  });
+});
+
+describe('dragging a play to a new position', () => {
+  const four = () => [0, 1, 2, 3].reduce((b, i) => setFlat(b, i, pb(i)), emptyBand());
+  const order = (b) => [0, 1, 2, 3].map((f) => getFlat(b, f));
+  it('dragging to #1 shifts the others over instead of swapping', () => {
+    expect(order(insertFlat(four(), 3, 0))).toEqual([pb(3), pb(0), pb(1), pb(2)]);
+  });
+  it('dragging earlier or later shifts only the plays in between', () => {
+    expect(order(insertFlat(four(), 0, 2))).toEqual([pb(1), pb(2), pb(0), pb(3)]);
+    expect(order(insertFlat(four(), 2, 1))).toEqual([pb(0), pb(2), pb(1), pb(3)]);
+  });
+  it('dragging onto an empty slot just moves the play there', () => {
+    const b = insertFlat(four(), 1, 9);
+    expect(getFlat(b, 9)).toEqual(pb(1));
+    expect(getFlat(b, 1)).toBeNull();
+    expect(getFlat(b, 2)).toEqual(pb(2));
+  });
+  it('works across inserts and ignores bad moves', () => {
+    const b = setFlat(four(), 6, pb(9));
+    const c = insertFlat(b, 6, 0);
+    expect(getFlat(c, 0)).toEqual(pb(9));
+    expect(getFlat(c, 1)).toEqual(pb(0));
+    expect(insertFlat(b, 2, 2)).toBe(b);
+    expect(insertFlat(b, 5, 0)).toBe(b);
+    expect(insertFlat(b, 0, 99)).toBe(b);
   });
 });
 

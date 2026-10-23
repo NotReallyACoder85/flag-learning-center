@@ -2,7 +2,7 @@
 import { $, esc } from './dom.js';
 import { S } from './state.js';
 import {
-  SLOTS, MIX_SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, swapFlat, moveFlat, firstEmptyFlat, filledCount,
+  SLOTS, MIX_SLOTS, INSERTS, MAX_BANDS, emptyBand, newId, flatPositions, flatCount, flatOf, getFlat, setFlat, clearFlat, insertFlat, firstEmptyFlat, filledCount,
   setCardType, slotPlay, printableCards, cardsPerSheet,
   playbookEntries, playbookSections, playFromEntry, parseCall, callText, sanitizePlay,
 } from '../engine/index.js';
@@ -70,24 +70,6 @@ function cardHTML(b, ci, interactive) {
   return `<div class="wcard${b.color ? ' wcolor' : ''}"><div class="wgrid">${cells}</div></div>`;
 }
 
-/** The order list: every play position, with move earlier / later, change and remove. */
-function orderHTML(b) {
-  const n = flatCount(b);
-  const rows = flatPositions(b).map((_, f) => {
-    const slot = getFlat(b, f);
-    if (!slot) return `<li class="wbrow empty"><span class="wbr-n">${f + 1}</span><span class="wbr-t">Empty</span><button class="cta ghost wbr-b" data-wb="add" data-f="${f}" type="button" aria-label="Add a play at position ${f + 1}">+ Add</button></li>`;
-    const p = slotPlay(slot);
-    return `<li class="wbrow${sel === f ? ' sel' : ''}"><span class="wbr-n">${f + 1}</span><span class="wbr-t">${esc(p.name)}</span>
-      <span class="wbr-btns">
-        <button class="stepbtn" data-wb="up" data-f="${f}" type="button" aria-label="Move ${esc(p.name)} earlier, to ${f}" ${f === 0 ? 'disabled' : ''}>↑</button>
-        <button class="stepbtn" data-wb="down" data-f="${f}" type="button" aria-label="Move ${esc(p.name)} later, to ${f + 2}" ${f === n - 1 ? 'disabled' : ''}>↓</button>
-        <button class="cta ghost wbr-b" data-wb="change" data-f="${f}" type="button" aria-label="Change ${esc(p.name)}">Change</button>
-        <button class="cta ghost wbr-b wbr-x" data-wb="remove" data-f="${f}" type="button" aria-label="Remove ${esc(p.name)} from the wristband">Remove</button>
-      </span></li>`;
-  }).join('');
-  return `<ol class="wb-order">${rows}</ol>`;
-}
-
 export function renderWristband() {
   const b = band(), root = $('#wristRoot');
   const hasTree = b.cards.some((c) => c.type === 'tree');
@@ -95,8 +77,8 @@ export function renderWristband() {
   const inserts = sets * copies;
   const perSheet = cardsPerSheet(sheet === 'landscape');
   const pages = Math.ceil(inserts / perSheet);
-  const total = flatCount(b);
   root.innerHTML = `
+    ${sel !== null && getFlat(b, sel) ? `<div class="wb-act" role="group" aria-label="Selected play" aria-live="polite"><b>Play ${sel + 1}: ${esc(slotPlay(getFlat(b, sel)).name)}</b><button class="cta ghost" data-wb="change" data-f="${sel}" type="button">Change play</button><button class="cta ghost wbr-x" data-wb="remove" data-f="${sel}" type="button">Remove</button><button class="cta ghost" data-wb="done" type="button">Done</button><p class="hint">Tap another slot to put this play there and shift the others over.</p></div>` : ''}
     ${msg ? `<div class="wb-msg" role="status">${esc(msg)}${undo ? ' <button class="cta ghost" data-wb="undo" type="button">Undo</button>' : ''}</div>` : ''}
     ${b.cards.map((c, ci) => `
     <section class="wb-ins" aria-label="Insert ${ci + 1}">
@@ -110,12 +92,7 @@ export function renderWristband() {
       </div>
       <div class="wb-cardwrap">${cardHTML(b, ci, true)}</div>
     </section>`).join('')}
-    <p class="hint">Each insert is exactly 4.25 inches wide and 2 inches tall when printed. Tap an empty slot to add a play. Tap a play, then another slot, to swap places (or drag on a computer).</p>
-    <section class="wb-ordersec glass" aria-label="Order and remove plays">
-      <div class="lbl">Order and remove (${filledCount(b)} of ${total} plays)</div>
-      <p class="hint">Use the arrows to move a play earlier or later. It can move from one insert to the next. Remove takes it off the wristband.</p>
-      ${orderHTML(b)}
-    </section>
+    <p class="hint">Each insert is exactly 4.25 inches wide and 2 inches tall when printed. Tap an empty slot to add a play. Drag a play to a new spot and the others shift over. Drag it off the inserts to remove it. On a phone, tap a play to select it, then tap where it should go.</p>
     <div class="wb-print glass">
       <div class="lbl">Print</div>
       <div class="tn"><span class="tn-l">Sets</span><button class="stepbtn" data-wb="copies-" aria-label="Fewer sets" ${copies <= 1 ? 'disabled' : ''}>−</button><output class="tn-v" aria-live="polite">${copies}</output><button class="stepbtn" data-wb="copies+" aria-label="More sets" ${copies >= 40 ? 'disabled' : ''}>+</button></div>
@@ -276,12 +253,24 @@ function slotClick(f) {
     sel = f;
   } else if (sel === f) sel = null;
   else {
-    update((x) => swapFlat(x, sel, f)); // swap with a filled slot, or move into an empty one
+    update((x) => insertFlat(x, sel, f)); // put it there and shift the others over
     sel = null;
   }
   msg = ''; undo = null;
   renderWristband();
   focusSoon(`.wslot[data-f="${f}"]`);
+}
+
+/** Take a play off the wristband, with an Undo. */
+function removeAt(f) {
+  const cur = band(), was = getFlat(cur, f);
+  if (!was) return;
+  update((x) => clearFlat(x, f));
+  sel = null;
+  undo = { id: cur.id, f, slot: was };
+  msg = `Removed "${slotPlay(was).name}" (play ${f + 1}).`;
+  renderWristband();
+  focusSoon('.wb-msg button');
 }
 
 /** Add a play to the first empty position of the active set (used by the Playbook's "Add to wristband" button). */
@@ -301,7 +290,6 @@ export function initWristband() {
     const b = e.target.closest('button');
     if (!b || !b.dataset.wb) return;
     const act = b.dataset.wb, cur = band(), f = +b.dataset.f;
-    let refocus = null;
     if (act === 'new') {
       const nb = emptyBand(`Wristband ${state.bands.length + 1}`);
       state = { bands: [...state.bands, nb], active: nb.id }; sel = null; persist();
@@ -319,20 +307,10 @@ export function initWristband() {
       state = { bands, active: bands[0].id }; sel = null; persist();
     } else if (act === 'type') {
       update((x) => setCardType(x, +b.dataset.ci, b.dataset.v)); sel = null;
-    } else if (act === 'add' || act === 'change') return openPicker(f);
-    else if (act === 'up' || act === 'down') {
-      const g = f + (act === 'up' ? -1 : 1);
-      update((x) => moveFlat(x, f, act === 'up' ? -1 : 1));
-      sel = null;
-      refocus = `[data-wb="${act}"][data-f="${g}"]:not(:disabled), [data-wb="${act === 'up' ? 'down' : 'up'}"][data-f="${g}"]:not(:disabled)`;
-    } else if (act === 'remove') {
-      const was = getFlat(cur, f);
-      update((x) => clearFlat(x, f)); sel = null;
-      undo = { id: cur.id, f, slot: was };
-      msg = `Removed "${slotPlay(was).name}" (play ${f + 1}).`;
-      renderWristband();
-      return focusSoon('.wb-msg button');
-    } else if (act === 'undo') {
+    } else if (act === 'change') return openPicker(f);
+    else if (act === 'done') sel = null;
+    else if (act === 'remove') return removeAt(f);
+    else if (act === 'undo') {
       if (undo && undo.id === cur.id) {
         const g = getFlat(cur, undo.f) == null ? undo.f : firstEmptyFlat(cur);
         if (g >= 0) update((x) => setFlat(x, g, undo.slot));
@@ -344,7 +322,6 @@ export function initWristband() {
     else if (act === 'print') return printCards();
     msg = ''; undo = null;
     renderWristband();
-    if (refocus) focusSoon(refocus);
   });
   root.addEventListener('change', (e) => {
     const id = e.target.id;
@@ -355,17 +332,41 @@ export function initWristband() {
     else if (id === 'wbSheet') { sheet = e.target.value; renderWristband(); }
     else if (id === 'wbGuides') { guides = e.target.checked; }
   });
-  // drag one slot onto another to swap (mouse; tap-to-swap covers touch)
+  // drag a play: onto a slot to put it there (the others shift over); anywhere off the inserts to remove it
   let dragFrom = null;
-  root.addEventListener('dragstart', (e) => { const s = e.target.closest('.wslot[data-f]'); if (!s) return; dragFrom = +s.dataset.f; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(dragFrom)); });
-  root.addEventListener('dragover', (e) => { if (dragFrom !== null && e.target.closest('.wslot')) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; } });
-  root.addEventListener('drop', (e) => {
+  const trash = document.createElement('div');
+  trash.id = 'wbTrash';
+  trash.setAttribute('aria-hidden', 'true');
+  trash.textContent = 'Drop here to remove';
+  document.body.appendChild(trash);
+  const endDrag = () => { dragFrom = null; document.body.classList.remove('wb-drag'); };
+  root.addEventListener('dragstart', (e) => {
     const s = e.target.closest('.wslot[data-f]');
-    if (dragFrom === null || !s) return;
-    e.preventDefault();
-    const to = +s.dataset.f;
-    if (to !== dragFrom) update((x) => swapFlat(x, dragFrom, to));
-    dragFrom = null; sel = null; renderWristband();
+    if (!s || s.classList.contains('empty')) return e.preventDefault();
+    dragFrom = +s.dataset.f;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(dragFrom));
+    setTimeout(() => document.body.classList.add('wb-drag'), 0);
   });
-  root.addEventListener('dragend', () => { dragFrom = null; });
+  document.addEventListener('dragover', (e) => {
+    if (dragFrom === null) return;
+    e.preventDefault(); // anywhere is a valid drop (off the inserts removes), so Escape is the only way to cancel
+    e.dataTransfer.dropEffect = 'move';
+    document.querySelectorAll('.wslot.over').forEach((x) => x.classList.remove('over'));
+    const s = e.target.closest && e.target.closest('.wslot[data-f]');
+    if (s) s.classList.add('over');
+  });
+  document.addEventListener('drop', (e) => {
+    if (dragFrom === null) return;
+    e.preventDefault();
+    const from = dragFrom, s = e.target.closest && e.target.closest('.wslot[data-f]');
+    endDrag();
+    document.querySelectorAll('.wslot.over').forEach((x) => x.classList.remove('over'));
+    if (s) {
+      const to = +s.dataset.f;
+      if (to !== from) update((x) => insertFlat(x, from, to));
+      sel = null; msg = ''; undo = null; renderWristband();
+    } else if (!(e.target.closest && e.target.closest('.wcard'))) removeAt(from); // dropped on the card's edge or title: do nothing
+  });
+  root.addEventListener('dragend', () => { endDrag(); document.querySelectorAll('.wslot.over').forEach((x) => x.classList.remove('over')); });
 }

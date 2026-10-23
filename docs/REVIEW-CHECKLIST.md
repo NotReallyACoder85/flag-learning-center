@@ -20,7 +20,7 @@ An arm band set is 3 inserts, each 4.25 x 2 inches. Each insert is either 6 play
 - [ ] **Readable at that size?** Play names are off by default, so each diagram is larger. If the letters or arrows are still too small from arm's length, we can drop the letters or use 2 rows of 3 differently. Turn names back on with "Show play names".
 - [ ] **4 plays + routes insert.** A narrow route tree column (number and name, no pictures) beside 4 plays. About 9 pt text when printed: readable on an arm band?
 - [ ] **Route tree insert.** Shows number and name for routes 0 to 9, with a small picture of each route (switch the pictures off if it feels busy). Is 2 columns of 5 the right layout?
-- [ ] **Order and remove.** Under the inserts, each play has up and down arrows, Change and Remove. Arrows carry a play across inserts. Remove shows an Undo.
+- [ ] **Drag to reorder and remove.** Dragging a play onto another slot inserts it there and shifts the rest. Dragging it off the inserts removes it (Undo appears). On phones, tap a play, then tap where it goes.
 - [ ] **Black and white vs color.** Black and white is the default. Color is optional per set.
 - [ ] **What else should be on an insert?** For example the formation, a quick note, or a defense it beats.
 - Older single cards saved before this change open as insert 1 of a new set.
