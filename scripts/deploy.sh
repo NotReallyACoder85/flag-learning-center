@@ -4,7 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-if [ -n "$(git status --porcelain)" ]; then echo "You have uncommitted changes. Commit them first."; exit 1; fi
+# only tracked files matter: the live site is built from committed code (stray untracked folders are ignored)
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then echo "You have uncommitted changes. Commit them first."; exit 1; fi
 SHA=$(git rev-parse --short HEAD)
 
 npm test
