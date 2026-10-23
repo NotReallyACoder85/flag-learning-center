@@ -85,7 +85,7 @@ Waypoints are relative to the receiver's own alignment: lateral yards (+ = towar
 
 | # | Route | Kind | Waypoints (lateral, depth) |
 |---|---|---|---|
-| 0 | Comeback | out | (0,12) → (2,9) |
+| 0 | Comeback | out | (0,12) → (2,9) (changed later: now breaks toward the ball, (0,12) → (-2,9)) |
 | 1 | Speed Out | out | (0,2) → (8,2.5) |
 | 2 | Slant | in | (0,3) → (−6,8.5) |
 | 3 | Whip (out) | out | (0,5) → (−2,6) → (6,5.5) |

@@ -72,7 +72,7 @@
       "motion": null,
       "note": "Left side: Post-Corner. Right side: Dagger Concept.",
       "routes": {
-        "A": {"name": "Comeback", "tree": 0, "kind": "out", "key": false, "points": [[0.0, 10.0], [2.1, 7.0]]},
+        "A": {"name": "Comeback", "tree": 0, "kind": "in", "key": false, "points": [[0.0, 10.0], [-2.1, 7.0]]},
         "B": {"name": "Post-Corner", "kind": "out", "key": false, "points": [[0.0, 9.0], [-2.1, 10.5], [6.2, 14.5]]},
         "C": {"name": "Hitch", "kind": "in", "key": false, "abs": true, "points": [[0.0, 4.5], [1.5, 4.0]]},
         "Y": {"name": "Seam", "tree": 9, "kind": "vert", "key": false, "points": [[-1.0, 12.0]]},
@@ -236,7 +236,7 @@
         "B": {"name": "Dig", "tree": 6, "kind": "in", "key": false, "points": [[0.0, 7.5], [-7.2, 7.5]]},
         "C": {"name": "Flat", "kind": "in", "key": false, "abs": true, "points": [[3.8, 2.4], [7.1, 2.9], [7.7, 2.5]]},
         "Y": {"name": "Post", "tree": 8, "kind": "in", "key": false, "points": [[0.0, 6.5], [-5.1, 11.0]]},
-        "Z": {"name": "Comeback", "tree": 0, "kind": "vert", "key": false, "points": [[0.0, 10.0], [1.0, 7.0]]}
+        "Z": {"name": "Comeback", "tree": 0, "kind": "in", "key": false, "points": [[0.0, 10.0], [-1.0, 7.0]]}
       }
     },
     {

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# NOTE: after the coach's change, Comeback (tree 0) breaks toward the ball. If you regenerate src/data/playbook.json,
+# re-apply it: the two Comeback routes (Post-Corner / Dagger A, and Z in the snag play) need a negative lateral on the second point.
 """
 Turn the coach's "2x2 - Attack System - Plays.pdf" into playbook data.
 

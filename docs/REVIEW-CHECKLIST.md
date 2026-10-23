@@ -35,7 +35,7 @@ Edit: `src/data/routes.json` (`points` are lateral yards, then depth yards).
 
 | # | Route | Current | Check |
 |---|---|---|---|
-| 0 | Comeback | 12 yards deep, back 3 | Right depth and angle? |
+| 0 | Comeback | 12 yards deep, then back 3 **toward the ball** (you changed this from breaking outside) | Right depth and angle? |
 | 1 | Speed Out | **2 yards deep**, then 8 yards to the sideline (you changed this) | Good? |
 | 2 | Slant | **3 yards (three steps)**, then 6 across to 8.5 deep (you changed this) | Angle? |
 | 3 | Whip | 5 deep, step in, then out 6 | Right shape? |
