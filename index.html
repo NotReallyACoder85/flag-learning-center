@@ -28,8 +28,8 @@
         .then(done, done);
     }, true);
   </script>
-  <script type="module" crossorigin src="/flag-learning-center/assets/index-D58PM5CL.js"></script>
-  <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-ePHOxqAw.css">
+  <script type="module" crossorigin src="/flag-learning-center/assets/index-CFok_Gxa.js"></script>
+  <link rel="stylesheet" crossorigin href="/flag-learning-center/assets/index-CFHskgL4.css">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -43,6 +43,7 @@
       <nav class="tabs" role="tablist" aria-label="Sections">
         <button class="tab" role="tab" id="tab-play" data-tab="play" aria-controls="p-play" aria-selected="true">Playbook</button>
         <button class="tab" role="tab" id="tab-build" data-tab="build" aria-controls="p-build" aria-selected="false">Draw Up</button>
+        <button class="tab" role="tab" id="tab-wrist" data-tab="wrist" aria-controls="p-wrist" aria-selected="false">Wristband</button>
         <button class="tab" role="tab" id="tab-train" data-tab="train" aria-controls="p-train" aria-selected="false">Train</button>
       </nav>
     </header>
@@ -102,6 +103,10 @@
             <div class="row"><button class="cta" id="saveBtn" type="button">Save play</button><button class="cta ghost" id="resetBtn" type="button">Clear routes</button></div>
           </div>
           <div class="sec"><div class="lbl">My plays · saved on this device</div><div id="mine" class="minelist"></div></div>
+        </div>
+
+        <div class="panel" id="p-wrist" role="tabpanel" aria-labelledby="tab-wrist" hidden>
+          <div id="wristRoot"></div>
         </div>
 
         <div class="panel" id="p-train" role="tabpanel" aria-labelledby="tab-train" hidden>
