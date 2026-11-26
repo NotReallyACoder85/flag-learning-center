@@ -230,7 +230,8 @@ const TAGS = { cross: 'Cross', enter: 'Enter', exit: 'Exit' };
 function routeLines(p) {
   return p.digits.map((d, i) => {
     const r = routeFor(d);
-    return `<span><b>${RECEIVERS[i]}</b> ${typeof d === 'number' ? `${d} ` : ''}${r ? esc(r.name) : 'No route'}</span>`;
+    const num = typeof d === 'number' ? d : d && d.tree; // drawn (playbook) routes carry their tree number separately
+    return `<span><b>${RECEIVERS[i]}</b> ${Number.isInteger(num) ? `${num} ` : ''}${r ? esc(r.name) : 'No route'}</span>`;
   }).join('');
 }
 
