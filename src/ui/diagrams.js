@@ -73,7 +73,9 @@ export function wristDiagram(play, color = false) {
     const a = pts[pts.length - 2], b = pts[pts.length - 1];
     const ang = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
     g += `<polyline points="${pts.map((p) => p[0].toFixed(0) + ',' + p[1].toFixed(0)).join(' ')}" fill="none" stroke="${col(l)}" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>` +
-      `<path d="M0 0L-16 -8L-16 8Z" fill="${col(l)}" transform="translate(${b[0].toFixed(0)},${b[1].toFixed(0)}) rotate(${ang.toFixed(0)})"/>`;
+      (s.sit[l]
+        ? `<circle class="wd-sit" cx="${b[0].toFixed(0)}" cy="${b[1].toFixed(0)}" r="9" fill="#fff" stroke="${col(l)}" stroke-width="4.2"/>`
+        : `<path d="M0 0L-16 -8L-16 8Z" fill="${col(l)}" transform="translate(${b[0].toFixed(0)},${b[1].toFixed(0)}) rotate(${ang.toFixed(0)})"/>`);
   });
   if (s.mover) {
     const a = s.pre[s.mover], b = s.post[s.mover];

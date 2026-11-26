@@ -31,6 +31,10 @@ An arm band set is 3 inserts, each 4.25 x 2 inches. Each insert is either 6 play
 - [ ] **Stem and Break.** Each press changes it by 1 yard. Stem runs 1 to 16 yards. Break can shrink to 40% or grow to 220% of the template's first cut. Is that range right?
 - [ ] **Naming.** Custom routes are named only, with no codes. Plays that use them are saved whole in My Plays and can't be typed as a call.
 
+## 0d. Drawing routes
+- [ ] **Try it on your phone.** Draw Up, Draw tab: tap points, try Straight and Curved, and both endings. Are 8 points enough, and is the field big enough to tap accurately?
+- [ ] **What the circle means.** A circle shows the player sits there. The animation already stops him at the end of the route either way; should a sitting receiver change how the defense or "who is open" behaves?
+
 ## 1. Route shapes (BRD question 1)
 Edit: `src/data/routes.json` (`points` are lateral yards, then depth yards).
 

@@ -538,3 +538,12 @@ body[data-tab="wrist"] .app{max-width:860px}
 .wslot.over{background:#E6EEFF;outline:.7cqw dashed #3170FF;outline-offset:-.7cqw}
 #wbTrash{display:none;position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:300;padding:12px 22px;border-radius:999px;background:rgba(255,123,110,.95);color:#1a0505;font:700 .95rem var(--f-cond);letter-spacing:.1em;text-transform:uppercase;pointer-events:none}
 body.wb-drag #wbTrash{display:block}
+
+/* drawing a route on the field */
+body.drawing .pitch{transform:none!important;-webkit-mask-image:none!important;mask-image:none!important;transition:none}
+body.drawing .pitchwrap{margin-top:0}
+#field.drawing{cursor:crosshair;touch-action:manipulation;border-color:var(--gold,#FFD21F)}
+#field.drawing .off.pick{cursor:crosshair}
+.drawhelp{margin:0;font-size:.9rem;color:var(--fg)}
+#keys .tn,#tuner .tn{flex-wrap:wrap}
+@media(max-width:700px){body.drawing[data-stick] .pitch{max-width:min(100%,38vh)}}

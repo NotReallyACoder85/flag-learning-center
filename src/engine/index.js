@@ -17,3 +17,4 @@ export { playFromEntry, playbookEntries, playbookSections, findEntry } from './p
 export { callouts } from './callouts.js';
 export { overloadShift } from './defenses.js';
 export { erasedPlay, setRoute, setMotionWho, setMotionTag } from './edit.js';
+export { drawnRoute, setEnding, setCurve, MAX_DRAW_POINTS } from './draw.js';

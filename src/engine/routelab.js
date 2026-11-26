@@ -100,24 +100,31 @@ export function buildRoute(base, opts = {}) {
 /** A template route for a receiver. */
 export const fromTemplate = (id, center = false) => buildRoute({ tpl: id }, { center });
 
+/** Tuning rebuilds the shape, so carry over how the route ends and whether it is curved. */
+function keep(from, to) {
+  if (from && from.end) to.end = from.end;
+  if (from && from.curve) to.curve = true;
+  return to;
+}
+
 /** Change the stem by delta yards. Returns a new route (the original is untouched). */
 export function nudgeStem(route, delta) {
   const p = paramsOf(route), lab = labOf(route);
   if (!p.hasStem) return route;
-  return buildRoute(lab.base, { stem: p.stem + delta, brk: lab.brk, flip: lab.flip, center: !!lab.abs });
+  return keep(route, buildRoute(lab.base, { stem: p.stem + delta, brk: lab.brk, flip: lab.flip, center: !!lab.abs }));
 }
 
 /** Change the break length by delta yards. */
 export function nudgeBreak(route, delta) {
   const p = paramsOf(route), lab = labOf(route);
-  return buildRoute(lab.base, { stem: lab.stem, brk: p.brk + delta, flip: lab.flip, center: !!lab.abs });
+  return keep(route, buildRoute(lab.base, { stem: lab.stem, brk: p.brk + delta, flip: lab.flip, center: !!lab.abs }));
 }
 
 /** Send a center's route the other way. */
 export function flipRoute(route) {
   const p = paramsOf(route), lab = labOf(route);
   if (!p.hasFlip) return route;
-  return buildRoute(lab.base, { stem: lab.stem, brk: lab.brk, flip: !lab.flip, center: !!lab.abs });
+  return keep(route, buildRoute(lab.base, { stem: lab.stem, brk: lab.brk, flip: !lab.flip, center: !!lab.abs }));
 }
 
 /** Words for a route: { name, detail }. Works for numbers, drawn routes and tuned routes. */

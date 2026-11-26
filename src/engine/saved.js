@@ -35,6 +35,9 @@ export function sanitizeRoute(r) {
   if (!points || !name) return null;
   const out = { name, kind: KINDS.includes(r.kind) ? r.kind : kindOf(points, !!r.abs), points };
   if (r.abs) out.abs = true;
+  if (r.curve) out.curve = true;
+  if (r.end === 'sit') out.end = 'sit';
+  if (r.drawn) out.drawn = true;
   if (Number.isInteger(r.tree) && r.tree >= 0 && r.tree <= 9) out.tree = r.tree;
   if (text(r.detail, 24)) out.detail = text(r.detail, 24);
   const base = r.lab && cleanBase(r.lab.base);

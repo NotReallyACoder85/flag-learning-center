@@ -9,6 +9,20 @@ export function polyLen(pts) {
   return L;
 }
 
+// A smooth curve that passes through every point (Catmull-Rom), returned as many short straight pieces.
+export function smooth(pts, steps = 12) {
+  if (pts.length < 3) return pts;
+  const out = [pts[0]];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i - 1] || pts[i], b = pts[i], c = pts[i + 1], d = pts[i + 2] || c;
+    for (let k = 1; k <= steps; k++) {
+      const t = k / steps;
+      out.push([0, 1].map((j) => 0.5 * (2 * b[j] + (c[j] - a[j]) * t + (2 * a[j] - 5 * b[j] + 4 * c[j] - d[j]) * t * t + (3 * b[j] - a[j] - 3 * c[j] + d[j]) * t * t * t)));
+    }
+  }
+  return out;
+}
+
 // Point at fraction u (0..1) of the way along a polyline, by distance.
 export function polyAt(pts, u) {
   const seg = [];

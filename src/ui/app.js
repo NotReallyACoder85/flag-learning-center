@@ -5,7 +5,7 @@ import { findEntry, playbookEntries } from '../engine/index.js';
 import { drawStatic, setPickHandler, markSelected } from './field.js';
 import { refresh, loadCall, loadPlay, togglePlay, play, replay, seek, onRefresh, reduceMotion } from './player.js';
 import { renderTiles, renderPlaybook } from './panels.js';
-import { renderBuilder, initBuilder } from './builder.js';
+import { renderBuilder, initBuilder, endDraw } from './builder.js';
 import { syncView } from './view.js';
 import { initTrain, showHub, exitTrain } from './train/index.js';
 import { initBeat, startChallenge } from './beat.js';
@@ -14,6 +14,7 @@ import { initWristband, renderWristband, addToActiveCard } from './wristband.js'
 const TABS = ['play', 'wrist', 'build', 'train'];
 
 function setTab(t) {
+  endDraw();
   setTheater(false);
   if (S.tab === 'train' && t !== 'train') exitTrain();
   S.tab = t;
@@ -34,6 +35,7 @@ function setTab(t) {
 
 /** Choose which receiver the route keypad edits. */
 function pickRecv(l) {
+  if (l !== S.sel) endDraw();
   S.sel = l;
   if (S.tab !== 'build') setTab('build');
   else { renderTiles(); renderBuilder(); markSelected(); }

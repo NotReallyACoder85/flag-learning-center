@@ -1,4 +1,4 @@
-import { LET, LOS, PX, routeFor, buildScene } from '../engine/index.js';
+import { LET, LOS, PX, routeFor, buildScene, smooth } from '../engine/index.js';
 import { formations } from '../data/index.js';
 import { HEX } from './theme.js';
 
@@ -14,9 +14,10 @@ export function glyph(x) {
   const maxDepth = Math.max(1, ...r.points.map(([, d]) => Math.abs(d)));
   const sx = Math.min(1.55, 15 / maxLat), sy = Math.min(1.9, 30 / maxDepth);
   const dir = r.abs ? 1 : -1; // routes break toward the sideline (drawn left); center routes are measured to the right
-  const pts = [[20, 38]].concat(r.points.map(([lat, d]) => [20 + dir * lat * sx, 38 - d * sy]));
+  const raw = [[20, 38]].concat(r.points.map(([lat, d]) => [20 + dir * lat * sx, 38 - d * sy]));
+  const pts = r.curve ? smooth(raw) : raw;
   const a = pts[pts.length - 2], b = pts[pts.length - 1];
-  return `<svg viewBox="0 0 40 44" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><polyline points="${pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="38" r="3" stroke="none"/>${arrowPath(a, b, 6.5).replace('<path', '<path stroke="none"')}</g></svg>`;
+  return `<svg viewBox="0 0 40 44" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><polyline points="${pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="38" r="3" stroke="none"/>${r.end === 'sit' ? `<circle cx="${b[0].toFixed(1)}" cy="${b[1].toFixed(1)}" r="3.6" fill="none" stroke-width="2"/>` : arrowPath(a, b, 6.5).replace('<path', '<path stroke="none"')}</g></svg>`;
 }
 
 const player = (l, q, r = 10.5) =>
@@ -29,7 +30,7 @@ export function thumb(p) {
   LET.forEach((l) => {
     const pts = s2.path[l];
     if (pts.length < 2) return;
-    g += `<polyline points="${pts.map((q) => q[0].toFixed(0) + ',' + q[1].toFixed(0)).join(' ')}" fill="none" stroke="${HEX[l]}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/><g fill="${HEX[l]}">${arrowPath(pts[pts.length - 2], pts[pts.length - 1], 13)}</g>`;
+    g += `<polyline points="${pts.map((q) => q[0].toFixed(0) + ',' + q[1].toFixed(0)).join(' ')}" fill="none" stroke="${HEX[l]}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>${s2.sit[l] ? `<circle cx="${pts[pts.length - 1][0].toFixed(0)}" cy="${pts[pts.length - 1][1].toFixed(0)}" r="8" fill="none" stroke="${HEX[l]}" stroke-width="4"/>` : `<g fill="${HEX[l]}">${arrowPath(pts[pts.length - 2], pts[pts.length - 1], 13)}</g>`}`;
   });
   if (s2.mover) {
     const a = s2.pre[s2.mover], b = s2.post[s2.mover];

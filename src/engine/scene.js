@@ -1,6 +1,6 @@
 import { formations } from '../data/index.js';
 import { LOS, PX, LET, SKILL, MOTION_TIME, ROUTE_TIME, ROUTE_TIME_SLOW } from './constants.js';
-import { clamp, lerp, lerp2, ease, polyAt } from './math.js';
+import { clamp, lerp, lerp2, ease, polyAt, smooth } from './math.js';
 import { routeFor } from './routes.js';
 import { motionDest } from './motion.js';
 import { mkDef, align3, align2, zoneTargets, targets2 } from './defenses.js';
@@ -27,14 +27,15 @@ export function buildScene(play) {
   const rc = SKILL.filter((l) => post[l][0] > 182).length;
   const cIn = lc > rc ? -1 : 1;
 
-  const path = {}, E = {};
+  const path = {}, E = {}, sit = {};
   LET.forEach((l, i) => {
     const [x0, y0] = post[l];
     const route = routeFor(play.digits[i]); // undefined = no route: he stands still
     // abs: a drawn route that is measured to the right and never mirrored (the center's routes in the playbook)
     const inD = route && route.abs ? -1 : l === 'C' ? cIn : x0 < 180 ? 1 : -1;
     const pts = [[x0, y0]].concat(route ? route.points.map(([lat, d]) => [clamp(x0 - inD * lat * PX, 10, 350), LOS - d * PX]) : []);
-    path[l] = pts;
+    path[l] = route && route.curve ? smooth(pts) : pts;
+    if (route && route.end === 'sit') sit[l] = true; // he settles here: drawn with a circle, not an arrow
     E[l] = pts[pts.length - 1];
   });
 
@@ -49,7 +50,7 @@ export function buildScene(play) {
     return polyAt(path[l], (t - ts) / routeDur);
   };
 
-  const sc = { pre, post, path, E, tm, ts, routeDur, end, mover, offPos, defs: [], stateAt: null, cov: play.def };
+  const sc = { pre, post, path, sit, E, tm, ts, routeDur, end, mover, offPos, defs: [], stateAt: null, cov: play.def };
   const offOnly = (t) => {
     const off = {};
     LET.forEach((l) => (off[l] = offPos(l, t)));

@@ -5,16 +5,39 @@ import { LOS, LET, QB, clamp, lerp, ease, polyLen } from '../engine/index.js';
 import { COL, CLS_COL } from './theme.js';
 
 const svg = $('#field');
-const LAYERS = ['zones', 'routes', 'trail', 'match', 'def', 'off', 'ball'];
+const LAYERS = ['zones', 'routes', 'trail', 'match', 'def', 'off', 'ball', 'edit'];
 const G = {};
 let offEls = {}, defEls = {}, matchEls = [], trails = {}, lens = {}, ballEl = null;
 let pickHandler = null;
+let drawHandler = null;
+
+/** While set, every tap on the field is reported as a point [x, y] (and receivers cannot be picked). */
+export function setDrawHandler(fn) {
+  drawHandler = fn;
+  svg.classList.toggle('drawing', !!fn);
+}
+
+/** Small numbered dots where the player has tapped while drawing. */
+export function markPoints(pts) {
+  G.edit.innerHTML = '';
+  pts.forEach((p) => el('circle', { cx: p[0], cy: p[1], r: 5, fill: '#fff', stroke: '#06102A', 'stroke-width': 2 }, G.edit));
+}
 
 /** Make receivers tappable (used by the builder). Pass null to turn off. */
 export function setPickHandler(fn) { pickHandler = fn; }
 
 export function drawStatic() {
   svg.innerHTML = '';
+  if (!svg.dataset.tap) {
+    svg.dataset.tap = '1';
+    svg.addEventListener('click', (e) => {
+      if (!drawHandler) return;
+      const m = svg.getScreenCTM();
+      if (!m) return;
+      const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+      drawHandler([p.x, p.y]);
+    });
+  }
   const defs = el('defs', {}, svg);
   const g1 = el('linearGradient', { id: 'tg', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
   el('stop', { offset: 0, 'stop-color': '#0A2B6E' }, g1);
@@ -76,7 +99,8 @@ export function drawScene() {
     const s = pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
     el('polyline', { points: s, fill: 'none', stroke: COL[l], 'stroke-width': 2, 'stroke-opacity': 0.42, 'stroke-dasharray': '2 5', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, G.routes);
     const a = pts[pts.length - 2], b = pts[pts.length - 1];
-    arrowAt(b, angle(a, b), 9, { fill: COL[l], 'fill-opacity': 0.5 }, G.routes);
+    if (sc.sit[l]) el('circle', { cx: b[0], cy: b[1], r: 7, fill: COL[l], 'fill-opacity': 0.25, stroke: COL[l], 'stroke-width': 2.4 }, G.routes);
+    else arrowAt(b, angle(a, b), 9, { fill: COL[l], 'fill-opacity': 0.5 }, G.routes);
     const glow = el('polyline', { points: s, fill: 'none', stroke: COL[l], 'stroke-width': 9, 'stroke-opacity': 0.22, 'stroke-linejoin': 'round' }, G.trail);
     const core = el('polyline', { points: s, fill: 'none', stroke: COL[l], 'stroke-width': 3, 'stroke-linejoin': 'round' }, G.trail);
     trails[l] = [glow, core];
@@ -104,7 +128,7 @@ export function drawScene() {
       // Touch/mouse shortcut only. Keyboard and screen-reader users use the receiver buttons, so no tab stop here.
       g.classList.add('pick');
       el('circle', { r: 22, fill: 'transparent' }, g);
-      g.addEventListener('click', () => pickHandler(l));
+      g.addEventListener('click', () => { if (!drawHandler) pickHandler(l); });
     }
     offEls[l] = g;
   });
